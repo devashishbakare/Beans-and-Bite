@@ -8,7 +8,6 @@ const productSchema = mongoose.Schema({
   },
   productInfo: {
     type: String,
-    required: true,
   },
   productDetails: {
     type: String,
@@ -25,10 +24,6 @@ const productSchema = mongoose.Schema({
       "Ready To Eat",
     ],
   },
-  categoryHeading: {
-    type: String,
-    required: true,
-  },
   price: {
     type: Number,
     required: true,
@@ -44,6 +39,7 @@ const productSchema = mongoose.Schema({
   productType: {
     type: String,
     enum: ["Veg", "Non-Veg", "Vegan"],
+    default: null,
   },
 });
 
