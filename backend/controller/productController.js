@@ -100,9 +100,46 @@ const fetchSearchResult = async (req, res) => {
     });
   }
 };
+
+const fetchProductByCatagory = async (req, res) => {
+  try {
+    const categoryName = req.query.categoryName;
+    if (!categoryName) {
+      return res.status(400).json({ message: "Category Not Found" });
+    }
+    const categoryProducts = await Product.find({ category: categoryName });
+    return res
+      .status(200)
+      .json({ data: categoryProducts, message: "Data By Category" });
+  } catch (error) {
+    return res.status(500).json({
+      error: error.message,
+      message: "Something went wrong, try again later",
+    });
+  }
+};
+
+const fetchProductDetails = async (req, res) => {
+  try {
+    const productId = req.params.productId;
+    if (!productId) {
+      return res.status(400).json({ message: "Product Not Found" });
+    }
+    const product = await Product.findById(productId);
+    return res.status(200).json({ data: product, messege: "Product Details" });
+  } catch (error) {
+    return res.status(500).json({
+      error: error.message,
+      message: "Something went wrong, try again later",
+    });
+  }
+};
+
 module.exports = {
   t,
   addProducts,
   bestSellingProducts,
   fetchSearchResult,
+  fetchProductByCatagory,
+  fetchProductDetails,
 };

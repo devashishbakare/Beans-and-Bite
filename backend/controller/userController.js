@@ -96,6 +96,12 @@ const signUp = async (req, res) => {
 
 const fetchUserDetails = async (req, res) => {
   try {
+    const userId = req.userId;
+    if (!userId) {
+      return res.status(400).json({ message: "User Not Found" });
+    }
+    const userDetails = await User.findById(userId);
+    return res.status(200).json({ data: userDetails, messege: "User Details" });
   } catch (error) {
     return res.status(500).json({
       error: error.message,
@@ -106,10 +112,44 @@ const fetchUserDetails = async (req, res) => {
 
 const updateProfileInfo = async (req, res) => {
   try {
+    const userId = req.userId;
+    const { name, email, mobileNumber, password } = req.body;
+    const user = await User.findById(userId);
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+    const saltRounds = 10;
+    const salt = bcrypt.genSaltSync(saltRounds);
+    const hash = bcrypt.hashSync(password, salt);
+
+    const updateFields = {
+      $set: {
+        name,
+        email,
+        mobileNumber,
+        password: hash,
+      },
+    };
+    const updatedUser = await User.findByIdAndUpdate(userId, updateFields, {
+      new: true,
+    });
+
+    const payload = {
+      userId: updatedUser._id,
+      email: updatedUser.email,
+    };
+
+    const token = jwt.sign(payload, process.env.JWT_SECRET_KEY, {
+      expiresIn: "1d",
+    });
+    return res.status(200).json({
+      data: { token, userDetails: updatedUser },
+      message: "user profile has been updated",
+    });
   } catch (error) {
     return res.status(500).json({
       error: error.message,
-      message: "Something went wrong, try again later",
+      message: "something wrong while updating user",
     });
   }
 };
