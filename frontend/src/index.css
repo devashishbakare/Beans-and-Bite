@@ -15,6 +15,10 @@ body {
   justify-content: center;
 }
 
+.theamColor {
+  background-color: #1e3933;
+}
+
 .centerToPage {
   position: absolute;
   top: 50%;
@@ -24,4 +28,8 @@ body {
 
 .addFont {
   font-family: "Poppins", sans-serif;
+}
+
+.hide {
+  display: none;
 }

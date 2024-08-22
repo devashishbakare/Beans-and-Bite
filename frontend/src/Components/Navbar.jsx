@@ -11,7 +11,7 @@ export const Navbar = () => {
           <img
             src="http://res.cloudinary.com/djgouef8q/image/upload/v1724295399/hkijeoyi8l90co1j2yeu.png"
             alt="logo"
-            className="h-full w-full bg-cover"
+            className="h-full w-full object-cover"
           />
         </div>
       </div>
@@ -24,7 +24,7 @@ export const Navbar = () => {
           </>
         ) : (
           <div className="h-full w-[95%] centerDiv">
-            <div className="h-[70%] ml-[10%] w-full border-[1.2px] border-gray-400 rounded-[30px] flex items-center bg-[#f9f9f8] flex">
+            <div className="h-[70%] ml-[10%] w-full border-[1.2px] border-gray-400 rounded-[30px] flex items-center bg-[#f9f9f8]">
               <span
                 onClick={() => setSearchIconClick(false)}
                 className="h-full w-[50px] centerDiv"
@@ -34,8 +34,8 @@ export const Navbar = () => {
               <input
                 className="h-[85%] w-[75%] ml-[5%] border-none outline-none bg-[#f9f9f8]"
                 type="text"
-                // value={searchKey}
-                // onChange={handleInput}
+                // value={}
+                // onChange={}
                 placeholder="Looking for something specific?"
               />
             </div>
@@ -43,28 +43,29 @@ export const Navbar = () => {
         )}
       </div>
       <div
-        className={`h-full  ${
+        className={`h-full flex flex-row-reverse gap-1 ${
           searchIconClick ? "w-[220px]" : "w-[280px]"
-        } flex flex-row-reverse gap-1`}
+        }`}
       >
         <div className="h-full w-[60px] centerDiv">
-          <HiOutlineUserCircle className="text-[2.1rem]" />
+          <HiOutlineUserCircle className="text-[2.1rem] text-[#1e3933]" />
         </div>
         <div className="h-full w-[60px] centerDiv">
-          <CiShoppingCart className="text-[1.8rem]" />
+          <CiShoppingCart className="text-[1.8rem] text-[#1e3933]" />
         </div>
         <div className="h-full w-[60px] centerDiv">
-          <CiHeart className="text-[1.8rem]" />
+          <CiHeart className="text-[1.8rem] text-[#1e3933]" />
         </div>
-        {searchIconClick == false && (
+        {searchIconClick === false && (
           <div className="h-full w-[60px] centerDiv">
             <CiSearch
               onClick={() => setSearchIconClick(true)}
-              className="text-[1.8rem]"
+              className="text-[1.8rem] text-[#1e3933]"
             />
           </div>
         )}
       </div>
     </div>
+    // <div className="h-full w-full addBorder">Hello there</div>
   );
 };
