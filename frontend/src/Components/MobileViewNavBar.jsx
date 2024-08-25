@@ -7,7 +7,10 @@ export const MobileViewNavBar = () => {
   return (
     <div className="h-full w-full flex">
       <div className="h-full w-[40%] flex">
-        <div className="h-full w-[50%] centerDiv flex-col gap-1">
+        <div
+          onClick={() => updateSelection("home")}
+          className="h-full w-[50%] centerDiv flex-col gap-1"
+        >
           <CiHome className="text-[1.7rem] text-green-800 " />
           <span className="text-[0.6rem]">Home</span>
         </div>
@@ -16,7 +19,7 @@ export const MobileViewNavBar = () => {
           <span className="text-[0.6rem]">Gift</span>
         </div>
       </div>
-      <div className="h-full w-[90px] flex flex-col-reverse relative">
+      <div className="h-full w-[90px] flex flex-col-reverse relative z-[9999]">
         <div className="absolute h-[75px] w-[75px] top-[-60%] left-[8%] rounded-[50%] bg-green-900 centerDiv">
           <img
             src="http://res.cloudinary.com/djgouef8q/image/upload/v1724325833/tofrl4dxue5t80lgkwu4.png"
@@ -24,7 +27,6 @@ export const MobileViewNavBar = () => {
             className="h-[40px] w-[40px] bg-cover"
           />
         </div>
-        {/* <div className="h-[60%] w-full"></div> */}
         <span className="w-full h-[30%] text-[0.7rem] centerDiv mb-2">
           Order
         </span>

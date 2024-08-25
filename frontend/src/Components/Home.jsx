@@ -11,7 +11,7 @@ export const Home = () => {
       <div className="h-[70px] w-full max-w-[1050px] centerDiv sm:hidden">
         <MobileViewNavBar />
       </div>
-      <div className="flex-1 w-full addBorder centerDiv">
+      <div className="flex-1 w-full centerDiv overflow-y-scroll">
         <Content />
       </div>
     </div>
