@@ -80,16 +80,9 @@ const fetchSearchResult = async (req, res) => {
     };
 
     const result = await Product.find(searchFor);
-    const searchResult = result.map((product) => {
-      return {
-        id: product._id,
-        image: product.productCartImage,
-        productName: product.name,
-      };
-    });
 
     return res.status(200).json({
-      data: searchResult,
+      data: result,
       message: "Search Result",
       regex: searchWords,
     });
@@ -135,6 +128,43 @@ const fetchProductDetails = async (req, res) => {
   }
 };
 
+const fetchSearchSuggestion = async (req, res) => {
+  try {
+    const searchKey = req.query.key;
+    if (!searchKey) {
+      return res.status(400).json({ message: "Search key not found" });
+    }
+
+    const regexPattern = new RegExp(searchKey, "i");
+
+    const searchFor = {
+      $or: [
+        { name: regexPattern },
+        { category: regexPattern },
+        { productType: regexPattern },
+      ],
+    };
+
+    const result = await Product.find(searchFor);
+
+    let suggestions = new Set();
+    result.forEach((product) => {
+      suggestions.add(product.name);
+      suggestions.add(product.productType);
+      suggestions.add(product.category);
+    });
+
+    return res
+      .status(200)
+      .json({ data: Array.from(suggestions), message: "Product suggestions" });
+  } catch (error) {
+    return res.status(500).json({
+      error: error.message,
+      message: "Something went wrong, try again later",
+    });
+  }
+};
+
 module.exports = {
   t,
   addProducts,
@@ -142,4 +172,5 @@ module.exports = {
   fetchSearchResult,
   fetchProductByCatagory,
   fetchProductDetails,
+  fetchSearchSuggestion,
 };

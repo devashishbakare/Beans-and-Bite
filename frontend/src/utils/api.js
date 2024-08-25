@@ -9,3 +9,15 @@ export const fetchBestSellingProducts = async () => {
     return { success: false, error: error.response.data.error };
   }
 };
+export const fetchSearchResult = async (searchQuery) => {
+  try {
+    const response = await axios.get(
+      `${baseUrl}/product/search?key=${searchQuery}`
+    );
+    const { data } = response.data;
+    return { success: true, data: data };
+  } catch (error) {
+    return { success: false, error: error.response.data.error };
+  }
+};
+//fetchSuggetion
