@@ -65,6 +65,9 @@ const bestSellingProducts = async (req, res) => {
 const fetchSearchResult = async (req, res) => {
   try {
     const searchKey = req.query.key;
+    const page = parseInt(req.query.page);
+    const limit = 5;
+    const skip = (page - 1) * limit;
     if (!searchKey) {
       return res.status(400).json({ message: "search key not found" });
     }
@@ -79,10 +82,14 @@ const fetchSearchResult = async (req, res) => {
       ],
     };
 
-    const result = await Product.find(searchFor);
+    const resultCount = await Product.countDocuments(searchFor);
+    //console.log(skip, limit, page, resultCount);
+    const result = await Product.find(searchFor).skip(skip).limit(limit);
 
     return res.status(200).json({
       data: result,
+      totalPages: Math.ceil(resultCount / limit),
+      currentPage: page,
       message: "Search Result",
       regex: searchWords,
     });
