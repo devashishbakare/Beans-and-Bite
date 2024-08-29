@@ -1,4 +1,5 @@
 import React, { useCallback, useState, useEffect } from "react";
+import propTypes from "prop-types";
 import { HiOutlineUserCircle } from "react-icons/hi2";
 import { CiShoppingCart, CiHeart, CiSearch } from "react-icons/ci";
 import { IoIosArrowRoundBack } from "react-icons/io";
@@ -8,7 +9,7 @@ import { fetchSearchResult } from "../utils/api";
 import { showErrorNotification } from "../utils/notification";
 import CircularSpinner from "../utils/Spinners/CircularSpinner";
 
-export const Navbar = () => {
+export const Navbar = ({ openSignInUpModal }) => {
   const [searchIconClick, setSearchIconClick] = useState(false);
   const [searchKey, setSearchKey] = useState("");
   const [isLoading, setIsLoading] = useState(false);
@@ -67,6 +68,12 @@ export const Navbar = () => {
       console.log("from next");
       fetchSearchWithDebouncing(searchKey, currentPage + 1);
     }
+  };
+
+  const handleShowProfilePage = () => {
+    // todo : if there is token then move to profile page
+    // todo : else show signInModal
+    openSignInUpModal();
   };
 
   return (
@@ -188,7 +195,10 @@ export const Navbar = () => {
           searchIconClick ? "w-[220px]" : "w-[280px]"
         }`}
       >
-        <div className="h-full w-[60px] centerDiv">
+        <div
+          onClick={handleShowProfilePage}
+          className="h-full w-[60px] centerDiv"
+        >
           <HiOutlineUserCircle className="text-[2.1rem] text-[#1e3933]" />
         </div>
         <div className="h-full w-[60px] centerDiv">
@@ -209,4 +219,8 @@ export const Navbar = () => {
     </div>
     // <div className="h-full w-full addBorder">Hello there</div>
   );
+};
+
+Navbar.propTypes = {
+  openSignInUpModal: propTypes.func.isRequired,
 };

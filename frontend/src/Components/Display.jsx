@@ -9,12 +9,13 @@ import Slider from "react-slick";
 //#edebe9
 //http://res.cloudinary.com/djgouef8q/image/upload/v1724383231/kofsfd2k9puxunklexup.png
 //add item #16754a
+//bg-[#edebe9]
 export const Display = () => {
   const bestProductSliderSettingWider = {
     className: "center",
     infinite: true,
     speed: 500,
-    slidesToShow: 2,
+    slidesToShow: 2.15,
     slidesToScroll: 1,
   };
   const bestProductSliderSettingSmaller = {
