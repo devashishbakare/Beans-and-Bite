@@ -1,17 +1,22 @@
 import React from "react";
 import { useUpdateSelection } from "./ContentContext";
+import { useSelector, useDispatch } from "react-redux";
 import { MobileSearch } from "./MobileSearch";
 import { Display } from "./Display";
 export const Content = () => {
-  const { selectedOption, updateSelection } = useUpdateSelection();
+  //todo : update this with the redux slice
+  // const { selectedOption, updateSelection } = useUpdateSelection();
+  const { navbarOpationSelection } = useSelector(
+    (state) => state.navbarSelection
+  );
   return (
     <div className="h-full w-full">
-      {selectedOption == "home" && (
+      {navbarOpationSelection == "home" && (
         <div className="h-full w-full">
           <Display />
         </div>
       )}
-      {selectedOption == "mobileSearch" && (
+      {navbarOpationSelection == "mobileSearch" && (
         <div className="h-full w-full">
           <MobileSearch />
         </div>

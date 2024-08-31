@@ -2,9 +2,10 @@ import React from "react";
 import propTypes from "prop-types";
 import { CiHome, CiSearch, CiGift } from "react-icons/ci";
 import { HiOutlineUserCircle } from "react-icons/hi2";
-import { useUpdateSelection } from "./ContentContext";
+import { useDispatch } from "react-redux";
+import { updateNavbarOptionSelection } from "../redux/slices/NavbarSlice";
 export const MobileViewNavBar = ({ openSignInUpModal }) => {
-  const { updateSelection } = useUpdateSelection();
+  const dispatch = useDispatch();
   const handleShowProfilePage = () => {
     // todo : if there is token then move to profile page
     // todo : else show signInModal
@@ -14,7 +15,7 @@ export const MobileViewNavBar = ({ openSignInUpModal }) => {
     <div className="h-full w-full flex">
       <div className="h-full w-[40%] flex">
         <div
-          onClick={() => updateSelection("home")}
+          onClick={() => dispatch(updateNavbarOptionSelection("home"))}
           className="h-full w-[50%] centerDiv flex-col gap-1"
         >
           <CiHome className="text-[1.7rem] text-green-800 " />
@@ -39,7 +40,7 @@ export const MobileViewNavBar = ({ openSignInUpModal }) => {
       </div>
       <div className="h-full w-[40%] flex">
         <div
-          onClick={() => updateSelection("mobileSearch")}
+          onClick={() => dispatch(updateNavbarOptionSelection("mobileSearch"))}
           className="h-full w-[50%] centerDiv flex-col gap-1"
         >
           <CiSearch className="text-[1.7rem] text-green-800 " />

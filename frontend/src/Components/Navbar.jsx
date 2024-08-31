@@ -222,5 +222,5 @@ export const Navbar = ({ openSignInUpModal }) => {
 };
 
 Navbar.propTypes = {
-  openSignInUpModal: propTypes.func.isRequired,
+  openSignInUpModal: propTypes.func,
 };
