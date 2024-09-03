@@ -20,4 +20,29 @@ export const fetchSearchResult = async (searchQuery, page) => {
     return { success: false, error: error.response.data.error };
   }
 };
-//fetchSuggetion
+
+export const userSignIn = async (userInformation) => {
+  try {
+    const response = await axios.post(
+      `${baseUrl}/user/signIn`,
+      userInformation
+    );
+    const { data } = response.data;
+    return { success: true, data };
+  } catch (error) {
+    return { success: false, error: error.response.data.error };
+  }
+};
+
+export const userSignUp = async (userInformation) => {
+  try {
+    const response = await axios.post(
+      `${baseUrl}/user/signUp`,
+      userInformation
+    );
+    const { data } = response.data;
+    return { success: true, data };
+  } catch (error) {
+    return { success: false, error: error.response.data.error };
+  }
+};

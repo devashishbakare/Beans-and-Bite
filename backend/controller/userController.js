@@ -14,10 +14,10 @@ const t = async (req, res) => {
 
 const signIn = async (req, res) => {
   try {
-    const { email, mobileNumber, password } = req.body;
+    const { userName, password } = req.body;
 
     const condition = {
-      $or: [{ email }, { mobileNumber }],
+      $or: [{ email: userName }, { mobileNumber: userName }],
     };
 
     const user = await User.findOne(condition);

@@ -1,5 +1,4 @@
 import React from "react";
-import { useUpdateSelection } from "./ContentContext";
 import { useSelector, useDispatch } from "react-redux";
 import { MobileSearch } from "./MobileSearch";
 import { Display } from "./Display";

@@ -8,8 +8,14 @@ import { debounce } from "lodash";
 import { fetchSearchResult } from "../utils/api";
 import { showErrorNotification } from "../utils/notification";
 import CircularSpinner from "../utils/Spinners/CircularSpinner";
-
+import { useSelector, useDispatch } from "react-redux";
+import { persistor } from "../redux/store";
+import { useNavigate } from "react-router-dom";
+import { resetUserAuth } from "../redux/slices/userAuthSlice";
 export const Navbar = ({ openSignInUpModal }) => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const { token } = useSelector((state) => state.userAuth);
   const [searchIconClick, setSearchIconClick] = useState(false);
   const [searchKey, setSearchKey] = useState("");
   const [isLoading, setIsLoading] = useState(false);
@@ -73,7 +79,13 @@ export const Navbar = ({ openSignInUpModal }) => {
   const handleShowProfilePage = () => {
     // todo : if there is token then move to profile page
     // todo : else show signInModal
-    openSignInUpModal();
+    if (token == null) openSignInUpModal();
+  };
+
+  const handleLogOut = () => {
+    dispatch(resetUserAuth());
+    persistor.purge();
+    navigate("/uploadImages");
   };
 
   return (
@@ -215,6 +227,11 @@ export const Navbar = ({ openSignInUpModal }) => {
             />
           </div>
         )}
+        <div className="h-full w-[80px] centerDiv">
+          <button onClick={handleLogOut} className="h-[50px] w-full addBorder">
+            Logout
+          </button>
+        </div>
       </div>
     </div>
     // <div className="h-full w-full addBorder">Hello there</div>

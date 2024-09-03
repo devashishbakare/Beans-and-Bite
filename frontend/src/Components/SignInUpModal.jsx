@@ -5,7 +5,18 @@ import { useFormik } from "formik";
 import { SignInSchema } from "../ValidationSchema/SignIn";
 import { SignUpSchema } from "../ValidationSchema/signUp";
 import { GoEyeClosed, GoEye } from "react-icons/go";
+import { userSignIn, userSignUp } from "../utils/api";
+import {
+  showErrorNotification,
+  showSuccessNotification,
+} from "../utils/notification";
+import { ToastContainer } from "react-toastify";
+import { useDispatch } from "react-redux";
+import { updateToken } from "../redux/slices/userAuthSlice";
+import CircularSpinner from "../utils/Spinners/CircularSpinner";
 export const SignInUpModal = ({ closeSignInUpModal }) => {
+  const dispatch = useDispatch();
+  const [isLoading, setIsLoading] = useState(false);
   const [showSignInPasswordStatus, setShowSignInPasswordStatus] =
     useState(false);
   const [showSingUpPasswordStatus, setShowSignUpPasswordStatus] =
@@ -18,6 +29,7 @@ export const SignInUpModal = ({ closeSignInUpModal }) => {
   };
 
   const signUpInitialValue = {
+    name: "",
     email: "",
     mobileNumber: "",
     password: "",
@@ -35,7 +47,18 @@ export const SignInUpModal = ({ closeSignInUpModal }) => {
     initialValues: { ...signInInitialValue, formType: "signin" },
     validationSchema: SignInSchema,
     onSubmit: async (values, action) => {
-      console.log(values);
+      setIsLoading(true);
+      const response = await userSignIn(values);
+      if (response.success) {
+        setTimeout(() => {
+          showSuccessNotification("Sign In has been Successful");
+        }, 1000);
+        dispatch(updateToken({ token: response.data, isAuthenticated: true }));
+        closeSignInUpModal();
+      } else {
+        showErrorNotification("Something went wrong, please try again later");
+      }
+      setIsLoading(false);
       action.resetForm();
     },
   });
@@ -44,7 +67,18 @@ export const SignInUpModal = ({ closeSignInUpModal }) => {
     initialValues: { ...signUpInitialValue, formType: "signup" },
     validationSchema: SignUpSchema,
     onSubmit: async (values, action) => {
-      console.log(values);
+      setIsLoading(true);
+      const response = await userSignUp(values);
+      if (response.success) {
+        setTimeout(() => {
+          showSuccessNotification("Sign up has been Successful");
+        }, 1000);
+        dispatch(updateToken({ token: response.data, isAuthenticated: true }));
+        closeSignInUpModal();
+      } else {
+        showErrorNotification("Something went wrong, please try again later");
+      }
+      setIsLoading(false);
       action.resetForm();
     },
   });
@@ -146,9 +180,15 @@ export const SignInUpModal = ({ closeSignInUpModal }) => {
             <div className="h-auto w-full flex flex-col centerDiv p-2">
               <button
                 type="submit"
-                className="h-[50px] w-[80%] rounded-[25px] addFont theamColor text-white cursor-pointer"
+                className="h-[50px] w-[80%] rounded-[25px] theamColor cursor-pointer"
               >
-                Login
+                {isLoading ? (
+                  <div className="h-full w-full centerDiv">
+                    <CircularSpinner />
+                  </div>
+                ) : (
+                  <span className="addFont text-[1rem] text-white">Login</span>
+                )}
               </button>
             </div>
             <div className="h-auto w-full flex flex-col p-2">
@@ -175,6 +215,26 @@ export const SignInUpModal = ({ closeSignInUpModal }) => {
             onSubmit={signUpFormik.handleSubmit}
             className="h-auto w-[350px] max-h-[610px] overflow-y-scroll flex flex-col p-2 gap-1 md:w-[500px]"
           >
+            <div className="h-[100px] w-full flex flex-col p-2">
+              <span className="uppercase addFont ml-2">name</span>
+              <div className="h-[50px] w-full flex items-center bg-[#f6f6f6] flex-col">
+                <input
+                  type="text"
+                  name="name"
+                  className="h-[40px] w-full outline-none pl-2 bg-[#f6f6f6] placeHolder"
+                  placeholder="Enter name"
+                  value={signUpFormik.values.name}
+                  onChange={signUpFormik.handleChange}
+                  onBlur={signUpFormik.handleBlur}
+                />
+                <span className="w-[98%] border-[1px] border-gray-500 ml-2"></span>
+              </div>
+              {signUpFormik.errors.name && signUpFormik.touched.name ? (
+                <span className="h-[30px] w-[98%] text-[0.8rem] ml-2 pl-1 bg-[#f6dae7] text-red-600 font-thin">
+                  {signUpFormik.errors.name}
+                </span>
+              ) : null}
+            </div>
             <div className="h-[100px] w-full flex flex-col p-2">
               <span className="uppercase addFont ml-2">email id</span>
               <div className="h-[50px] w-full flex items-center bg-[#f6f6f6] flex-col">
@@ -258,7 +318,7 @@ export const SignInUpModal = ({ closeSignInUpModal }) => {
                     type={showSingUpConfirmPasswordStatus ? "text" : "password"}
                     name="confirmPassword"
                     className="h-[40px] w-[80%] outline-none pl-2 bg-[#f6f6f6] placeHolder"
-                    placeholder="Enter password"
+                    placeholder="Re-enter password"
                     value={signUpFormik.values.confirmPassword}
                     onChange={signUpFormik.handleChange}
                     onBlur={signUpFormik.handleBlur}
@@ -299,9 +359,17 @@ export const SignInUpModal = ({ closeSignInUpModal }) => {
             <div className="h-auto w-full flex flex-col centerDiv p-2 mt-2">
               <button
                 type="submit"
-                className="h-[50px] w-[80%] rounded-[25px] addFont theamColor text-white cursor-pointer"
+                className="h-[50px] w-[80%] rounded-[25px] theamColor cursor-pointer centerDiv"
               >
-                Sign Up
+                {isLoading ? (
+                  <div className="h-full w-full centerDiv">
+                    <CircularSpinner />
+                  </div>
+                ) : (
+                  <span className="addFont text-[1rem] text-white">
+                    Sign Up
+                  </span>
+                )}
               </button>
             </div>
             <div className="h-auto w-full flex flex-col p-2">
@@ -317,6 +385,7 @@ export const SignInUpModal = ({ closeSignInUpModal }) => {
           </form>
         )}
       </div>
+      <ToastContainer />
     </div>
   );
 };
