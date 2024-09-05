@@ -49,3 +49,12 @@ body {
   /* transform: translateX(3%); */
   font-size: 0.9rem;
 }
+
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}

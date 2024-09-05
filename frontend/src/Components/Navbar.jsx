@@ -12,6 +12,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { persistor } from "../redux/store";
 import { useNavigate } from "react-router-dom";
 import { resetUserAuth } from "../redux/slices/userAuthSlice";
+import { updateNavbarOptionSelection } from "../redux/slices/NavbarSlice";
 export const Navbar = ({ openSignInUpModal }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -104,7 +105,12 @@ export const Navbar = ({ openSignInUpModal }) => {
           <>
             <div className="h-full min-w-[70px] centerDiv">Home</div>
             <div className="h-full min-w-[70px] centerDiv">Gift</div>
-            <div className="h-full min-w-[70px] centerDiv">Order</div>
+            <div
+              onClick={() => dispatch(updateNavbarOptionSelection("order"))}
+              className="h-full min-w-[70px] centerDiv"
+            >
+              Order
+            </div>
           </>
         ) : (
           <div className="h-full w-[95%] centerDiv">
