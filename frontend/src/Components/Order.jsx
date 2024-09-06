@@ -4,15 +4,20 @@ import { useSelector, useDispatch } from "react-redux";
 import { checkAndFetchProduct } from "../redux/Thunk/Product";
 import { showErrorNotification } from "../utils/notification";
 import { ToastContainer } from "react-toastify";
+import { ProductInfoCart } from "./ProductInfoCart";
+import CircularSpinner from "../utils/Spinners/CircularSpinner";
 export const Order = () => {
   const [currSelectedOption, setCurrentSelectedOption] = useState("bestseller");
   const dispatch = useDispatch();
+  const [isLoading, setIsLoading] = useState(false);
   const { categories, error } = useSelector((state) => state.category);
 
   const handleCategoryChange = (categoryName) => {
+    setIsLoading(true);
     dispatch(checkAndFetchProduct(categoryName));
     setCurrentSelectedOption(categoryName);
-    if (error || categories[categoryName].length == 0) {
+    setIsLoading(false);
+    if (error || categories[categoryName]?.length == 0) {
       showErrorNotification("something went wrong try again later");
     }
   };
@@ -26,7 +31,7 @@ export const Order = () => {
 
   return (
     <>
-      <div className="h-full w-full addBorder centerDiv">
+      <div className="h-full w-full centerDiv">
         <div className="h-full w-full flex flex-col">
           <div className="h-full w-full bg-[#edebe9] flex flex-col centerDiv">
             <div className="h-[70px] w-full flex overflow-x-scroll gap-3 no-scrollbar items-center flex-shrink-0 max-w-[1050px]">
@@ -49,7 +54,7 @@ export const Order = () => {
               <span className="h-[40px] border-[1px] border-gray-400"></span>
               <div className="h-full w-[120px] centerDiv flex flex-col flex-shrink-0">
                 <span
-                  onClick={() => handleCategoryChange("drinks")}
+                  onClick={() => handleCategoryChange("Drinks")}
                   className={`h-[80%] w-[90%] centerDiv text-[0.92rem] ${
                     currSelectedOption == "drinks" && `baseColor addFont`
                   }`}
@@ -132,19 +137,39 @@ export const Order = () => {
                 ></span>
               </div>
             </div>
-            <div className="flex-1 w-full centerDiv addBorder">
-              {currSelectedOption == "Bestseller" &&
-                categories["Bestseller"]?.map((product) => (
-                  <div className="h-[100px] w-[100px] addBorder flex flex-col">
-                    {product.name}
-                  </div>
-                ))}
-              {currSelectedOption == "Drinks" &&
-                categories["Drinks"]?.map((product) => (
-                  <div className="h-[100px] w-[100px] addBorder flex flex-col">
-                    {product.name}
-                  </div>
-                ))}
+            <div className="flex-1 w-full centerDiv bg-[#f4f4f4]">
+              {isLoading ? (
+                <div className="h-full w-full centerDiv">
+                  <CircularSpinner />
+                </div>
+              ) : (
+                <div className="h-full w-full max-w-[1050px] flex flex-col items-center p-3 gap-5 md:flex-row md:flex-wrap md:items-start">
+                  {currSelectedOption == "Bestseller" &&
+                    categories["Bestseller"] && (
+                      <ProductInfoCart products={categories["Bestseller"]} />
+                    )}
+                  {currSelectedOption == "Drinks" && categories["Drinks"] && (
+                    <ProductInfoCart products={categories["Drinks"]} />
+                  )}
+                  {currSelectedOption == "Food" && categories["Food"] && (
+                    <ProductInfoCart products={categories["Food"]} />
+                  )}
+                  {currSelectedOption == "Merchandise" &&
+                    categories["Merchandise"] && (
+                      <ProductInfoCart products={categories["Merchandise"]} />
+                    )}
+                  {currSelectedOption == "Coffee At Home" &&
+                    categories["Coffee At Home"] && (
+                      <ProductInfoCart
+                        products={categories["Coffee At Home"]}
+                      />
+                    )}
+                  {currSelectedOption == "Ready To Eat" &&
+                    categories["Ready To Eat"] && (
+                      <ProductInfoCart products={categories["Ready To Eat"]} />
+                    )}
+                </div>
+              )}
             </div>
           </div>
         </div>

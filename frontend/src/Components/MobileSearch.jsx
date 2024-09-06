@@ -148,7 +148,7 @@ export const MobileSearch = () => {
                         ₹ {product.price}
                       </span>
                       <span className=" h-auto w-[50%] flex items-center">
-                        <button className=" h-[30px] w-[90px] bg-[#16754a] text-[white] rounded-[20px] text-[0.8rem] addFont ">
+                        <button className="h-[30px] w-[90px] bg-[#16754a] text-[white] rounded-[20px] text-[0.8rem] addFont ">
                           Add Item
                         </button>
                       </span>

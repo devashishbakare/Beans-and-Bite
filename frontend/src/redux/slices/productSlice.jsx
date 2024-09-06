@@ -17,8 +17,10 @@ const productSlice = createSlice({
     setError: (state, action) => {
       state.error = action.payload;
     },
+    resetProductSlice: () => initialState,
   },
 });
 
-export const { addProductFromCategories, setError } = productSlice.actions;
+export const { addProductFromCategories, setError, resetProductSlice } =
+  productSlice.actions;
 export default productSlice.reducer;

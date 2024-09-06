@@ -11,8 +11,10 @@ const navbarSlice = createSlice({
     updateNavbarOptionSelection: (state, action) => {
       state.navbarOpationSelection = action.payload;
     },
+    resetNavbarSlice: () => initialState,
   },
 });
 
-export const { updateNavbarOptionSelection } = navbarSlice.actions;
+export const { updateNavbarOptionSelection, resetNavbarSlice } =
+  navbarSlice.actions;
 export default navbarSlice.reducer;

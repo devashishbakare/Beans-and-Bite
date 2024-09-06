@@ -13,6 +13,8 @@ import { persistor } from "../redux/store";
 import { useNavigate } from "react-router-dom";
 import { resetUserAuth } from "../redux/slices/userAuthSlice";
 import { updateNavbarOptionSelection } from "../redux/slices/NavbarSlice";
+import { resetProductSlice } from "../redux/slices/productSlice";
+import { resetNavbarSlice } from "../redux/slices/NavbarSlice";
 export const Navbar = ({ openSignInUpModal }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -85,6 +87,8 @@ export const Navbar = ({ openSignInUpModal }) => {
 
   const handleLogOut = () => {
     dispatch(resetUserAuth());
+    dispatch(resetProductSlice());
+    dispatch(resetNavbarSlice());
     persistor.purge();
     navigate("/uploadImages");
   };
