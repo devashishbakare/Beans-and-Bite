@@ -34,7 +34,10 @@ export const MobileViewNavBar = ({ openSignInUpModal }) => {
             className="h-[40px] w-[40px] bg-cover"
           />
         </div>
-        <span className="w-full h-[30%] text-[0.7rem] centerDiv mb-2">
+        <span
+          onClick={() => dispatch(updateNavbarOptionSelection("order"))}
+          className="w-full h-[30%] text-[0.7rem] centerDiv mb-2"
+        >
           Order
         </span>
       </div>

@@ -1,7 +1,18 @@
 import React from "react";
 import propTypes from "prop-types";
+import { useDispatch, useSelector } from "react-redux";
+import { addProductInfo } from "../redux/slices/ProductInfoSlice";
+import { updateNavbarOptionSelection } from "../redux/slices/NavbarSlice";
 
 export const ProductInfoCart = ({ products }) => {
+  const dispatch = useDispatch();
+
+  const handleAddToCart = (product) => {
+    console.log("request fullfilled");
+    dispatch(addProductInfo({ data: product }));
+    dispatch(updateNavbarOptionSelection("productOrder"));
+  };
+
   return (
     <>
       {products.map((product) => (
@@ -34,7 +45,10 @@ export const ProductInfoCart = ({ products }) => {
                 ₹ {product.price}
               </span>
               <span className="h-full w-[60%] flex items-center">
-                <button className="h-[35px] w-[90px] bg-[#16754a] text-[white] rounded-[20px] text-[0.8rem] addFont">
+                <button
+                  onClick={() => handleAddToCart(product)}
+                  className="h-[35px] w-[90px] bg-[#16754a] text-[white] rounded-[20px] text-[0.8rem] addFont"
+                >
                   Add Item
                 </button>
               </span>

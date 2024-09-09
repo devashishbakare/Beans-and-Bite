@@ -5,7 +5,8 @@ import { persistStore, persistReducer } from "redux-persist";
 import storage from "redux-persist/lib/storage";
 import commonSliceReducer from "./slices/commonSlice";
 import categoryReducer from "./slices/productSlice";
-import productSlice from "./slices/productSlice";
+import productInfoReducer from "./slices/ProductInfoSlice";
+import historyReducer from "./slices/historySlice";
 const persistConfig = {
   key: "root",
   storage,
@@ -16,6 +17,8 @@ const rootReducer = combineReducers({
   navbarSelection: navBarReducer,
   commonSlice: commonSliceReducer,
   category: categoryReducer,
+  productInfo: productInfoReducer,
+  history: historyReducer,
 });
 
 const persistReducters = persistReducer(persistConfig, rootReducer);

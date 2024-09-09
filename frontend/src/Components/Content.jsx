@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { MobileSearch } from "./MobileSearch";
 import { Display } from "./Display";
 import { Order } from "./Order";
+import { ProductOrder } from "./ProductOrder";
 export const Content = () => {
   //todo : update this with the redux slice
   // const { selectedOption, updateSelection } = useUpdateSelection();
@@ -11,7 +12,7 @@ export const Content = () => {
   );
   return (
     <div className="h-full w-full">
-      {navbarOpationSelection == "home" && (
+      {navbarOpationSelection == "Home" && (
         <div className="h-full w-full">
           <Display />
         </div>
@@ -21,9 +22,14 @@ export const Content = () => {
           <MobileSearch />
         </div>
       )}
-      {navbarOpationSelection == "order" && (
+      {navbarOpationSelection == "Order" && (
         <div className="h-full w-full">
           <Order />
+        </div>
+      )}
+      {navbarOpationSelection == "productOrder" && (
+        <div className="h-full w-full">
+          <ProductOrder />
         </div>
       )}
     </div>

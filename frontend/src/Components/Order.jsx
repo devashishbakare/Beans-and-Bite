@@ -6,9 +6,19 @@ import { showErrorNotification } from "../utils/notification";
 import { ToastContainer } from "react-toastify";
 import { ProductInfoCart } from "./ProductInfoCart";
 import CircularSpinner from "../utils/Spinners/CircularSpinner";
+import { History } from "./History";
+import {
+  addFromNavbar,
+  addToHistory,
+  removeFromHistory,
+} from "../redux/slices/historySlice";
+import { updateNavbarOptionSelection } from "../redux/slices/NavbarSlice";
 export const Order = () => {
-  const [currSelectedOption, setCurrentSelectedOption] = useState("bestseller");
+  const [currSelectedOption, setCurrentSelectedOption] = useState("Bestseller");
   const dispatch = useDispatch();
+  const { history, isOrderCategoryChange } = useSelector(
+    (state) => state.history
+  );
   const [isLoading, setIsLoading] = useState(false);
   const { categories, error } = useSelector((state) => state.category);
 
@@ -16,6 +26,8 @@ export const Order = () => {
     setIsLoading(true);
     dispatch(checkAndFetchProduct(categoryName));
     setCurrentSelectedOption(categoryName);
+    dispatch(removeFromHistory({ index: 1, sectionName: categoryName }));
+    dispatch(addToHistory({ sectionName: categoryName }));
     setIsLoading(false);
     if (error || categories[categoryName]?.length == 0) {
       showErrorNotification("something went wrong try again later");
@@ -26,27 +38,37 @@ export const Order = () => {
     const fetchBestSellingProduct = (categoryName) => {
       handleCategoryChange(categoryName);
     };
+    dispatch(addFromNavbar({ sectionName: "Order" }));
+    dispatch(addToHistory({ sectionName: "Bestseller" }));
     fetchBestSellingProduct("Bestseller");
-  }, []);
+    if (isOrderCategoryChange) {
+      let historyLength = history.length;
+      let lastCategory = history[historyLength - 1];
+      handleCategoryChange(lastCategory);
+    }
+  }, [dispatch, isOrderCategoryChange]);
 
   return (
     <>
       <div className="h-full w-full centerDiv">
         <div className="h-full w-full flex flex-col">
           <div className="h-full w-full bg-[#edebe9] flex flex-col centerDiv">
+            <div className="h-[70px] w-full centerDiv theamColor">
+              <History />
+            </div>
             <div className="h-[70px] w-full flex overflow-x-scroll gap-3 no-scrollbar items-center flex-shrink-0 max-w-[1050px]">
               <div className="h-full w-[120px] centerDiv flex flex-col flex-shrink-0">
                 <span
                   onClick={() => handleCategoryChange("Bestseller")}
                   className={`h-[80%] w-[90%] centerDiv text-[0.92rem] ${
-                    currSelectedOption == "bestseller" && `baseColor addFont`
+                    currSelectedOption == "Bestseller" && `baseColor addFont`
                   }`}
                 >
                   Bestseller
                 </span>
                 <span
                   className={`${
-                    currSelectedOption == "bestseller" &&
+                    currSelectedOption == "Bestseller" &&
                     `w-[90%] border-[1px] border-b-green-800`
                   }`}
                 ></span>
@@ -56,14 +78,14 @@ export const Order = () => {
                 <span
                   onClick={() => handleCategoryChange("Drinks")}
                   className={`h-[80%] w-[90%] centerDiv text-[0.92rem] ${
-                    currSelectedOption == "drinks" && `baseColor addFont`
+                    currSelectedOption == "Drinks" && `baseColor addFont`
                   }`}
                 >
                   Drinks
                 </span>
                 <span
                   className={`${
-                    currSelectedOption == "drinks" &&
+                    currSelectedOption == "Drinks" &&
                     `w-[90%] border-[1px] border-b-green-800`
                   }`}
                 ></span>
@@ -73,14 +95,14 @@ export const Order = () => {
                 <span
                   onClick={() => handleCategoryChange("Food")}
                   className={`h-[80%] w-[90%] centerDiv text-[0.92rem] ${
-                    currSelectedOption == "food" && `baseColor addFont`
+                    currSelectedOption == "Food" && `baseColor addFont`
                   }`}
                 >
                   Food
                 </span>
                 <span
                   className={`${
-                    currSelectedOption == "food" &&
+                    currSelectedOption == "Food" &&
                     `w-[90%] border-[1px] border-b-green-800`
                   }`}
                 ></span>
@@ -90,14 +112,14 @@ export const Order = () => {
                 <span
                   onClick={() => handleCategoryChange("Merchandise")}
                   className={`h-[80%] w-[90%] centerDiv text-[0.92rem] ${
-                    currSelectedOption == "merchandise" && `baseColor addFont`
+                    currSelectedOption == "Merchandise" && `baseColor addFont`
                   }`}
                 >
                   Merchandise
                 </span>
                 <span
                   className={`${
-                    currSelectedOption == "merchandise" &&
+                    currSelectedOption == "Merchandise" &&
                     `w-[90%] border-[1px] border-b-green-800`
                   }`}
                 ></span>
@@ -107,14 +129,15 @@ export const Order = () => {
                 <span
                   onClick={() => handleCategoryChange("Coffee At Home")}
                   className={`h-[80%] w-[90%] centerDiv text-[0.92rem] ${
-                    currSelectedOption == "coffeeAtHome" && `baseColor addFont`
+                    currSelectedOption == "Coffee At Home" &&
+                    `baseColor addFont`
                   }`}
                 >
                   Coffee At Home
                 </span>
                 <span
                   className={`${
-                    currSelectedOption == "coffeeAtHome" &&
+                    currSelectedOption == "Coffee At Home" &&
                     `w-[90%] border-[1px] border-b-green-800`
                   }`}
                 ></span>
@@ -124,14 +147,14 @@ export const Order = () => {
                 <span
                   onClick={() => handleCategoryChange("Ready To Eat")}
                   className={`h-[80%] w-[90%] centerDiv text-[0.92rem] ${
-                    currSelectedOption == "readyToEat" && `baseColor addFont`
+                    currSelectedOption == "Ready To Eat" && `baseColor addFont`
                   }`}
                 >
-                  Ready to Eat
+                  Ready To Eat
                 </span>
                 <span
                   className={`${
-                    currSelectedOption == "readyToEat" &&
+                    currSelectedOption == "Ready To Eat" &&
                     `w-[90%] border-[1px] border-b-green-800`
                   }`}
                 ></span>

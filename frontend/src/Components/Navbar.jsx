@@ -15,6 +15,8 @@ import { resetUserAuth } from "../redux/slices/userAuthSlice";
 import { updateNavbarOptionSelection } from "../redux/slices/NavbarSlice";
 import { resetProductSlice } from "../redux/slices/productSlice";
 import { resetNavbarSlice } from "../redux/slices/NavbarSlice";
+import { resetHistory } from "../redux/slices/historySlice";
+import { resetProductInfo } from "../redux/slices/ProductInfoSlice";
 export const Navbar = ({ openSignInUpModal }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -89,6 +91,8 @@ export const Navbar = ({ openSignInUpModal }) => {
     dispatch(resetUserAuth());
     dispatch(resetProductSlice());
     dispatch(resetNavbarSlice());
+    dispatch(resetHistory());
+    dispatch(resetProductInfo());
     persistor.purge();
     navigate("/uploadImages");
   };
@@ -107,10 +111,15 @@ export const Navbar = ({ openSignInUpModal }) => {
       <div className="h-full flex-1 flex gap-2 ml-2">
         {searchIconClick === false ? (
           <>
-            <div className="h-full min-w-[70px] centerDiv">Home</div>
+            <div
+              onClick={() => dispatch(updateNavbarOptionSelection("Home"))}
+              className="h-full min-w-[70px] centerDiv"
+            >
+              Home
+            </div>
             <div className="h-full min-w-[70px] centerDiv">Gift</div>
             <div
-              onClick={() => dispatch(updateNavbarOptionSelection("order"))}
+              onClick={() => dispatch(updateNavbarOptionSelection("Order"))}
               className="h-full min-w-[70px] centerDiv"
             >
               Order
