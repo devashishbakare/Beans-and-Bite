@@ -179,3 +179,91 @@ export const products = [
     productType: "Veg",
   },
 ];
+
+export const sizeOption = [
+  {
+    size: "Short",
+    desc: "237ml",
+    price: 0.0,
+  },
+  {
+    size: "Tall",
+    desc: "354ml",
+    price: 36.75,
+  },
+  {
+    size: "Grande",
+    desc: "473ml",
+    price: 78.75,
+  },
+  {
+    size: "Venti",
+    desc: "591ml",
+    price: 120.0,
+  },
+];
+
+export const milkOption = [
+  { type: "No Milk", price: 0.0 },
+  { type: "Skimmed Milk", price: 25.8 },
+  { type: "Whole Milk", price: 31.6 },
+  { type: "Soy Milk", price: 48.89 },
+  { type: "Almond Milk", price: 61.61 },
+  { type: "Lactose-Free Milk", price: 71.12 },
+];
+
+export const espressoOption = [
+  {
+    type: "Indian Espresso Roast (Default)",
+    price: 0.0,
+  },
+  {
+    type: "Extra Shot",
+    price: 68.25,
+  },
+];
+
+export const temperatureOption = [
+  {
+    type: "Kids Hot",
+    price: 0.0,
+  },
+  {
+    type: "Extra Hot",
+    price: 0.0,
+  },
+];
+
+export const toppingOption = [
+  {
+    type: "No whipped Topping",
+    price: 0.0,
+  },
+  {
+    type: "whipped Topping",
+    price: 36.75,
+  },
+];
+
+export const syrupAndSauceOption = [
+  {
+    type: "Mocha Sauce",
+    price: 57.75,
+  },
+  {
+    type: "White Mocha Sauce",
+    price: 57.75,
+  },
+  {
+    type: "Vanilla syrup",
+    price: 57.75,
+  },
+  {
+    type: "Hazelnut syrup",
+    price: 57.75,
+  },
+  {
+    type: "caramel syrup",
+    price: 57.75,
+  },
+];
