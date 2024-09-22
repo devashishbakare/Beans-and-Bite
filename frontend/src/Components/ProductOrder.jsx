@@ -12,32 +12,42 @@ import {
   toppingOption,
   syrupAndSauceOption,
 } from "../utils/DisplayData";
+import {
+  showErrorNotification,
+  showSuccessNotification,
+} from "../utils/notification";
+import CircularSpinner from "../utils/Spinners/CircularSpinner";
+import { ToastContainer } from "react-toastify";
+import { addToCart } from "../redux/Thunk/Cart";
 export const ProductOrder = () => {
   const dispatch = useDispatch();
-  const product = products[1];
+  const { product } = useSelector((state) => state.productInfo);
+  const { token } = useSelector((state) => state.userAuth);
+  const { cartError } = useSelector((state) => state.notification);
+  // const product = products[1];
   const productSet = new Set(["Bestseller", "Drinks"]);
   const [slideAbove, setSlideAbove] = useState(new Array(2).fill(false));
-
+  const [isLoading, setIsLoading] = useState(false);
   const [productSelection, setProductSelection] = useState({
     size: "Short",
     size_selected: 0,
     milk: "No Milk",
     milk_selected: 0,
-    espresso: "",
+    espresso: "Indian Espresso Roast (Default)",
     espresso_selected: 0,
-    temperature: "",
-    temperature_selected: -1,
-    whippedTopping: "",
+    temperature: "Normal Hot",
+    temperature_selected: 0,
+    whippedTopping: "No whipped Topping",
     whippedTopping_selected: 0,
     syrupAndSauces: [],
     syrupAndSauces_quantity_selected: new Array(5).fill(0),
     price: product.price,
   });
 
-  // const { product } = useSelector((state) => state.productInfo);
   // console.log(product);
+  //todo : here you need to look for history last element click edge case
   // useEffect(() => {
-  //   dispatch(addToHistory({ sectionName: "duhh" }));
+  //   dispatch(addToHistory({ sectionName: product.name }));
   // }, []);
   const handleSlideAbove = (event, index) => {
     if (event.target.id == "topSlideHeading") {
@@ -148,9 +158,38 @@ export const ProductOrder = () => {
     setProductSelection(updatedProductSelection);
   };
 
+  const handleAddToCart = async () => {
+    const cartConstomizationData = {
+      token: token,
+      productId: product._id,
+      size: productSelection.size,
+      milk: productSelection.milk,
+      espresso: productSelection.espresso,
+      temperature: productSelection.temperature,
+      whippedTopping: productSelection.whippedTopping,
+      syrupAndSauces: productSelection.syrupAndSauces,
+      price: productSelection.price,
+    };
+    setIsLoading(true);
+    await dispatch(addToCart(cartConstomizationData, token));
+    setSlideAbove(new Array(2).fill(false));
+    if (cartError !== null) {
+      showErrorNotification(cartError);
+    } else {
+      showSuccessNotification("Product and customization added to cart");
+    }
+    setIsLoading(false);
+    console.log(cartError);
+  };
+
   return (
-    <div className="h-full w-full flex flex-col">
+    <div className="h-full w-full flex flex-col border-2">
       <div className="h-full w-full flex flex-col relative theamColor overflow-hidden">
+        {isLoading == true && (
+          <div className="centerToPage z-[8891] addBorder h-[100px] w-[100px] bg-white">
+            <CircularSpinner />
+          </div>
+        )}
         <div className="h-[70px] w-full centerDiv theamColor shrink-0 z-[8886]">
           <History />
         </div>
@@ -433,7 +472,10 @@ export const ProductOrder = () => {
               ₹ {productSelection.price}
             </span>
             <div className="h-full w-[110px] centerDiv pr-3">
-              <button className="h-[35px] w-[100px] bg-[#f4f4f4] baseColor rounded-[20px] text-[0.8rem] addFont">
+              <button
+                onClick={() => handleAddToCart()}
+                className="h-[35px] w-[100px] bg-[#f4f4f4] baseColor rounded-[20px] text-[0.8rem] addFont"
+              >
                 Add Item
               </button>
             </div>
@@ -479,6 +521,7 @@ export const ProductOrder = () => {
           </div>
         </div>
       </div>
+      <ToastContainer />
     </div>
   );
 };

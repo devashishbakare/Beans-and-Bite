@@ -6,7 +6,11 @@ import { IoIosArrowRoundBack } from "react-icons/io";
 import { IoCloseCircleSharp, IoEllipseSharp } from "react-icons/io5";
 import { debounce } from "lodash";
 import { fetchSearchResult } from "../utils/api";
-import { showErrorNotification } from "../utils/notification";
+import { ToastContainer } from "react-toastify";
+import {
+  showErrorNotification,
+  showSuccessNotification,
+} from "../utils/notification";
 import CircularSpinner from "../utils/Spinners/CircularSpinner";
 import { useSelector, useDispatch } from "react-redux";
 import { persistor } from "../redux/store";
@@ -17,10 +21,14 @@ import { resetProductSlice } from "../redux/slices/productSlice";
 import { resetNavbarSlice } from "../redux/slices/NavbarSlice";
 import { resetHistory } from "../redux/slices/historySlice";
 import { resetProductInfo } from "../redux/slices/ProductInfoSlice";
-export const Navbar = ({ openSignInUpModal }) => {
+import { updateSignInUpModal } from "../redux/slices/userAuthSlice";
+export const Navbar = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { token } = useSelector((state) => state.userAuth);
+  const { cartCount, favoriteCount } = useSelector(
+    (state) => state.notification
+  );
   const [searchIconClick, setSearchIconClick] = useState(false);
   const [searchKey, setSearchKey] = useState("");
   const [isLoading, setIsLoading] = useState(false);
@@ -84,7 +92,11 @@ export const Navbar = ({ openSignInUpModal }) => {
   const handleShowProfilePage = () => {
     // todo : if there is token then move to profile page
     // todo : else show signInModal
-    if (token == null) openSignInUpModal();
+    if (token == null) {
+      dispatch(updateSignInUpModal({ requestFor: "open" }));
+    } else {
+      showSuccessNotification("user already login");
+    }
   };
 
   const handleLogOut = () => {
@@ -232,8 +244,11 @@ export const Navbar = ({ openSignInUpModal }) => {
         >
           <HiOutlineUserCircle className="text-[2.1rem] text-[#1e3933]" />
         </div>
-        <div className="h-full w-[60px] centerDiv">
+        <div className="h-full w-[60px] centerDiv relative">
           <CiShoppingCart className="text-[1.8rem] text-[#1e3933]" />
+          <span className="absolute top-[10px] right-[5px] h-[20px] w-[20px] rounded-[50%] centerDiv text-[0.8rem] bg-[#1e3933] text-white">
+            {cartCount}
+          </span>
         </div>
         <div className="h-full w-[60px] centerDiv">
           <CiHeart className="text-[1.8rem] text-[#1e3933]" />
@@ -252,6 +267,7 @@ export const Navbar = ({ openSignInUpModal }) => {
           </button>
         </div>
       </div>
+      <ToastContainer />
     </div>
     // <div className="h-full w-full addBorder">Hello there</div>
   );

@@ -225,6 +225,10 @@ export const espressoOption = [
 
 export const temperatureOption = [
   {
+    type: "Normal Hot",
+    price: 0.0,
+  },
+  {
     type: "Kids Hot",
     price: 0.0,
   },
@@ -240,7 +244,7 @@ export const toppingOption = [
     price: 0.0,
   },
   {
-    type: "whipped Topping",
+    type: "Whipped Topping",
     price: 36.75,
   },
 ];
@@ -255,15 +259,15 @@ export const syrupAndSauceOption = [
     price: 57.75,
   },
   {
-    type: "Vanilla syrup",
+    type: "Vanilla Syrup",
     price: 57.75,
   },
   {
-    type: "Hazelnut syrup",
+    type: "Hazelnut Syrup",
     price: 57.75,
   },
   {
-    type: "caramel syrup",
+    type: "Caramel Syrup",
     price: 57.75,
   },
 ];

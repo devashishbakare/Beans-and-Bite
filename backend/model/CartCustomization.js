@@ -22,32 +22,36 @@ const cartCustomizationSchema = mongoose.Schema({
   milk: {
     type: String,
     enum: [
-      "With Milk",
-      "Regular Milk",
+      "No Milk",
+      "Whole Milk",
       "Skimmed Milk",
-      "Soy",
-      "Almond",
-      "Oats",
+      "Soy Milk",
+      "Almond Milk",
+      "Lactose-Free Milk",
     ],
   },
-  hot: {
+  espresso: {
     type: String,
-    enum: ["Kids Hot", "Extra Hot"],
+    enum: ["Indian Espresso Roast (Default)", "Extra Shot"],
+  },
+  temperature: {
+    type: String,
+    enum: ["Normal Hot", "Kids Hot", "Extra Hot"],
   },
   whippedTopping: {
     type: String,
-    enum: ["With Whipped Topping", "Not With Whipped Topping"],
+    enum: ["No whipped Topping", "Whipped Topping"],
   },
-  syrupsAndSauces: {
-    type: String,
-    enum: [
-      "Mocha Sauce",
-      "White Mocha Sauce",
-      "Vanilla Syrup",
-      "Hazelnut Syrup",
-      "Caramel Syrup",
-      "Caramel Sauce",
+  syrupAndSauces: {
+    type: [
+      {
+        type: { type: String },
+        quantity: { type: Number },
+      },
     ],
+    default: [],
   },
 });
-module.exports = mongoose.model("CartCustomization", cartCustomizationSchema);
+const Cart =
+  mongoose.models.Cart || mongoose.model("Cart", cartCustomizationSchema);
+module.exports = Cart;

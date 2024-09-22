@@ -4,12 +4,13 @@ import { CiHome, CiSearch, CiGift } from "react-icons/ci";
 import { HiOutlineUserCircle } from "react-icons/hi2";
 import { useDispatch } from "react-redux";
 import { updateNavbarOptionSelection } from "../redux/slices/NavbarSlice";
+import { updateSignInUpModal } from "../redux/slices/userAuthSlice";
 export const MobileViewNavBar = ({ openSignInUpModal }) => {
   const dispatch = useDispatch();
   const handleShowProfilePage = () => {
     // todo : if there is token then move to profile page
     // todo : else show signInModal
-    openSignInUpModal();
+    dispatch(updateSignInUpModal({ requestFor: "open" }));
   };
   return (
     <div className="h-full w-full flex">
@@ -59,8 +60,4 @@ export const MobileViewNavBar = ({ openSignInUpModal }) => {
       </div>
     </div>
   );
-};
-
-MobileViewNavBar.propTypes = {
-  openSignInUpModal: propTypes.func.isRequired,
 };

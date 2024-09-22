@@ -6,4 +6,5 @@ router.use("/order", require("./order"));
 router.use("/gift", require("./gift"));
 router.use("/user", require("./user"));
 router.use("/product", require("./product"));
+router.use("/cart", require("./cart"));
 module.exports = router;

@@ -14,7 +14,9 @@ import { ToastContainer } from "react-toastify";
 import { useDispatch } from "react-redux";
 import { updateToken } from "../redux/slices/userAuthSlice";
 import CircularSpinner from "../utils/Spinners/CircularSpinner";
-export const SignInUpModal = ({ closeSignInUpModal }) => {
+import { updateSignInUpModal } from "../redux/slices/userAuthSlice";
+export const SignInUpModal = () => {
+  //todo : notification not working, check that once
   const dispatch = useDispatch();
   const [isLoading, setIsLoading] = useState(false);
   const [showSignInPasswordStatus, setShowSignInPasswordStatus] =
@@ -39,7 +41,7 @@ export const SignInUpModal = ({ closeSignInUpModal }) => {
   const [userSigningIn, setUserSigningIn] = useState(true);
   const handleOutSideBoxCloseModal = (event) => {
     if (event.target.id == "modalParent") {
-      closeSignInUpModal();
+      dispatch(updateSignInUpModal({ requestFor: "close" }));
     }
   };
 
@@ -50,11 +52,9 @@ export const SignInUpModal = ({ closeSignInUpModal }) => {
       setIsLoading(true);
       const response = await userSignIn(values);
       if (response.success) {
-        setTimeout(() => {
-          showSuccessNotification("Sign In has been Successful");
-        }, 1000);
+        showSuccessNotification("Sign In has been Successful");
         dispatch(updateToken({ token: response.data, isAuthenticated: true }));
-        closeSignInUpModal();
+        dispatch(updateSignInUpModal({ requestFor: "close" }));
       } else {
         showErrorNotification("Something went wrong, please try again later");
       }
@@ -70,11 +70,9 @@ export const SignInUpModal = ({ closeSignInUpModal }) => {
       setIsLoading(true);
       const response = await userSignUp(values);
       if (response.success) {
-        setTimeout(() => {
-          showSuccessNotification("Sign up has been Successful");
-        }, 1000);
+        showSuccessNotification("Sign up has been Successful");
         dispatch(updateToken({ token: response.data, isAuthenticated: true }));
-        closeSignInUpModal();
+        dispatch(updateSignInUpModal({ requestFor: "close" }));
       } else {
         showErrorNotification("Something went wrong, please try again later");
       }
@@ -91,7 +89,7 @@ export const SignInUpModal = ({ closeSignInUpModal }) => {
     >
       <div className="h-auto w-[350px] flex flex-col bg-[#f6f6f6] relative rounded-lg addShadow md:w-auto">
         <span
-          onClick={() => closeSignInUpModal()}
+          onClick={() => dispatch(updateSignInUpModal({ requestFor: "close" }))}
           className="absolute right-1 top-0 h-[60px] w-[60px] centerDiv cursor-pointer"
         >
           <IoCloseCircleSharp className="text-[1.7rem]" />
