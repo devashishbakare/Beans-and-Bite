@@ -5,6 +5,7 @@ const initialState = {
   favoriteCount: 0,
   cartError: null,
   favoriteError: null,
+  favorites: [],
 };
 
 const notificationSlice = createSlice({
@@ -12,19 +13,19 @@ const notificationSlice = createSlice({
   initialState,
   reducers: {
     incrementCount: (state, action) => {
-      const { requestFor, incrementCount } = action.payload;
+      const { requestFor, count } = action.payload;
       if (requestFor === "cart") {
-        state.cartCount += incrementCount;
+        state.cartCount += count;
       } else {
-        state.favoriteCount += incrementCount;
+        state.favoriteCount += count;
       }
     },
     decrementCount: (state, action) => {
-      const { requestFor, incrementCount } = action.payload;
+      const { requestFor, count } = action.payload;
       if (requestFor === "cart") {
-        state.cartCount -= incrementCount;
+        state.cartCount -= count;
       } else {
-        state.favoriteCount -= incrementCount;
+        state.favoriteCount -= count;
       }
     },
     resetCount: (state, action) => {
@@ -44,6 +45,16 @@ const notificationSlice = createSlice({
       const { error } = action.payload;
       state.favoriteError = error;
     },
+    addToFavorites: (state, action) => {
+      const { productId } = action.payload;
+      state.favorites.push(productId);
+    },
+    removeFromFavorites: (state, action) => {
+      const { productId } = action.payload;
+      state.favorites = state.favorites.filter(
+        (product) => product !== productId
+      );
+    },
   },
 });
 
@@ -54,5 +65,7 @@ export const {
   resetNotification,
   setCartError,
   setFavoriteError,
+  addToFavorites,
+  removeFromFavorites,
 } = notificationSlice.actions;
 export default notificationSlice.reducer;

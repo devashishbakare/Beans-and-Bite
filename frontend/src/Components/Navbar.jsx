@@ -20,8 +20,10 @@ import { updateNavbarOptionSelection } from "../redux/slices/NavbarSlice";
 import { resetProductSlice } from "../redux/slices/productSlice";
 import { resetNavbarSlice } from "../redux/slices/NavbarSlice";
 import { resetHistory } from "../redux/slices/historySlice";
+import { resetNotification } from "../redux/slices/notificationSlice";
 import { resetProductInfo } from "../redux/slices/ProductInfoSlice";
 import { updateSignInUpModal } from "../redux/slices/userAuthSlice";
+
 export const Navbar = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -105,6 +107,7 @@ export const Navbar = () => {
     dispatch(resetNavbarSlice());
     dispatch(resetHistory());
     dispatch(resetProductInfo());
+    dispatch(resetNotification());
     persistor.purge();
     navigate("/uploadImages");
   };
@@ -246,12 +249,19 @@ export const Navbar = () => {
         </div>
         <div className="h-full w-[60px] centerDiv relative">
           <CiShoppingCart className="text-[1.8rem] text-[#1e3933]" />
-          <span className="absolute top-[10px] right-[5px] h-[20px] w-[20px] rounded-[50%] centerDiv text-[0.8rem] bg-[#1e3933] text-white">
-            {cartCount}
-          </span>
+          {cartCount > 0 && (
+            <span className="absolute top-[10px] right-[5px] h-[20px] w-[20px] rounded-[50%] centerDiv text-[0.8rem] bg-[#1e3933] text-white">
+              {cartCount}
+            </span>
+          )}
         </div>
-        <div className="h-full w-[60px] centerDiv">
+        <div className="h-full w-[60px] centerDiv relative">
           <CiHeart className="text-[1.8rem] text-[#1e3933]" />
+          {favoriteCount > 0 && (
+            <span className="absolute top-[10px] right-[5px] h-[20px] w-[20px] rounded-[50%] centerDiv text-[0.8rem] bg-[#1e3933] text-white">
+              {favoriteCount}
+            </span>
+          )}
         </div>
         {searchIconClick === false && (
           <div className="h-full w-[60px] centerDiv">

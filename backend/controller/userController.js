@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 const User = require("../model/User");
+const Product = require("../model/Product");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const t = async (req, res) => {
@@ -153,10 +154,75 @@ const updateProfileInfo = async (req, res) => {
     });
   }
 };
+
+const addToFavorite = async (req, res) => {
+  try {
+    const userId = req.userId;
+
+    const { productId } = req.body;
+    const user = await User.findById(userId);
+    const product = await Product.findById(productId);
+    if (!user || !product) {
+      return res.status(400).json({ message: "input missing" });
+    }
+    const updateProduct = {
+      $push: {
+        favourites: product._id,
+      },
+    };
+
+    const updateResponse = await User.updateOne(
+      { _id: user._id },
+      updateProduct
+    );
+    return res
+      .status(200)
+      .json({ data: updateResponse, message: "added to favorites" });
+  } catch (error) {
+    return res.status(500).json({
+      error: error.message,
+      message: "Something went wrong, try again later",
+    });
+  }
+};
+
+const removeFromFavorite = async (req, res) => {
+  try {
+    const userId = req.userId;
+
+    const { productId } = req.body;
+    const user = await User.findById(userId);
+    const product = await Product.findById(productId);
+    if (!user || !product) {
+      return res.status(400).json({ message: "input missing" });
+    }
+    const updateProduct = {
+      $pull: {
+        favourites: product._id,
+      },
+    };
+
+    const updateResponse = await User.updateOne(
+      { _id: user._id },
+      updateProduct
+    );
+    return res
+      .status(200)
+      .json({ data: updateResponse, message: "removed from favorites" });
+  } catch (error) {
+    return res.status(500).json({
+      error: error.message,
+      message: "Something went wrong, try again later",
+    });
+  }
+};
+
 module.exports = {
   t,
   signIn,
   signUp,
   fetchUserDetails,
   updateProfileInfo,
+  addToFavorite,
+  removeFromFavorite,
 };

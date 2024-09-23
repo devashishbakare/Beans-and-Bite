@@ -1,11 +1,11 @@
-import React from 'react';
-import { ClipLoader } from 'react-spinners';
+import React from "react";
+import { ClipLoader } from "react-spinners";
 function CircularSpinner() {
   const spinnerStyle = {
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-    height: '100vh',
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    height: "100vh",
   };
   return (
     <div style={spinnerStyle}>

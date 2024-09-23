@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { addToHistory } from "../redux/slices/historySlice";
-import { CiCirclePlus, CiCircleMinus } from "react-icons/ci";
+import { CiCirclePlus, CiCircleMinus, CiHeart } from "react-icons/ci";
+import { FcLike } from "react-icons/fc";
 import { History } from "./History";
 import {
   products,
@@ -18,16 +19,20 @@ import {
 } from "../utils/notification";
 import CircularSpinner from "../utils/Spinners/CircularSpinner";
 import { ToastContainer } from "react-toastify";
-import { addToCart } from "../redux/Thunk/Cart";
+import { addToCart, addAndRemoveFromFavorites } from "../redux/Thunk/Cart";
+import { updateSignInUpModal } from "../redux/slices/userAuthSlice";
 export const ProductOrder = () => {
   const dispatch = useDispatch();
   const { product } = useSelector((state) => state.productInfo);
   const { token } = useSelector((state) => state.userAuth);
-  const { cartError } = useSelector((state) => state.notification);
+  const { cartError, favoriteError, favorites } = useSelector(
+    (state) => state.notification
+  );
   // const product = products[1];
   const productSet = new Set(["Bestseller", "Drinks"]);
   const [slideAbove, setSlideAbove] = useState(new Array(2).fill(false));
   const [isLoading, setIsLoading] = useState(false);
+  const [isFavorite, setIsFavorite] = useState(false);
   const [productSelection, setProductSelection] = useState({
     size: "Short",
     size_selected: 0,
@@ -44,11 +49,21 @@ export const ProductOrder = () => {
     price: product.price,
   });
 
-  // console.log(product);
   //todo : here you need to look for history last element click edge case
-  // useEffect(() => {
-  //   dispatch(addToHistory({ sectionName: product.name }));
-  // }, []);
+  useEffect(() => {
+    //dispatch(addToHistory({ sectionName: product.name }));
+    const checkProductInFavoriteOrNot = () => {
+      const isPresent = favorites.find(
+        (productInFavorite) => productInFavorite == product._id
+      );
+      if (isPresent) {
+        setIsFavorite(true);
+      } else {
+        setIsFavorite(false);
+      }
+    };
+    checkProductInFavoriteOrNot();
+  }, [favorites]);
   const handleSlideAbove = (event, index) => {
     if (event.target.id == "topSlideHeading") {
       if (slideAbove[0] == true && slideAbove[1] == true) {
@@ -177,19 +192,48 @@ export const ProductOrder = () => {
       showErrorNotification(cartError);
     } else {
       showSuccessNotification("Product and customization added to cart");
+      setIsFavorite(!isFavorite);
     }
     setIsLoading(false);
-    console.log(cartError);
+  };
+
+  const handleAddToFavorite = async (productId) => {
+    if (token == null) {
+      dispatch(updateSignInUpModal({ requestFor: "open" }));
+    } else {
+      setIsLoading(true);
+
+      await dispatch(addAndRemoveFromFavorites(token, productId, favorites));
+      if (favoriteError !== null) {
+        showErrorNotification(favoriteError);
+      } else {
+        showSuccessNotification("Favorites has been updated");
+      }
+      setIsLoading(false);
+    }
   };
 
   return (
     <div className="h-full w-full flex flex-col border-2">
       <div className="h-full w-full flex flex-col relative theamColor overflow-hidden">
         {isLoading == true && (
-          <div className="centerToPage z-[8891] addBorder h-[100px] w-[100px] bg-white">
+          <div className="centerToPage z-[8891] addBorder h-[100px] w-[100px]">
             <CircularSpinner />
           </div>
         )}
+        <div className="absolute top-[100px] right-[5%] addBorder h-[50px] w-[50px] centerDiv cursor-pointer md:right-[10%] bg-white rounded-full">
+          {isFavorite == true ? (
+            <FcLike
+              onClick={() => handleAddToFavorite(product._id)}
+              className="text-[2.1rem]"
+            />
+          ) : (
+            <CiHeart
+              onClick={() => handleAddToFavorite(product._id)}
+              className="text-[2.1rem] "
+            />
+          )}
+        </div>
         <div className="h-[70px] w-full centerDiv theamColor shrink-0 z-[8886]">
           <History />
         </div>

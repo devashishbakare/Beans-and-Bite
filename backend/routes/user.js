@@ -7,4 +7,6 @@ router.post("/signIn", userController.signIn);
 router.post("/signUp", userController.signUp);
 router.get("/details", authenticate, userController.fetchUserDetails);
 router.patch("/editProfile", authenticate, userController.updateProfileInfo);
+router.post("/addFavorite", authenticate, userController.addToFavorite);
+router.post("/removeFavorite", authenticate, userController.removeFromFavorite);
 module.exports = router;
