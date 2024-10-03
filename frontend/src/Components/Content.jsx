@@ -4,6 +4,7 @@ import { MobileSearch } from "./MobileSearch";
 import { Display } from "./Display";
 import { Order } from "./Order";
 import { ProductOrder } from "./ProductOrder";
+import { UserCart } from "./UserCart";
 export const Content = () => {
   //todo : update this with the redux slice
   // const { selectedOption, updateSelection } = useUpdateSelection();
@@ -30,6 +31,11 @@ export const Content = () => {
       {navbarOpationSelection == "productOrder" && (
         <div className="h-full w-full">
           <ProductOrder />
+        </div>
+      )}
+      {navbarOpationSelection == "cart" && (
+        <div className="h-full w-full">
+          <UserCart />
         </div>
       )}
     </div>

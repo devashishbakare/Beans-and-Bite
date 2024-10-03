@@ -5,6 +5,14 @@ import { CiCirclePlus, CiCircleMinus, CiHeart } from "react-icons/ci";
 import { FcLike } from "react-icons/fc";
 import { History } from "./History";
 import {
+  sizeOptionMapper,
+  milkOptionMapper,
+  espressoOptionMapper,
+  temperatureOptionMapper,
+  syrupAndSauceOptionMapper,
+  toppingOptionMapper,
+} from "../utils/DisplayData";
+import {
   products,
   sizeOption,
   milkOption,
@@ -21,9 +29,14 @@ import CircularSpinner from "../utils/Spinners/CircularSpinner";
 import { ToastContainer } from "react-toastify";
 import { addToCart, addAndRemoveFromFavorites } from "../redux/Thunk/Cart";
 import { updateSignInUpModal } from "../redux/slices/userAuthSlice";
+import { updateCartProduct } from "../utils/api";
+import { addProductInfo } from "../redux/slices/ProductInfoSlice";
 export const ProductOrder = () => {
   const dispatch = useDispatch();
-  const { product } = useSelector((state) => state.productInfo);
+  const { product, customizationDetails } = useSelector(
+    (state) => state.productInfo
+  );
+  console.log(customizationDetails, "details");
   const { token } = useSelector((state) => state.userAuth);
   const { cartError, favoriteError, favorites } = useSelector(
     (state) => state.notification
@@ -34,19 +47,42 @@ export const ProductOrder = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [isFavorite, setIsFavorite] = useState(false);
   const [productSelection, setProductSelection] = useState({
-    size: "Short",
-    size_selected: 0,
-    milk: "No Milk",
-    milk_selected: 0,
-    espresso: "Indian Espresso Roast (Default)",
-    espresso_selected: 0,
-    temperature: "Normal Hot",
-    temperature_selected: 0,
-    whippedTopping: "No whipped Topping",
-    whippedTopping_selected: 0,
-    syrupAndSauces: [],
-    syrupAndSauces_quantity_selected: new Array(5).fill(0),
-    price: product.price,
+    size: customizationDetails ? customizationDetails.size : "Short",
+    size_selected: customizationDetails
+      ? sizeOptionMapper[customizationDetails.size]
+      : sizeOptionMapper["Short"],
+    milk: customizationDetails ? customizationDetails.milk : "No Milk",
+    milk_selected: customizationDetails
+      ? milkOptionMapper[customizationDetails.milk]
+      : milkOptionMapper["No Milk"],
+    espresso: customizationDetails
+      ? customizationDetails.espresso
+      : "Indian Espresso Roast (Default)",
+    espresso_selected: customizationDetails
+      ? espressoOptionMapper[customizationDetails.espresso]
+      : espressoOptionMapper["Indian Espresso Roast (Default)"],
+    temperature: customizationDetails
+      ? customizationDetails.temperature
+      : "Normal Hot",
+    temperature_selected: customizationDetails
+      ? temperatureOptionMapper[customizationDetails.temperature]
+      : temperatureOptionMapper["Normal Hot"],
+    whippedTopping: customizationDetails
+      ? customizationDetails.whippedTopping
+      : "No whipped Topping",
+    whippedTopping_selected: customizationDetails
+      ? toppingOptionMapper[customizationDetails.whippedTopping]
+      : toppingOptionMapper["No whipped Topping"],
+    syrupAndSauces: customizationDetails
+      ? customizationDetails.syrupAndSauces
+      : [],
+    syrupAndSauces_quantity_selected: new Array(
+      syrupAndSauceOption.length
+    ).fill(0),
+    price:
+      customizationDetails && customizationDetails.cartId != null
+        ? customizationDetails.price
+        : product.price,
   });
 
   //todo : here you need to look for history last element click edge case
@@ -62,7 +98,21 @@ export const ProductOrder = () => {
         setIsFavorite(false);
       }
     };
+    const updateSyrupAndSacesOption = () => {
+      if (productSelection.syrupAndSauces.length > 0) {
+        let tempOptionSelection = new Array(syrupAndSauceOption.length).fill(0);
+        customizationDetails.syrupAndSauces.forEach((selectedOptions) => {
+          let index = syrupAndSauceOptionMapper[selectedOptions.type];
+          tempOptionSelection[index] = selectedOptions.quantity;
+        });
+        setProductSelection((prevProductSelection) => ({
+          ...prevProductSelection,
+          syrupAndSauces_quantity_selected: tempOptionSelection,
+        }));
+      }
+    };
     checkProductInFavoriteOrNot();
+    updateSyrupAndSacesOption();
   }, [favorites]);
   const handleSlideAbove = (event, index) => {
     if (event.target.id == "topSlideHeading") {
@@ -126,51 +176,52 @@ export const ProductOrder = () => {
     optionData,
     optionIndex
   ) => {
-    const updatedProductSelection = { ...productSelection };
     const tempSauceAndSyrup = [...productSelection.syrupAndSauces];
     const tempSauceAndSyrupQuantity = [
       ...productSelection.syrupAndSauces_quantity_selected,
     ];
+    let updatedPrice = productSelection.price;
+    let itemIndex = tempSauceAndSyrup.findIndex(
+      (item) => item.type === optionData.type
+    );
 
-    if (quantityIndicator == 0) {
-      //you have to add it
-      let itemIndex = tempSauceAndSyrup.findIndex(
-        (item) => item.type == optionData.type
-      );
-
-      if (itemIndex != -1) {
-        tempSauceAndSyrup[itemIndex].quantity =
-          tempSauceAndSyrupQuantity[optionIndex] + 1;
+    if (quantityIndicator === 0) {
+      // Add the item
+      if (itemIndex !== -1) {
+        // If item exists, increment the quantity
+        const updatedItem = {
+          ...tempSauceAndSyrup[itemIndex],
+          quantity: (tempSauceAndSyrup[itemIndex].quantity || 0) + 1,
+        };
+        tempSauceAndSyrup[itemIndex] = updatedItem;
         tempSauceAndSyrupQuantity[optionIndex] += 1;
-        updatedProductSelection.price += optionData.price;
-        updatedProductSelection.syrupAndSauces = tempSauceAndSyrup;
-        updatedProductSelection.syrupAndSauces_quantity_selected =
-          tempSauceAndSyrupQuantity;
       } else {
+        // If item does not exist, add it
         tempSauceAndSyrup.push({ type: optionData.type, quantity: 1 });
         tempSauceAndSyrupQuantity[optionIndex] = 1;
-        updatedProductSelection.price += optionData.price;
-        updatedProductSelection.syrupAndSauces = tempSauceAndSyrup;
-        updatedProductSelection.syrupAndSauces_quantity_selected =
-          tempSauceAndSyrupQuantity;
       }
+      updatedPrice += optionData.price;
     } else {
-      // you have to reduce it;
-      if (tempSauceAndSyrupQuantity[optionIndex] == 0) return;
-      let itemIndex = tempSauceAndSyrup.findIndex(
-        (item) => item.type == optionData.type
-      );
-      if (itemIndex != -1) {
-        tempSauceAndSyrup[itemIndex].quantity =
-          tempSauceAndSyrupQuantity[optionIndex] - 1;
+      // Remove the item
+      if (tempSauceAndSyrupQuantity[optionIndex] === 0) return;
+
+      if (itemIndex !== -1) {
+        const updatedItem = {
+          ...tempSauceAndSyrup[itemIndex],
+          quantity: tempSauceAndSyrup[itemIndex].quantity - 1,
+        };
+        tempSauceAndSyrup[itemIndex] = updatedItem;
         tempSauceAndSyrupQuantity[optionIndex] -= 1;
-        updatedProductSelection.price -= optionData.price;
-        updatedProductSelection.syrupAndSauces = tempSauceAndSyrup;
-        updatedProductSelection.syrupAndSauces_quantity_selected =
-          tempSauceAndSyrupQuantity;
+        updatedPrice -= optionData.price;
       }
     }
-    setProductSelection(updatedProductSelection);
+
+    setProductSelection((prev) => ({
+      ...prev,
+      syrupAndSauces: tempSauceAndSyrup,
+      syrupAndSauces_quantity_selected: tempSauceAndSyrupQuantity,
+      price: updatedPrice,
+    }));
   };
 
   const handleAddToCart = async () => {
@@ -184,17 +235,35 @@ export const ProductOrder = () => {
       whippedTopping: productSelection.whippedTopping,
       syrupAndSauces: productSelection.syrupAndSauces,
       price: productSelection.price,
+      cartId: customizationDetails ? customizationDetails.cartId : null,
     };
-    setIsLoading(true);
-    await dispatch(addToCart(cartConstomizationData, token));
-    setSlideAbove(new Array(2).fill(false));
-    if (cartError !== null) {
-      showErrorNotification(cartError);
+    if (customizationDetails && cartConstomizationData.cartId != null) {
+      setIsLoading(true);
+      const response = await updateCartProduct(token, cartConstomizationData);
+      if (response.success) {
+        await dispatch(
+          addProductInfo({
+            data: product,
+            customizationDetails: cartConstomizationData,
+          })
+        );
+        showSuccessNotification("Customization has been updated");
+      } else {
+        showErrorNotification("something went wrong, please try again later");
+        return;
+      }
+      setIsLoading(false);
     } else {
-      showSuccessNotification("Product and customization added to cart");
-      setIsFavorite(!isFavorite);
+      setIsLoading(true);
+      await dispatch(addToCart(cartConstomizationData, token));
+      setSlideAbove(new Array(2).fill(false));
+      if (cartError !== null) {
+        showErrorNotification(cartError);
+      } else {
+        showSuccessNotification("Product and customization added to cart");
+      }
+      setIsLoading(false);
     }
-    setIsLoading(false);
   };
 
   const handleAddToFavorite = async (productId) => {
@@ -214,13 +283,13 @@ export const ProductOrder = () => {
   };
 
   return (
-    <div className="h-full w-full flex flex-col border-2">
+    <div className="h-full w-full flex flex-col addBorder relative">
+      {isLoading == true && (
+        <div className="h-full w-full centerDiv">
+          <CircularSpinner />
+        </div>
+      )}
       <div className="h-full w-full flex flex-col relative theamColor overflow-hidden">
-        {isLoading == true && (
-          <div className="centerToPage z-[8891] addBorder h-[100px] w-[100px]">
-            <CircularSpinner />
-          </div>
-        )}
         <div className="absolute top-[100px] right-[5%] addBorder h-[50px] w-[50px] centerDiv cursor-pointer md:right-[10%] bg-white rounded-full">
           {isFavorite == true ? (
             <FcLike
@@ -515,12 +584,12 @@ export const ProductOrder = () => {
             <span className="h-full w-auto text-white centerDiv pl-3 md:pl-[30px]">
               ₹ {productSelection.price}
             </span>
-            <div className="h-full w-[110px] centerDiv pr-3">
+            <div className="h-full w-[130px] centerDiv pr-3">
               <button
                 onClick={() => handleAddToCart()}
-                className="h-[35px] w-[100px] bg-[#f4f4f4] baseColor rounded-[20px] text-[0.8rem] addFont"
+                className="h-[35px] w-[120px] bg-[#f4f4f4] baseColor rounded-[20px] text-[0.8rem] addFont"
               >
-                Add Item
+                {customizationDetails ? "Update Item" : "Add Item"}
               </button>
             </div>
           </div>

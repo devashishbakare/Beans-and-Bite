@@ -29,7 +29,7 @@ const userSchema = mongoose.Schema({
   cart: [
     {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "CartCustomization",
+      ref: "Cart",
     },
   ],
   orders: [

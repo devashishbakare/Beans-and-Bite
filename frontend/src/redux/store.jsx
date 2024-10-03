@@ -8,6 +8,7 @@ import categoryReducer from "./slices/productSlice";
 import productInfoReducer from "./slices/ProductInfoSlice";
 import historyReducer from "./slices/historySlice";
 import notificationReducer from "./slices/notificationSlice";
+import cartSliceReducer from "./slices/cartSlice";
 const persistConfig = {
   key: "root",
   storage,
@@ -21,6 +22,7 @@ const rootReducer = combineReducers({
   productInfo: productInfoReducer,
   history: historyReducer,
   notification: notificationReducer,
+  cart: cartSliceReducer,
 });
 
 const persistReducters = persistReducer(persistConfig, rootReducer);

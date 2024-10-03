@@ -15,9 +15,17 @@ const notificationSlice = createSlice({
     incrementCount: (state, action) => {
       const { requestFor, count } = action.payload;
       if (requestFor === "cart") {
-        state.cartCount += count;
+        if (state.cartCount == null) {
+          state.cartCount = 1;
+        } else {
+          state.cartCount += count;
+        }
       } else {
-        state.favoriteCount += count;
+        if (state.favoriteCount == null) {
+          state.favoriteCount = 1;
+        } else {
+          state.favoriteCount += count;
+        }
       }
     },
     decrementCount: (state, action) => {
@@ -55,6 +63,12 @@ const notificationSlice = createSlice({
         (product) => product !== productId
       );
     },
+    setNotificationDetails: (state, action) => {
+      const { cartCount, favoriteCount, favourites } = action.payload;
+      state.cartCount = cartCount;
+      state.favoriteCount = favoriteCount;
+      state.favorites = favourites;
+    },
   },
 });
 
@@ -67,5 +81,6 @@ export const {
   setFavoriteError,
   addToFavorites,
   removeFromFavorites,
+  setNotificationDetails,
 } = notificationSlice.actions;
 export default notificationSlice.reducer;

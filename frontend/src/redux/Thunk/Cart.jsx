@@ -31,27 +31,27 @@ export const addToCart = (cartCustomizationData, token) => async (dispatch) => {
 export const addAndRemoveFromFavorites =
   (token, productId, favorites) => async (dispatch) => {
     try {
-      const headers = createHeader(token);
+      // const headers = createHeader(token);
 
       const isPresent = favorites.find((product) => product == productId);
       if (isPresent) {
-        await axios.post(
-          `${baseUrl}/user/removeFavorite`,
-          { productId },
-          { headers }
-        );
+        // await axios.post(
+        //   `${baseUrl}/user/removeFavorite`,
+        //   { productId },
+        //   { headers }
+        // );
         dispatch(removeFromFavorites({ productId }));
         dispatch(decrementCount({ requestFor: "fav", count: 1 }));
       } else {
-        await axios.post(
-          `${baseUrl}/user/addFavorite`,
-          { productId },
-          { headers }
-        );
+        // await axios.post(
+        //   `${baseUrl}/user/addFavorite`,
+        //   { productId },
+        //   { headers }
+        // );
         dispatch(addToFavorites({ productId }));
         dispatch(incrementCount({ requestFor: "fav", count: 1 }));
       }
-      dispatch(setFavoriteError({ error: null }));
+      // dispatch(setFavoriteError({ error: null }));
     } catch (error) {
       dispatch(
         setFavoriteError({ error: "something went wrong, Try again later" })

@@ -203,6 +203,13 @@ export const sizeOption = [
   },
 ];
 
+export const sizeOptionMapper = {
+  Short: 0,
+  Tall: 1,
+  Grande: 2,
+  Venti: 3,
+};
+
 export const milkOption = [
   { type: "No Milk", price: 0.0 },
   { type: "Skimmed Milk", price: 25.8 },
@@ -211,6 +218,15 @@ export const milkOption = [
   { type: "Almond Milk", price: 61.61 },
   { type: "Lactose-Free Milk", price: 71.12 },
 ];
+
+export const milkOptionMapper = {
+  "No Milk": 0,
+  "Skimmed Milk": 1,
+  "Whole Milk": 2,
+  "Soy Milk": 3,
+  "Almond Milk": 4,
+  "Lactose-Free Milk": 5,
+};
 
 export const espressoOption = [
   {
@@ -222,6 +238,11 @@ export const espressoOption = [
     price: 68.25,
   },
 ];
+
+export const espressoOptionMapper = {
+  "Indian Espresso Roast (Default)": 0,
+  "Extra Shot": 1,
+};
 
 export const temperatureOption = [
   {
@@ -238,6 +259,12 @@ export const temperatureOption = [
   },
 ];
 
+export const temperatureOptionMapper = {
+  "Normal Hot": 0,
+  "Kids Hot": 1,
+  "Extra Hot": 2,
+};
+
 export const toppingOption = [
   {
     type: "No whipped Topping",
@@ -248,6 +275,11 @@ export const toppingOption = [
     price: 36.75,
   },
 ];
+
+export const toppingOptionMapper = {
+  "No whipped Topping": 0,
+  "Whipped Topping": 1,
+};
 
 export const syrupAndSauceOption = [
   {
@@ -271,3 +303,57 @@ export const syrupAndSauceOption = [
     price: 57.75,
   },
 ];
+
+export const syrupAndSauceOptionMapper = {
+  "Mocha Sauce": 0,
+  "White Mocha Sauce": 1,
+  "Vanilla Syrup": 2,
+  "Hazelnut Syrup": 3,
+  "Caramel Syrup": 4,
+};
+
+export const sampleProductCart = [
+  {
+    _id: "66effc8a0368b7a947f26210",
+    userId: "66d2a1ffa885c553d06f567d",
+    productId: {
+      _id: "66c31de042624a9ad21020bb",
+      name: "Caffe Americano",
+      productInfo: "SHORT(237 Ml) .0 kcal",
+      productDetails:
+        "Rich in flavour, full-bodied espresso with hot water in true European style",
+      category: "Bestseller",
+      price: 220.5,
+      productCartImage:
+        "http://res.cloudinary.com/djgouef8q/image/upload/v1723955348/cdnbhj1mdjt5rzitwudn.webp",
+      productDetailsImage:
+        "http://res.cloudinary.com/djgouef8q/image/upload/v1723955186/dvnd92kgafmmboghnhan.jpg",
+      productType: "Veg",
+      __v: 0,
+    },
+    amount: 432.14,
+    size: "Short",
+    milk: "Soy Milk",
+    espresso: "Extra Shot",
+    temperature: "Extra Hot",
+    whippedTopping: "Whipped Topping",
+    syrupAndSauces: [
+      {
+        type: "White Mocha Sauce",
+        quantity: 1,
+        _id: "66effc8a0368b7a947f26211",
+      },
+    ],
+    __v: 0,
+  },
+];
+
+export const defaultCustomization = {
+  size: "Short",
+  milk: "No Milk",
+  espresso: "Indian Espresso Roast (Default)",
+  temperature: "Normal Hot",
+  whippedTopping: "No whipped Topping",
+  syrupAndSauces: [],
+  cartId: null,
+};

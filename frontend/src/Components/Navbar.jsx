@@ -23,7 +23,7 @@ import { resetHistory } from "../redux/slices/historySlice";
 import { resetNotification } from "../redux/slices/notificationSlice";
 import { resetProductInfo } from "../redux/slices/ProductInfoSlice";
 import { updateSignInUpModal } from "../redux/slices/userAuthSlice";
-
+import { resetCart } from "../redux/slices/cartSlice";
 export const Navbar = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -108,6 +108,7 @@ export const Navbar = () => {
     dispatch(resetHistory());
     dispatch(resetProductInfo());
     dispatch(resetNotification());
+    dispatch(resetCart());
     persistor.purge();
     navigate("/uploadImages");
   };
@@ -248,7 +249,10 @@ export const Navbar = () => {
           <HiOutlineUserCircle className="text-[2.1rem] text-[#1e3933]" />
         </div>
         <div className="h-full w-[60px] centerDiv relative">
-          <CiShoppingCart className="text-[1.8rem] text-[#1e3933]" />
+          <CiShoppingCart
+            onClick={() => dispatch(updateNavbarOptionSelection("cart"))}
+            className="text-[1.8rem] text-[#1e3933]"
+          />
           {cartCount > 0 && (
             <span className="absolute top-[10px] right-[5px] h-[20px] w-[20px] rounded-[50%] centerDiv text-[0.8rem] bg-[#1e3933] text-white">
               {cartCount}

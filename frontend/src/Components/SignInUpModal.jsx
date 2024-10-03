@@ -15,6 +15,7 @@ import { useDispatch } from "react-redux";
 import { updateToken } from "../redux/slices/userAuthSlice";
 import CircularSpinner from "../utils/Spinners/CircularSpinner";
 import { updateSignInUpModal } from "../redux/slices/userAuthSlice";
+import { setNotificationDetails } from "../redux/slices/notificationSlice";
 export const SignInUpModal = () => {
   //todo : notification not working, check that once
   const dispatch = useDispatch();
@@ -51,9 +52,13 @@ export const SignInUpModal = () => {
     onSubmit: async (values, action) => {
       setIsLoading(true);
       const response = await userSignIn(values);
+      const { token, cartCount, favouriteCount, favourites } = response.data;
       if (response.success) {
         showSuccessNotification("Sign In has been Successful");
-        dispatch(updateToken({ token: response.data, isAuthenticated: true }));
+        dispatch(updateToken({ token: token, isAuthenticated: true }));
+        dispatch(
+          setNotificationDetails({ cartCount, favouriteCount, favourites })
+        );
         dispatch(updateSignInUpModal({ requestFor: "close" }));
       } else {
         showErrorNotification("Something went wrong, please try again later");

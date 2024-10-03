@@ -25,6 +25,7 @@ const signIn = async (req, res) => {
     if (!user) {
       return res.status(404).json({ message: "User Not Found" });
     }
+
     const isPasswordPresent = bcrypt.compareSync(password, user.password);
     if (!isPasswordPresent) {
       return res.status(400).json({ message: "Password is not correct" });
@@ -36,10 +37,14 @@ const signIn = async (req, res) => {
     };
 
     const token = jwt.sign(payload, process.env.JWT_SECRET_KEY);
+    const cartCount = user.cart.length;
+    const favouriteCount = user.favourites.length;
+    const favourites = user.favourites;
 
-    return res
-      .status(200)
-      .json({ data: token, message: "Sign in successfully" });
+    return res.status(200).json({
+      data: { token, cartCount, favouriteCount, favourites },
+      message: "Sign in successfully",
+    });
   } catch (error) {
     return res.status(500).json({
       error: error.message,
