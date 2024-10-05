@@ -357,3 +357,66 @@ export const defaultCustomization = {
   syrupAndSauces: [],
   cartId: null,
 };
+
+export const favouriteData = [
+  {
+    _id: "66c31de042624a9ad21020bb",
+    name: "Caffe Americano",
+    productInfo: "SHORT(237 Ml) .0 kcal",
+    productDetails:
+      "Rich in flavour, full-bodied espresso with hot water in true European style",
+    category: "Bestseller",
+    price: 220.5,
+    productCartImage:
+      "http://res.cloudinary.com/djgouef8q/image/upload/v1723955348/cdnbhj1mdjt5rzitwudn.webp",
+    productDetailsImage:
+      "http://res.cloudinary.com/djgouef8q/image/upload/v1723955186/dvnd92kgafmmboghnhan.jpg",
+    productType: "Veg",
+    __v: 0,
+  },
+  {
+    _id: "66c31de042624a9ad21020bc",
+    name: "cold coffee",
+    productInfo: "TALL(354 ML) .354 kcal",
+    productDetails:
+      "Our signature rich in flavour espresso blended with delicate vanilla flavour and milk to create a perfect cold coffee delight. An all time favourite. Allergen-Contains Milk, Tall: 354 ML, 354 kcal, Grande: 473 ML, 473 kcal, Venti: 591 ML, 501 kcal.An average active adult requires 2000 kcal energy per day, however, calorie needs may vary",
+    category: "Bestseller",
+    price: 283.5,
+    productCartImage:
+      "http://res.cloudinary.com/djgouef8q/image/upload/v1723955959/o7aepu4j0xc2brsic0om.webp",
+    productDetailsImage:
+      "http://res.cloudinary.com/djgouef8q/image/upload/v1723955936/t8xafu6kv5xtwvchj25z.jpg",
+    productType: "Veg",
+    __v: 0,
+  },
+  {
+    _id: "66c31de042624a9ad21020bd",
+    name: "Stardust Macchiato",
+    productInfo: "SHORT(Short Stardust Macchiato)",
+    productDetails:
+      "Super smooth and creamy vanilla half and half crowned with sweet and subtle cold foam, marked with an intense ristretto shot and cocoa dust",
+    category: "Drinks",
+    price: 414.75,
+    productCartImage:
+      "http://res.cloudinary.com/djgouef8q/image/upload/v1723956399/dw1w9sobw6cx2hecpzk8.jpg",
+    productDetailsImage:
+      "http://res.cloudinary.com/djgouef8q/image/upload/v1723956421/maaclqnvqefetwmosh3m.jpg",
+    productType: "Veg",
+    __v: 0,
+  },
+  {
+    _id: "66c31de042624a9ad21020be",
+    name: "Caramel Macchiato",
+    productInfo: "SHORT(237 ML). 162 kcal",
+    productDetails:
+      "Freshly steamed milk with vanilla-flavored syrup is marked with espresso and topped with caramel drizzle.",
+    category: "Drinks",
+    price: 325.5,
+    productCartImage:
+      "http://res.cloudinary.com/djgouef8q/image/upload/v1723956443/tw76nhhqu6vwzvp4t3hb.webp",
+    productDetailsImage:
+      "http://res.cloudinary.com/djgouef8q/image/upload/v1723956466/svwnzyhdsypltpyqgiat.jpg",
+    productType: "Veg",
+    __v: 0,
+  },
+];

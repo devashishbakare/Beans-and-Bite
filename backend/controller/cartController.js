@@ -180,14 +180,43 @@ const updateCartProduct = async (req, res) => {
       { _id: cartProduct._id },
       cartItemUpdate
     );
-    return res
-      .status(200)
-      .json({
-        data: cartItemUpdateResponse,
-        message: "cart Item has been updated",
-      });
+    return res.status(200).json({
+      data: cartItemUpdateResponse,
+      message: "cart Item has been updated",
+    });
   } catch (error) {
     return res.status(500).json({ error: error.message });
+  }
+};
+
+const fetchFavouriteProduct = async (req, res) => {
+  try {
+    const userId = req.userId;
+
+    if (!req.query.favourites) {
+      return res.status(200).json({ data: [], message: "cart is emtpy" });
+    }
+    let { favourites } = req.query;
+
+    favourites = Array.isArray(favourites)
+      ? favourites
+      : JSON.parse(favourites);
+
+    const user = await User.findById(userId);
+    if (!user) {
+      return res.status(400).json({ message: "user not found" });
+    }
+
+    const productDetails = await Promise.all(
+      favourites.map(async (productId) => await Product.findById(productId))
+    );
+    return res
+      .status(200)
+      .json({ data: productDetails, message: "Favourite products" });
+  } catch (error) {
+    return res
+      .status(500)
+      .json({ error: error.message, message: "something went wrong" });
   }
 };
 
@@ -197,4 +226,5 @@ module.exports = {
   fetchCartProduct,
   removeItemFromCart,
   updateCartProduct,
+  fetchFavouriteProduct,
 };

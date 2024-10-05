@@ -260,7 +260,10 @@ export const Navbar = () => {
           )}
         </div>
         <div className="h-full w-[60px] centerDiv relative">
-          <CiHeart className="text-[1.8rem] text-[#1e3933]" />
+          <CiHeart
+            onClick={() => dispatch(updateNavbarOptionSelection("favourite"))}
+            className="text-[1.8rem] text-[#1e3933]"
+          />
           {favoriteCount > 0 && (
             <span className="absolute top-[10px] right-[5px] h-[20px] w-[20px] rounded-[50%] centerDiv text-[0.8rem] bg-[#1e3933] text-white">
               {favoriteCount}

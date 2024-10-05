@@ -55,13 +55,17 @@ const notificationSlice = createSlice({
     },
     addToFavorites: (state, action) => {
       const { productId } = action.payload;
+      console.log(productId);
       state.favorites.push(productId);
+      console.log(state);
     },
     removeFromFavorites: (state, action) => {
       const { productId } = action.payload;
-      state.favorites = state.favorites.filter(
+      const storeFavorites = [...state.favorites];
+      state.favorites = storeFavorites.filter(
         (product) => product !== productId
       );
+      state.favoriteCount -= 1;
     },
     setNotificationDetails: (state, action) => {
       const { cartCount, favoriteCount, favourites } = action.payload;

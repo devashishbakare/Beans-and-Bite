@@ -29,7 +29,7 @@ export const addToCart = (cartCustomizationData, token) => async (dispatch) => {
 };
 
 export const addAndRemoveFromFavorites =
-  (token, productId, favorites) => async (dispatch) => {
+  (productId, favorites) => async (dispatch) => {
     try {
       // const headers = createHeader(token);
 

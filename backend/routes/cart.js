@@ -11,4 +11,9 @@ router.patch(
   authenticate,
   cartController.updateCartProduct
 );
+router.get(
+  "/fetchFavourites",
+  authenticate,
+  cartController.fetchFavouriteProduct
+);
 module.exports = router;

@@ -272,7 +272,7 @@ export const ProductOrder = () => {
     } else {
       setIsLoading(true);
 
-      await dispatch(addAndRemoveFromFavorites(token, productId, favorites));
+      await dispatch(addAndRemoveFromFavorites(productId, favorites));
       if (favoriteError !== null) {
         showErrorNotification(favoriteError);
       } else {

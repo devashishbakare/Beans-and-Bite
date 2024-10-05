@@ -85,3 +85,19 @@ export const updateCartProduct = async (token, cartCustomizationDetails) => {
     return { success: false, error: error.response.data.error };
   }
 };
+
+export const fetchFavouritesProduct = async (token, favourites) => {
+  try {
+    const headers = createHeader(token);
+    const response = await axios.get(`${baseUrl}/cart/fetchFavourites`, {
+      params: {
+        favourites,
+      },
+      headers,
+    });
+    const { data } = response.data;
+    return { success: true, data: data };
+  } catch (error) {
+    return { success: false, error: error.response.data.error };
+  }
+};

@@ -205,174 +205,192 @@ export const UserCart = () => {
       ) : (
         <>
           <div className="flex-1 w-full max-w-[1050px] shrink-0 overflow-y-scroll flex flex-col p-2 gap-2">
-            {cartProducts.map((cartProduct, index) => (
-              <div
-                key={"cartProducts" + index}
-                className="h-auto w-full flex flex-col p-2 addShadow rounded-md gap-3"
-              >
-                {loaderIndex == index ? (
-                  <div className="h-[155px] w-full centerDiv">
-                    <CircularSpinner />
-                  </div>
-                ) : (
-                  <>
-                    <div className="h-[155px] w-full flex shrink-0">
-                      <div className="h-full w-[150px]">
-                        <img
-                          src={cartProduct.productId.productCartImage}
-                          alt="productImage"
-                          className="h-[140px] w-[140px] bg-cover rounded-md"
-                        />
+            {cartProducts.length == 0 ? (
+              <div className="h-full w-full centerDiv flex flex-col">
+                <img
+                  src="http://res.cloudinary.com/djgouef8q/image/upload/v1728017775/vqesytc0j5avasvpyxxl.png"
+                  alt="emptyImage"
+                  className="h-[250px] w-[250px] bg-cover rounded-[50%]"
+                />
+                <span className="addFont opacity-50 capitalize">
+                  No item in your cart
+                </span>
+              </div>
+            ) : (
+              <>
+                {cartProducts.map((cartProduct, index) => (
+                  <div
+                    key={"cartProducts" + index}
+                    className="h-auto w-full flex flex-col p-2 addShadow rounded-md gap-3"
+                  >
+                    {loaderIndex == index ? (
+                      <div className="h-[155px] w-full centerDiv">
+                        <CircularSpinner />
                       </div>
-                      <div className="h-full flex-1 flex flex-col gap-1 md:flex-row">
-                        <div className="h-auto w-full flex flex-col gap-1 pl-1 md:w-[50%]">
-                          <span className="h-[30px] w-full p-1 addFont overflow-hidden">
-                            {cartProduct.productId.name}
-                          </span>
-                          <div className="h-auto w-full pl-1">
-                            {cartProduct.productId.productType == "Veg" ? (
-                              <div className="h-auto w-full flex gap-2 md:h-full">
-                                <img
-                                  src="http://res.cloudinary.com/djgouef8q/image/upload/v1725956565/evqd7oumunkyq2xmejzm.png"
-                                  alt="vegImage"
-                                  className="h-[20px] w-[20px] bg-cover"
-                                />
-                                <span className="uppercase font-light text-[0.8rem]">
-                                  Vegetarian
-                                </span>
-                              </div>
-                            ) : (
-                              <div className="h-full w-full flex items-center gap-1">
-                                <img
-                                  src="http://res.cloudinary.com/djgouef8q/image/upload/v1725956639/apauehqqciemydmaguit.png"
-                                  alt="NonImage"
-                                  className="h-[20px] w-[20px] bg-cover"
-                                />
-                                <span className="uppercase font-light text-[0.8rem]">
-                                  Non-Vegetarian
-                                </span>
-                              </div>
-                            )}
+                    ) : (
+                      <>
+                        <div className="h-[155px] w-full flex shrink-0">
+                          <div className="h-full w-[150px]">
+                            <img
+                              src={cartProduct.productId.productCartImage}
+                              alt="productImage"
+                              className="h-[140px] w-[140px] bg-cover rounded-md"
+                            />
                           </div>
-                          <div className="hide md:flex flex-col h-auto w-full">
-                            <div className="h-auto w-full opacity-[70%] text-[0.9rem] p-1 overflow-hidden">
-                              {cartProduct.productId.productInfo}
-                            </div>
-                            <div className="h-[50px] w-full opacity-[70%] text-[0.9rem] p-1 overflow-hidden text-ellipsis line-clamp-3">
-                              {cartProduct.productId.productDetails}
-                            </div>
-                          </div>
-                        </div>
-                        <div className="h-auto w-full pl-2 flex flex-col gap-1 md:w-[50%] md:items-end md:gap-3 md:pr-[3%]">
-                          <span className="h-[30px] flex items-center pl-1 md:w-[120px] md:text-[1.1rem] md:font-medium md:justify-end md:pr-[10px]">
-                            ₹ {cartProduct.amount}
-                          </span>
-                          <div className="h-[50px] w-full flex items-center md:w-[150px]">
-                            <div className="h-[40px] w-[140px] centerDiv border-[1px] border-gray-400 flex rounded-md cursor-pointer bg-white">
-                              <span
-                                onClick={() =>
-                                  handleDecreaseQuantity(cartProduct, index)
-                                }
-                                className="h-[35px] w-[40px] centerDiv bg-slate-50"
-                              >
-                                <CiCircleMinus className="text-[1.7rem]" />
+                          <div className="h-full flex-1 flex flex-col gap-1 md:flex-row">
+                            <div className="h-auto w-full flex flex-col gap-1 pl-1 md:w-[50%]">
+                              <span className="h-[30px] w-full p-1 addFont overflow-hidden">
+                                {cartProduct.productId.name}
                               </span>
-
-                              <span className="h-[35px] w-[40px] centerDiv bg-slate-50 ">
-                                {/* {cartProductQuantity[index]} */}
-                                {cartProductWithQuantity[cartProduct._id]}
-                              </span>
-
-                              <span
-                                onClick={() =>
-                                  handleIncreaseQuanity(cartProduct, index)
-                                }
-                                className="h-[35px] w-[40px] centerDiv bg-slate-50 "
-                              >
-                                <CiCirclePlus className="text-[1.7rem]" />
-                              </span>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    <div
-                      onClick={() => handleShowCartCustomization(index)}
-                      className="h-[35px] w-full flex items-center pl-1 text-[0.95rem] text-blue-800 opacity-90 underline"
-                    >
-                      {showCartCustomizationDetails[index] == false
-                        ? "show product customization details"
-                        : "hide product customization details"}
-                    </div>
-                    {showCartCustomizationDetails[[index]] == true && (
-                      <div className="h-auto w-full flex flex-col">
-                        <div className="h-auto w-full flex flex-wrap items-center font-thin">
-                          <span className="h-[30px] w-auto flex items-center text-[0.85rem] pl-2">
-                            {cartProduct.size}&#44;
-                          </span>
-                          <span className="h-[30px] w-auto flex items-center text-[0.85rem] pl-2">
-                            {cartProduct.milk}&#44;
-                          </span>
-                          <span className="h-[30px] w-auto flex items-center text-[0.85rem] pl-2">
-                            {cartProduct.espresso}&#44;
-                          </span>
-                          <span className="h-[30px] w-auto flex items-center text-[0.85rem] pl-2">
-                            {cartProduct.temperature}&#44;
-                          </span>
-                          <span className="h-[30px] w-auto flex items-center text-[0.85rem] pl-2">
-                            {cartProduct.whippedTopping}&#44;
-                          </span>
-                          {cartProduct.syrupAndSauces.length > 0 &&
-                            cartProduct.syrupAndSauces.map((data, index) => (
-                              <span
-                                key={"cartCusto" + data.type + index}
-                                className="h-[30px] w-auto flex items-center text-[0.85rem] pl-2"
-                              >
-                                {data.type}
-                                {index !=
-                                  cartProduct.syrupAndSauces.length - 1 && (
-                                  <>&#44;</>
+                              <div className="h-auto w-full pl-1">
+                                {cartProduct.productId.productType == "Veg" ? (
+                                  <div className="h-auto w-full flex gap-2 md:h-full">
+                                    <img
+                                      src="http://res.cloudinary.com/djgouef8q/image/upload/v1725956565/evqd7oumunkyq2xmejzm.png"
+                                      alt="vegImage"
+                                      className="h-[20px] w-[20px] bg-cover"
+                                    />
+                                    <span className="uppercase font-light text-[0.8rem]">
+                                      Vegetarian
+                                    </span>
+                                  </div>
+                                ) : (
+                                  <div className="h-full w-full flex items-center gap-1">
+                                    <img
+                                      src="http://res.cloudinary.com/djgouef8q/image/upload/v1725956639/apauehqqciemydmaguit.png"
+                                      alt="NonImage"
+                                      className="h-[20px] w-[20px] bg-cover"
+                                    />
+                                    <span className="uppercase font-light text-[0.8rem]">
+                                      Non-Vegetarian
+                                    </span>
+                                  </div>
                                 )}
+                              </div>
+                              <div className="hide md:flex flex-col h-auto w-full">
+                                <div className="h-auto w-full opacity-[70%] text-[0.9rem] p-1 overflow-hidden">
+                                  {cartProduct.productId.productInfo}
+                                </div>
+                                <div className="h-[50px] w-full opacity-[70%] text-[0.9rem] p-1 overflow-hidden text-ellipsis line-clamp-3">
+                                  {cartProduct.productId.productDetails}
+                                </div>
+                              </div>
+                            </div>
+                            <div className="h-auto w-full pl-2 flex flex-col gap-1 md:w-[50%] md:items-end md:gap-3 md:pr-[3%]">
+                              <span className="h-[30px] flex items-center pl-1 md:w-[120px] md:text-[1.1rem] md:font-medium md:justify-end md:pr-[10px]">
+                                ₹ {cartProduct.amount}
                               </span>
-                            ))}
+                              <div className="h-[50px] w-full flex items-center md:w-[150px]">
+                                <div className="h-[40px] w-[140px] centerDiv border-[1px] border-gray-400 flex rounded-md cursor-pointer bg-white">
+                                  <span
+                                    onClick={() =>
+                                      handleDecreaseQuantity(cartProduct, index)
+                                    }
+                                    className="h-[35px] w-[40px] centerDiv bg-slate-50"
+                                  >
+                                    <CiCircleMinus className="text-[1.7rem]" />
+                                  </span>
+
+                                  <span className="h-[35px] w-[40px] centerDiv bg-slate-50 ">
+                                    {/* {cartProductQuantity[index]} */}
+                                    {cartProductWithQuantity[cartProduct._id]}
+                                  </span>
+
+                                  <span
+                                    onClick={() =>
+                                      handleIncreaseQuanity(cartProduct, index)
+                                    }
+                                    className="h-[35px] w-[40px] centerDiv bg-slate-50 "
+                                  >
+                                    <CiCirclePlus className="text-[1.7rem]" />
+                                  </span>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
                         </div>
                         <div
-                          onClick={() => customizedSameProduct(cartProduct)}
-                          className=" h-[30px] w-full flex item-center pl-1 text-[0.95rem] baseColor opacity-90 underline cursor-pointer"
+                          onClick={() => handleShowCartCustomization(index)}
+                          className="h-[35px] w-full flex items-center pl-1 text-[0.95rem] text-blue-800 opacity-90 underline"
                         >
-                          Customized More
+                          {showCartCustomizationDetails[index] == false
+                            ? "show product customization details"
+                            : "hide product customization details"}
                         </div>
-                      </div>
+                        {showCartCustomizationDetails[[index]] == true && (
+                          <div className="h-auto w-full flex flex-col">
+                            <div className="h-auto w-full flex flex-wrap items-center font-thin">
+                              <span className="h-[30px] w-auto flex items-center text-[0.85rem] pl-2">
+                                {cartProduct.size}&#44;
+                              </span>
+                              <span className="h-[30px] w-auto flex items-center text-[0.85rem] pl-2">
+                                {cartProduct.milk}&#44;
+                              </span>
+                              <span className="h-[30px] w-auto flex items-center text-[0.85rem] pl-2">
+                                {cartProduct.espresso}&#44;
+                              </span>
+                              <span className="h-[30px] w-auto flex items-center text-[0.85rem] pl-2">
+                                {cartProduct.temperature}&#44;
+                              </span>
+                              <span className="h-[30px] w-auto flex items-center text-[0.85rem] pl-2">
+                                {cartProduct.whippedTopping}&#44;
+                              </span>
+                              {cartProduct.syrupAndSauces.length > 0 &&
+                                cartProduct.syrupAndSauces.map(
+                                  (data, index) => (
+                                    <span
+                                      key={"cartCusto" + data.type + index}
+                                      className="h-[30px] w-auto flex items-center text-[0.85rem] pl-2"
+                                    >
+                                      {data.type}
+                                      {index !=
+                                        cartProduct.syrupAndSauces.length -
+                                          1 && <>&#44;</>}
+                                    </span>
+                                  )
+                                )}
+                            </div>
+                            <div
+                              onClick={() => customizedSameProduct(cartProduct)}
+                              className=" h-[30px] w-full flex item-center pl-1 text-[0.95rem] baseColor opacity-90 underline cursor-pointer"
+                            >
+                              Customized More
+                            </div>
+                          </div>
+                        )}
+                      </>
                     )}
-                  </>
-                )}
-              </div>
-            ))}
+                  </div>
+                ))}
+              </>
+            )}
           </div>
-          <div className="h-[100px] w-full centerDiv bg-[#116241] centerDiv">
-            <div className="h-full w-full max-w-[1050px] flex flex-col">
-              <div className="h-[50%] w-full flex">
-                <div className="h-full flex-1 items-center flex text-slate-200">
-                  <span className="h-full w-[135px] flex items-center truncate ml-[20px]">
-                    Coffee Americano
-                  </span>
-                  {cartProducts.length > 1 && (
-                    <span className="flex-1 ml-[5px]">
-                      +{cartProducts.length - 1} more
+          {cartProducts.length > 0 && (
+            <div className="h-[100px] w-full centerDiv bg-[#116241] centerDiv">
+              <div className="h-full w-full max-w-[1050px] flex flex-col">
+                <div className="h-[50%] w-full flex">
+                  <div className="h-full flex-1 items-center flex text-slate-200">
+                    <span className="h-full w-[135px] flex items-center truncate ml-[20px]">
+                      Coffee Americano
                     </span>
-                  )}
+                    {cartProducts.length > 1 && (
+                      <span className="flex-1 ml-[5px]">
+                        +{cartProducts.length - 1} more
+                      </span>
+                    )}
+                  </div>
+                  <div className="h-full w-[130px] flex items-center text-slate-200">
+                    ₹ {cartPrice == null ? "0" : cartPrice.toFixed(2)}
+                  </div>
                 </div>
-                <div className="h-full w-[130px] flex items-center text-slate-200">
-                  ₹ {cartPrice == null ? "0" : cartPrice.toFixed(2)}
+                <div className="h-[50%] w-full flex items-center justify-center  md:pr-[10px] md:justify-start md:flex-row-reverse">
+                  <button className="h-[75%] w-[95%] addFont capitalize text-[0.89rem] bg-slate-200 rounded-3xl z-[9999] md:w-[220px]">
+                    Continue with payment
+                  </button>
                 </div>
-              </div>
-              <div className="h-[50%] w-full flex items-center justify-center  md:pr-[10px] md:justify-start md:flex-row-reverse">
-                <button className="h-[75%] w-[95%] addFont capitalize text-[0.89rem] bg-slate-200 rounded-3xl z-[9999] md:w-[220px]">
-                  Continue with payment
-                </button>
               </div>
             </div>
-          </div>
+          )}
         </>
       )}
 
