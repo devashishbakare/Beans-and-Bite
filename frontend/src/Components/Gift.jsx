@@ -4,7 +4,10 @@ import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { addFromNavbar, removeFromHistory } from "../redux/slices/historySlice";
 import { updateNavbarOptionSelection } from "../redux/slices/NavbarSlice";
+import { giftCartInfo } from "../utils/DisplayData";
+import { GiftCard } from "./GiftCard";
 export const Gift = () => {
+  //const cardInfo = giftCartInfo[0][2];
   const dispatch = useDispatch();
   const [optionSelectionIndex, setOptionSelectionIndex] = useState(1);
   useEffect(() => {
@@ -31,7 +34,7 @@ export const Gift = () => {
           <History />
         </div>
       </div>
-      <div className="h-[230px] w-full centerDiv theamColor">
+      <div className="h-[230px] w-full centerDiv theamColor shrink-0">
         <div className="h-full w-full max-w-[1050px] flex flex-col items-center">
           <div className="h-[200px] w-[95%] flex items-center p-2 bg-[#13603c] rounded-md">
             <img
@@ -73,7 +76,7 @@ export const Gift = () => {
           </div>
         </div>
       </div>
-      <div className="h-[70px] w-full centerDiv bg-[#edebe9]">
+      <div className="h-[70px] w-full centerDiv bg-[#edebe9] shrink-0">
         <div className="h-full w-full max-w-[1050px] flex gap-[5px] overflow-x-scroll md:gap-[10px]">
           <span className="h-full w-[130px] flex flex-col items-center">
             <span
@@ -114,15 +117,25 @@ export const Gift = () => {
       <div className="flex-1 w-full centerDiv">
         <div className="h-full w-full max-w-[1050px]">
           {optionSelectionIndex == 1 && (
-            <div className="h-full w-full centerDiv">
-              this is anytime section
+            <div className="h-full w-full flex flex-wrap p-2 justify-center lg:justify-start">
+              {giftCartInfo[0].map((cardInfo) => (
+                <GiftCard cardInfo={cardInfo} key={cardInfo.id} />
+              ))}
             </div>
           )}
           {optionSelectionIndex == 2 && (
-            <div className="h-full w-full centerDiv">congrats section</div>
+            <div className="h-full w-full flex flex-wrap p-2 justify-center lg:justify-start">
+              {giftCartInfo[1].map((cardInfo) => (
+                <GiftCard cardInfo={cardInfo} key={cardInfo.id} />
+              ))}
+            </div>
           )}
           {optionSelectionIndex == 3 && (
-            <div className="h-full w-full centerDiv">thank you section</div>
+            <div className="h-full w-full flex flex-wrap p-2 justify-center lg:justify-start">
+              {giftCartInfo[2].map((cardInfo) => (
+                <GiftCard cardInfo={cardInfo} key={cardInfo.id} />
+              ))}
+            </div>
           )}
         </div>
       </div>

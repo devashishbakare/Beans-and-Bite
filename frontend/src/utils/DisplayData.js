@@ -420,3 +420,54 @@ export const favouriteData = [
     __v: 0,
   },
 ];
+
+export const giftCartInfo = [
+  [
+    {
+      id: "anyTime-0",
+      title: "My Treat",
+      desc: "nothing like cup of coffee to flame a friendship, share the experiece with your best friend",
+      image:
+        "http://res.cloudinary.com/djgouef8q/image/upload/v1728117402/xz9drtijg95zvj7bp5jz.png",
+    },
+    {
+      id: "anyTime-1",
+      title: "way to go",
+      desc: "it's time to celebrate show some appriciation with this beans and bite gift card",
+      image:
+        "http://res.cloudinary.com/djgouef8q/image/upload/v1728117495/v9svevthdynn7qd0itr0.webp",
+    },
+    {
+      id: "anyTime-2",
+      title: "U are the best just saying",
+      desc: "hey, reminding you this with beans and bite gift card",
+      image:
+        "http://res.cloudinary.com/djgouef8q/image/upload/v1728117597/ptjivxh2nd3xfywk9hoa.webp",
+    },
+    {
+      id: "anyTime-3",
+      title: "Hang in there",
+      desc: "sometimes company goes a long way, let your friend know you have their back",
+      image:
+        "http://res.cloudinary.com/djgouef8q/image/upload/v1728117726/godtggo64daccumqulqv.png",
+    },
+  ],
+  [
+    {
+      id: "congrats-0",
+      title: "congrats",
+      desc: "Coffee, cheer, celebrate, enjoy each of your special moments with beans and bite",
+      image:
+        "http://res.cloudinary.com/djgouef8q/image/upload/v1728117263/sl5uvg7fw8mqrilznxdi.png",
+    },
+  ],
+  [
+    {
+      id: "thankYou-0",
+      title: "thank you",
+      desc: "to the people who make coffee and those who love it, thank you",
+      image:
+        "http://res.cloudinary.com/djgouef8q/image/upload/v1728117138/ca42t1tqrv7fjzmp31lx.webp",
+    },
+  ],
+];
