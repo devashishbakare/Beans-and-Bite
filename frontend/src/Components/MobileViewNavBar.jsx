@@ -36,7 +36,9 @@ export const MobileViewNavBar = ({ openSignInUpModal }) => {
           />
         </div>
         <span
-          onClick={() => dispatch(updateNavbarOptionSelection("order"))}
+          onClick={() =>
+            dispatch(updateNavbarOptionSelection({ option: "order" }))
+          }
           className="w-full h-[30%] text-[0.7rem] centerDiv mb-2"
         >
           Order
@@ -44,7 +46,9 @@ export const MobileViewNavBar = ({ openSignInUpModal }) => {
       </div>
       <div className="h-full w-[40%] flex">
         <div
-          onClick={() => dispatch(updateNavbarOptionSelection("mobileSearch"))}
+          onClick={() =>
+            dispatch(updateNavbarOptionSelection({ option: "mobileSearch" }))
+          }
           className="h-full w-[50%] centerDiv flex-col gap-1"
         >
           <CiSearch className="text-[1.7rem] text-green-800 " />

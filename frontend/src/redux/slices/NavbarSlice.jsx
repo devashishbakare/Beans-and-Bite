@@ -2,6 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   navbarOpationSelection: "Home",
+  extraData: {},
 };
 
 const navbarSlice = createSlice({
@@ -9,7 +10,9 @@ const navbarSlice = createSlice({
   initialState,
   reducers: {
     updateNavbarOptionSelection: (state, action) => {
-      state.navbarOpationSelection = action.payload;
+      const { extraData = null, option } = action.payload;
+      state.navbarOpationSelection = option;
+      state.extraData = extraData;
     },
     resetNavbarSlice: () => initialState,
   },

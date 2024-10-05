@@ -36,7 +36,7 @@ const historySlice = createSlice({
         state.history = ["Home"];
       } else {
         state.history = state.history.slice(0, index + 1);
-        console.log(state.history);
+        // console.log(state.history);
       }
       const categoryList = [
         "Bestseller",

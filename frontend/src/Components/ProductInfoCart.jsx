@@ -10,7 +10,7 @@ export const ProductInfoCart = ({ products }) => {
   const handleAddToCart = (product) => {
     console.log("request fullfilled");
     dispatch(addProductInfo({ data: product }));
-    dispatch(updateNavbarOptionSelection("productOrder"));
+    dispatch(updateNavbarOptionSelection({ option: "productOrder" }));
   };
 
   return (

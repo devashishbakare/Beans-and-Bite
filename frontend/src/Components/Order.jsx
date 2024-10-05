@@ -14,7 +14,10 @@ import {
 } from "../redux/slices/historySlice";
 import { updateNavbarOptionSelection } from "../redux/slices/NavbarSlice";
 export const Order = () => {
-  const [currSelectedOption, setCurrentSelectedOption] = useState("Bestseller");
+  const { extraData } = useSelector((state) => state.navbarSelection);
+  const [currSelectedOption, setCurrentSelectedOption] = useState(
+    extraData != null ? extraData.currSelectedOption : "Bestseller"
+  );
   const dispatch = useDispatch();
   const { history, isOrderCategoryChange } = useSelector(
     (state) => state.history
@@ -40,7 +43,7 @@ export const Order = () => {
     };
     dispatch(addFromNavbar({ sectionName: "Order" }));
     dispatch(addToHistory({ sectionName: "Bestseller" }));
-    fetchBestSellingProduct("Bestseller");
+    fetchBestSellingProduct(currSelectedOption);
     if (isOrderCategoryChange) {
       let historyLength = history.length;
       let lastCategory = history[historyLength - 1];

@@ -128,14 +128,25 @@ export const Navbar = () => {
         {searchIconClick === false ? (
           <>
             <div
-              onClick={() => dispatch(updateNavbarOptionSelection("Home"))}
+              onClick={() =>
+                dispatch(updateNavbarOptionSelection({ option: "Home" }))
+              }
               className="h-full min-w-[70px] centerDiv"
             >
               Home
             </div>
-            <div className="h-full min-w-[70px] centerDiv">Gift</div>
             <div
-              onClick={() => dispatch(updateNavbarOptionSelection("Order"))}
+              onClick={() =>
+                dispatch(updateNavbarOptionSelection({ option: "Gift" }))
+              }
+              className="h-full min-w-[70px] centerDiv"
+            >
+              Gift
+            </div>
+            <div
+              onClick={() =>
+                dispatch(updateNavbarOptionSelection({ option: "Order" }))
+              }
               className="h-full min-w-[70px] centerDiv"
             >
               Order
@@ -250,7 +261,9 @@ export const Navbar = () => {
         </div>
         <div className="h-full w-[60px] centerDiv relative">
           <CiShoppingCart
-            onClick={() => dispatch(updateNavbarOptionSelection("cart"))}
+            onClick={() =>
+              dispatch(updateNavbarOptionSelection({ option: "cart" }))
+            }
             className="text-[1.8rem] text-[#1e3933]"
           />
           {cartCount > 0 && (
@@ -261,7 +274,9 @@ export const Navbar = () => {
         </div>
         <div className="h-full w-[60px] centerDiv relative">
           <CiHeart
-            onClick={() => dispatch(updateNavbarOptionSelection("favourite"))}
+            onClick={() =>
+              dispatch(updateNavbarOptionSelection({ option: "favourite" }))
+            }
             className="text-[1.8rem] text-[#1e3933]"
           />
           {favoriteCount > 0 && (
