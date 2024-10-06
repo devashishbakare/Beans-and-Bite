@@ -11,7 +11,7 @@ export const History = () => {
       sectionName == "Gift" ||
       sectionName == "Home"
     ) {
-      dispatch(updateNavbarOptionSelection(sectionName));
+      dispatch(updateNavbarOptionSelection({ option: sectionName }));
     } else {
       dispatch(updateNavbarOptionSelection("Order"));
       dispatch(removeFromHistory({ index, sectionName }));

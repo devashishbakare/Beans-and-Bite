@@ -471,3 +471,5 @@ export const giftCartInfo = [
     },
   ],
 ];
+
+export const giftCardAmount = [200, 500, 1500, 4000];
