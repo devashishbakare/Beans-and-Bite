@@ -1,15 +1,22 @@
 import React from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { History } from "./History";
 import { useState } from "react";
 import { GiftCardSchema } from "../ValidationSchema/GiftCard";
 import { useFormik } from "formik";
 import { giftCardAmount } from "../utils/DisplayData";
 import { FaAngleDown, FaAngleUp } from "react-icons/fa6";
+import { showErrorNotification } from "../utils/notification";
+import { ToastContainer } from "react-toastify";
+import { updateSignInUpModal } from "../redux/slices/userAuthSlice";
+import CircularSpinner from "../utils/Spinners/CircularSpinner";
 export const GiftView = () => {
+  const dispatch = useDispatch();
   const { extraData } = useSelector((state) => state.navbarSelection);
+  const { isAuthenticated, token } = useSelector((state) => state.userAuth);
   const cardInfo = extraData;
   const [slideAbove, setSlideAbove] = useState(new Array(3).fill(false));
+  const [paymentLoader, setPaymentLoader] = useState(false);
   const giftCardInitialValue = {
     amount: 0,
     recipientName: "",
@@ -27,8 +34,12 @@ export const GiftView = () => {
     },
     validationSchema: GiftCardSchema,
     onSubmit: async (values, action) => {
-      console.log(values);
-      action.resetForm();
+      if (isAuthenticated == false) {
+        dispatch(updateSignInUpModal({ requestFor: "open" }));
+      } else {
+        console.log(values);
+        action.resetForm();
+      }
     },
   });
 
@@ -74,7 +85,7 @@ export const GiftView = () => {
   const handleMakePayment = () => {};
 
   return (
-    <div className="h-full w-full flex flex-col">
+    <div className="h-full w-full flex flex-col relative ">
       <div className="h-[70px] w-full centerDiv theamColor shrink-0 z-[8886]">
         <History />
       </div>
@@ -84,6 +95,16 @@ export const GiftView = () => {
           autoComplete="off"
           className="h-full w-full max-w-[1050px] addBorder flex flex-col overflow-hidden relative"
         >
+          {paymentLoader == true && (
+            <div className="centerToPage h-[120px] w-[250px] z-[9999] bg-white flex flex-col items-center p-2 addShadow rounded-md">
+              <span className="h-[50%] w-full text-center addFont">
+                we are processing your request please wait
+              </span>
+              <span className="h-[50%] w-full centerDiv">
+                <CircularSpinner />
+              </span>
+            </div>
+          )}
           <div className="absolute left-[1%] top-[3%]">
             <div className="h-auto w-auto p-3 flex flex-col bg-gradient-to-b from-transparent to-black addFont rounded-md text-[1.6rem] text-white">
               {cardInfo.title}
@@ -379,6 +400,7 @@ export const GiftView = () => {
           </div>
         </form>
       </div>
+      <ToastContainer />
     </div>
   );
 };

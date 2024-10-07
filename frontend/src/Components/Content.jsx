@@ -8,6 +8,7 @@ import { UserCart } from "./UserCart";
 import { Favourite } from "./Favourite";
 import { Gift } from "./Gift";
 import { GiftView } from "./GiftView";
+import { Wallet } from "./Wallet";
 export const Content = () => {
   //todo : update this with the redux slice
   // const { selectedOption, updateSelection } = useUpdateSelection();
@@ -54,6 +55,11 @@ export const Content = () => {
       {navbarOpationSelection == "giftView" && (
         <div className="h-full w-full">
           <GiftView />
+        </div>
+      )}
+      {navbarOpationSelection == "wallet" && (
+        <div className="h-full w-full">
+          <Wallet />
         </div>
       )}
     </div>

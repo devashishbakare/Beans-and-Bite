@@ -151,6 +151,14 @@ export const Navbar = () => {
             >
               Order
             </div>
+            <div
+              onClick={() =>
+                dispatch(updateNavbarOptionSelection({ option: "wallet" }))
+              }
+              className="h-full min-w-[70px] centerDiv"
+            >
+              Wallet
+            </div>
           </>
         ) : (
           <div className="h-full w-[95%] centerDiv">

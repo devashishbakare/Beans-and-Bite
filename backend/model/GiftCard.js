@@ -38,4 +38,6 @@ const giftCardSchema = mongoose.Schema({
   },
 });
 
-module.exports = mongoose.model("GiftCard", giftCardSchema);
+const GiftCard =
+  mongoose.models.GiftCard || mongoose.model("GiftCard", giftCardSchema);
+module.exports = GiftCard;

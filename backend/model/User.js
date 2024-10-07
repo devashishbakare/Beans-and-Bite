@@ -38,6 +38,16 @@ const userSchema = mongoose.Schema({
       ref: "Order",
     },
   ],
+  gifts: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "GiftCard",
+    },
+  ],
+  wallet: {
+    type: Number,
+    default: 0,
+  },
 });
 
 const User = mongoose.models.User || mongoose.model("User", userSchema);
