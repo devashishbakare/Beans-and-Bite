@@ -45,6 +45,34 @@ const createGift = async (req, res) => {
   // }
 };
 
+const addToWallet = async (req, res) => {
+  try {
+    const userId = req.userId;
+    const { amount } = req.body;
+    const user = await User.findById(userId);
+    if (!user) {
+      return res.status(400).json({ message: "user not found" });
+    }
+
+    const updatedFeild = {
+      $inc: {
+        wallet: amount,
+      },
+    };
+
+    const updatedUser = await User.updateOne({ _id: user._id }, updatedFeild);
+    return res
+      .status(200)
+      .json({ data: updatedUser, message: "Money has been added into wallet" });
+  } catch (error) {
+    return res.status(500).json({
+      error: error.message,
+      message: "something went wrong, please try again later",
+    });
+  }
+};
+
 module.exports = {
   createGift,
+  addToWallet,
 };

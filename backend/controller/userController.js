@@ -40,9 +40,10 @@ const signIn = async (req, res) => {
     const cartCount = user.cart.length;
     const favouriteCount = user.favourites.length;
     const favourites = user.favourites;
+    const wallet = user.wallet;
 
     return res.status(200).json({
-      data: { token, cartCount, favouriteCount, favourites },
+      data: { token, cartCount, favouriteCount, favourites, wallet },
       message: "Sign in successfully",
     });
   } catch (error) {

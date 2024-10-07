@@ -101,3 +101,46 @@ export const fetchFavouritesProduct = async (token, favourites) => {
     return { success: false, error: error.response.data.error };
   }
 };
+
+export const razorpayCreateGiftRequest = async (token, amount) => {
+  try {
+    const headers = createHeader(token);
+    const response = await axios.post(
+      `${baseUrl}/payment/createGift`,
+      { amount },
+      { headers }
+    );
+    const { data } = response.data;
+    return { success: true, data };
+  } catch (error) {
+    return { success: false, error: error.response.data.error };
+  }
+};
+
+export const razorpayVarifyGiftOrder = async (giftOrderDetails) => {
+  try {
+    const response = await axios.post(
+      `${baseUrl}/payment/verifyGift`,
+      giftOrderDetails
+    );
+    const { message } = response.data;
+    return { success: true, message };
+  } catch (error) {
+    return { success: false, error: error.response.data.error };
+  }
+};
+
+export const addToWallet = async (token, amount) => {
+  try {
+    const headers = createHeader(token);
+    const response = await axios.post(
+      `${baseUrl}/gift/addToWallet`,
+      { amount },
+      { headers }
+    );
+    const { message } = response.data;
+    return { success: true, message };
+  } catch (error) {
+    return { success: false, error: error.response.data.error };
+  }
+};

@@ -6,6 +6,7 @@ const initialState = {
   cartError: null,
   favoriteError: null,
   favorites: [],
+  wallet: 0,
 };
 
 const notificationSlice = createSlice({
@@ -68,10 +69,22 @@ const notificationSlice = createSlice({
       state.favoriteCount -= 1;
     },
     setNotificationDetails: (state, action) => {
-      const { cartCount, favoriteCount, favourites } = action.payload;
+      const { cartCount, favoriteCount, favourites, wallet } = action.payload;
       state.cartCount = cartCount;
       state.favoriteCount = favoriteCount;
       state.favorites = favourites;
+      state.wallet = wallet;
+    },
+    updateWallet: (state, action) => {
+      const { requestFor, value } = action.payload;
+      const amount = Number(value);
+      if (requestFor == "inc") {
+        state.wallet += amount;
+      } else {
+        if (amount >= state.wallet) {
+          state.wallet -= amount;
+        }
+      }
     },
   },
 });
@@ -86,5 +99,6 @@ export const {
   addToFavorites,
   removeFromFavorites,
   setNotificationDetails,
+  updateWallet,
 } = notificationSlice.actions;
 export default notificationSlice.reducer;

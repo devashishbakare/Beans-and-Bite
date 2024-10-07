@@ -52,12 +52,18 @@ export const SignInUpModal = () => {
     onSubmit: async (values, action) => {
       setIsLoading(true);
       const response = await userSignIn(values);
-      const { token, cartCount, favouriteCount, favourites } = response.data;
+      const { token, cartCount, favouriteCount, favourites, wallet } =
+        response.data;
       if (response.success) {
         showSuccessNotification("Sign In has been Successful");
         dispatch(updateToken({ token: token, isAuthenticated: true }));
         dispatch(
-          setNotificationDetails({ cartCount, favouriteCount, favourites })
+          setNotificationDetails({
+            cartCount,
+            favouriteCount,
+            favourites,
+            wallet,
+          })
         );
         dispatch(updateSignInUpModal({ requestFor: "close" }));
       } else {
