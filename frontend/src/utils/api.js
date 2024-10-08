@@ -144,3 +144,18 @@ export const addToWallet = async (token, amount) => {
     return { success: false, error: error.response.data.error };
   }
 };
+
+export const payViaWallet = async (token, giftCollectedInfo) => {
+  try {
+    const headers = createHeader(token);
+    const response = await axios.post(
+      `${baseUrl}/gift/payViaWallet`,
+      giftCollectedInfo,
+      { headers }
+    );
+    const { data, message } = response.data;
+    return { success: true, data };
+  } catch (error) {
+    return { success: false, error: error.response.data.error };
+  }
+};

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { History } from "./History";
 import { useState } from "react";
@@ -6,17 +6,35 @@ import { GiftCardSchema } from "../ValidationSchema/GiftCard";
 import { useFormik } from "formik";
 import { giftCardAmount } from "../utils/DisplayData";
 import { FaAngleDown, FaAngleUp } from "react-icons/fa6";
-import { showErrorNotification } from "../utils/notification";
+import {
+  showErrorNotification,
+  showSuccessNotification,
+} from "../utils/notification";
 import { ToastContainer } from "react-toastify";
 import { updateSignInUpModal } from "../redux/slices/userAuthSlice";
 import CircularSpinner from "../utils/Spinners/CircularSpinner";
+import { IoWallet } from "react-icons/io5";
+import { payViaWallet } from "../utils/api";
+import { updateWallet } from "../redux/slices/notificationSlice";
 export const GiftView = () => {
   const dispatch = useDispatch();
   const { extraData } = useSelector((state) => state.navbarSelection);
+  const { wallet } = useSelector((state) => state.notification);
   const { isAuthenticated, token } = useSelector((state) => state.userAuth);
   const cardInfo = extraData;
   const [slideAbove, setSlideAbove] = useState(new Array(3).fill(false));
   const [paymentLoader, setPaymentLoader] = useState(false);
+  const [payOptionModal, setShowPayOptionModal] = useState(false);
+
+  useEffect(() => {
+    const checkLogin = () => {
+      if (isAuthenticated == false) {
+        dispatch(updateSignInUpModal({ requestFor: "open" }));
+      }
+    };
+    checkLogin();
+  }, []);
+
   const giftCardInitialValue = {
     amount: 0,
     recipientName: "",
@@ -34,12 +52,7 @@ export const GiftView = () => {
     },
     validationSchema: GiftCardSchema,
     onSubmit: async (values, action) => {
-      if (isAuthenticated == false) {
-        dispatch(updateSignInUpModal({ requestFor: "open" }));
-      } else {
-        console.log(values);
-        action.resetForm();
-      }
+      setShowPayOptionModal(true);
     },
   });
 
@@ -84,8 +97,84 @@ export const GiftView = () => {
 
   const handleMakePayment = () => {};
 
+  const handleOutSideBoxCloseModal = (event) => {
+    if (event.target.id == "payOptionModal") {
+      setShowPayOptionModal(false);
+    }
+  };
+
+  const handlePayOptions = async (userPaymentOptionSelection) => {
+    const giftCollectedInfo = {
+      giftCardName: cardInfo.title,
+      amount: giftCardFormik.values.amount,
+      recipientName: giftCardFormik.values.recipientName,
+      recipientEmailId: giftCardFormik.values.recipientEmailId,
+      recipientMobileNumber: giftCardFormik.values.recipientMobileNumber,
+      senderName: giftCardFormik.values.senderName,
+      senderMobileNumber: giftCardFormik.values.senderMobileNumber,
+      message: giftCardFormik.values.message,
+    };
+
+    if (userPaymentOptionSelection == "wallet") {
+      setShowPayOptionModal(false);
+      setPaymentLoader(true);
+      const response = await payViaWallet(token, giftCollectedInfo);
+      if (response.success) {
+        dispatch(
+          updateWallet({
+            requestFor: "dec",
+            value: response.data.walletAmount,
+          })
+        );
+        setSlideAbove(new Array(3).fill(false));
+        showSuccessNotification(
+          "Gift has been sent, your friend will be notify with email and what's app message"
+        );
+      } else {
+        showErrorNotification("something went wrong, please try again later");
+      }
+      setPaymentLoader(false);
+    } else {
+      showSuccessNotification(userPaymentOptionSelection);
+    }
+    giftCardFormik.resetForm();
+  };
+
   return (
     <div className="h-full w-full flex flex-col relative ">
+      {payOptionModal && (
+        <div
+          onClick={(e) => handleOutSideBoxCloseModal(e)}
+          id="payOptionModal"
+          className="absolute centerToPage z-[8890] h-full w-full bg-black bg-opacity-15 centerDiv addBorder "
+        >
+          <div className="addShadow h-auto w-[90%] min-w-[300px] max-w-[600px] centerDiv flex-col p-2 gap-[10px] rounded-md bg-slate-50 md:w-[500px] ">
+            <span className="h-[auto] w-[90%] p-2 addFont text-center ">
+              Choose your preferred payment method, Use your Wallet balance or
+              proceed with a Payment Gateway
+            </span>
+            <div className="h-[50px] w-[90%] centerDiv gap-2">
+              <button
+                onClick={() => handlePayOptions("wallet")}
+                className=" h-[40px] w-[120px] capitalize text-[0.89rem] theamColor text-white rounded-md p-2 md:h-[40px]"
+              >
+                Wallet
+              </button>
+              <button
+                onClick={() => handlePayOptions("payment_gateway")}
+                className=" h-[40px] w-[180px] capitalize text-[0.89rem] theamColor text-white rounded-md p-2 md:h-[40px]"
+              >
+                payment gateway
+              </button>
+            </div>
+            <div className="h-[50px] w-full flex items-center gap-2 centerDiv">
+              <IoWallet className="text-[1.3rem]" />
+              <span className="addFont text-[0.95rem]">Wallet Balance :</span>
+              <span className="">{wallet == null ? 0 : wallet}</span>
+            </div>
+          </div>
+        </div>
+      )}
       <div className="h-[70px] w-full centerDiv theamColor shrink-0 z-[8886]">
         <History />
       </div>
@@ -390,7 +479,6 @@ export const GiftView = () => {
               <div className="h-full w-[130px] centerDiv pr-3">
                 <button
                   type="submit"
-                  onClick={() => handleMakePayment()}
                   className="h-[35px] w-[120px] bg-[#f4f4f4] baseColor rounded-[20px] text-[0.8rem] addFont"
                 >
                   Make Payment

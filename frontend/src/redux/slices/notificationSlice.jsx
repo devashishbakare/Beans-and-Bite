@@ -81,9 +81,7 @@ const notificationSlice = createSlice({
       if (requestFor == "inc") {
         state.wallet += amount;
       } else {
-        if (amount >= state.wallet) {
-          state.wallet -= amount;
-        }
+        state.wallet -= amount;
       }
     },
   },
