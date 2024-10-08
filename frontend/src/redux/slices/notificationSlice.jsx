@@ -84,6 +84,10 @@ const notificationSlice = createSlice({
         state.wallet -= amount;
       }
     },
+    setWalletAmount: (state, action) => {
+      const { amount } = action.payload;
+      state.wallet = amount;
+    },
   },
 });
 
@@ -98,5 +102,6 @@ export const {
   removeFromFavorites,
   setNotificationDetails,
   updateWallet,
+  setWalletAmount,
 } = notificationSlice.actions;
 export default notificationSlice.reducer;

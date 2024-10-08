@@ -14,8 +14,16 @@ import { ToastContainer } from "react-toastify";
 import { updateSignInUpModal } from "../redux/slices/userAuthSlice";
 import CircularSpinner from "../utils/Spinners/CircularSpinner";
 import { IoWallet } from "react-icons/io5";
-import { payViaWallet } from "../utils/api";
-import { updateWallet } from "../redux/slices/notificationSlice";
+import {
+  payViaWallet,
+  payViaPaymentGateway,
+  razorpayCreateGiftRequest,
+  razorpayVarifyGiftOrder,
+} from "../utils/api";
+import {
+  setWalletAmount,
+  updateWallet,
+} from "../redux/slices/notificationSlice";
 export const GiftView = () => {
   const dispatch = useDispatch();
   const { extraData } = useSelector((state) => state.navbarSelection);
@@ -120,24 +128,87 @@ export const GiftView = () => {
       setPaymentLoader(true);
       const response = await payViaWallet(token, giftCollectedInfo);
       if (response.success) {
-        dispatch(
-          updateWallet({
-            requestFor: "dec",
-            value: response.data.walletAmount,
-          })
-        );
+        dispatch(setWalletAmount({ amount: response.data.walletAmount }));
         setSlideAbove(new Array(3).fill(false));
         showSuccessNotification(
           "Gift has been sent, your friend will be notify with email and what's app message"
         );
+        giftCardFormik.resetForm();
       } else {
         showErrorNotification("something went wrong, please try again later");
       }
       setPaymentLoader(false);
     } else {
-      showSuccessNotification(userPaymentOptionSelection);
+      setShowPayOptionModal(false);
+      setPaymentLoader(true);
+      const response = await razorpayCreateGiftRequest(
+        token,
+        giftCardFormik.values.amount
+      );
+      console.log(response, "response from create gift request");
+      if (response.success) {
+        handleOpenRazerpay(response.data, giftCollectedInfo);
+      } else {
+        setPaymentLoader(false);
+        showErrorNotification("something went wrong, please try again later");
+      }
     }
     giftCardFormik.resetForm();
+  };
+
+  const handleOpenRazerpay = (giftOrderDetails, giftCollectedInfo) => {
+    var options = {
+      key: "rzp_test_uYsyA6UZFPgGxV",
+      amount: Number(giftOrderDetails.amount),
+      currency: giftOrderDetails.currency,
+      name: "Beans and Bite",
+      description: "Test Transaction",
+      image:
+        "http://res.cloudinary.com/djgouef8q/image/upload/v1728289204/c6mavwy6p93u2vzp8lic.png",
+      order_id: giftOrderDetails.id,
+      handler: async function (response) {
+        setPaymentLoader(true);
+        const data = {
+          giftOrder_id: giftOrderDetails.id,
+          razorpay_order_id: response.razorpay_order_id,
+          razorpay_signature: response.razorpay_signature,
+          razorpay_payment_id: response.razorpay_payment_id,
+        };
+        const responseForVarification = await razorpayVarifyGiftOrder(data);
+        console.log(responseForVarification, "verify response");
+        if (responseForVarification.success === true) {
+          const response = await payViaPaymentGateway(token, giftCollectedInfo);
+          console.log(response, "pay via payment gateway response");
+
+          if (response.success) {
+            showSuccessNotification(
+              "Gift has been sent, your friend will be notify with email and what's app message"
+            );
+            setSlideAbove(new Array(3).fill(false));
+            giftCardFormik.resetForm();
+          } else {
+            showErrorNotification(
+              "something went wrong, please try again later"
+            );
+          }
+        } else {
+          showErrorNotification("something went wrong, please try again later");
+        }
+        setPaymentLoader(false);
+      },
+      prefill: {},
+      notes: {
+        address: "Razorpay Corporate Office",
+      },
+      theme: {
+        color: "#3399cc",
+      },
+    };
+
+    var rzp = new window.Razorpay(options);
+    console.log("requesting for open razorpay");
+    setPaymentLoader(false);
+    rzp.open();
   };
 
   return (

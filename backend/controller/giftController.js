@@ -308,10 +308,11 @@ const handlePayViaGateway = async (req, res) => {
       { new: true, session }
     );
 
+    const userWalletAmount = updatedSenderUser.wallet;
     //todo : you have to send email notification and whats app message for the same
     await session.commitTransaction();
     return res.status(200).json({
-      data: { updatedRecipientUser, updatedSenderUser },
+      data: { walletAmount: userWalletAmount },
       message: "gift has been sent via payment gateway",
     });
   } catch (error) {
