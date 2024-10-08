@@ -97,7 +97,7 @@ export const Wallet = () => {
           console.log(response, "add to wallet response");
 
           if (response.success) {
-            showSuccessNotification("Gift has been sent, Thank you!");
+            showSuccessNotification("Money has been added to your wallet");
             dispatch(updateWallet({ requestFor: "inc", value: amount }));
             handleCloseAddamount();
           } else {

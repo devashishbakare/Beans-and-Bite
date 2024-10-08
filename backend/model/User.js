@@ -38,12 +38,24 @@ const userSchema = mongoose.Schema({
       ref: "Order",
     },
   ],
-  gifts: [
-    {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "GiftCard",
-    },
-  ],
+  gifts: {
+    type: [
+      {
+        status: {
+          type: String,
+          enum: ["received", "sent"],
+          required: true,
+        },
+        giftId: {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: "GiftCard",
+          required: true,
+        },
+      },
+    ],
+    default: [],
+  },
+
   wallet: {
     type: Number,
     default: 0,
