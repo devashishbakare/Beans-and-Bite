@@ -156,7 +156,7 @@ export const Navbar = () => {
             </div>
             <div
               onClick={() =>
-                dispatch(updateNavbarOptionSelection({ option: "wallet" }))
+                dispatch(updateNavbarOptionSelection({ option: "Wallet" }))
               }
               className="h-full min-w-[70px] centerDiv"
             >
@@ -273,7 +273,7 @@ export const Navbar = () => {
         <div className="h-full w-[60px] centerDiv relative">
           <CiShoppingCart
             onClick={() =>
-              dispatch(updateNavbarOptionSelection({ option: "cart" }))
+              dispatch(updateNavbarOptionSelection({ option: "Cart" }))
             }
             className="text-[1.8rem] text-[#1e3933]"
           />

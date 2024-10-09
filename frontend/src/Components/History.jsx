@@ -6,10 +6,15 @@ export const History = () => {
   const { history } = useSelector((state) => state.history);
   const dispatch = useDispatch();
   const handleHistoryChange = (index, sectionName) => {
+    if (index == history.length - 1) {
+      return;
+    }
     if (
       sectionName == "Order" ||
       sectionName == "Gift" ||
-      sectionName == "Home"
+      sectionName == "Home" ||
+      sectionName == "Wallet" ||
+      sectionName == "Cart"
     ) {
       dispatch(updateNavbarOptionSelection({ option: sectionName }));
     } else {

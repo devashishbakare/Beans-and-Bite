@@ -473,3 +473,119 @@ export const giftCartInfo = [
 ];
 
 export const giftCardAmount = [200, 500, 1500, 4000];
+
+export const takeAwayStores = [
+  [
+    {
+      id: 1,
+      cityName: "Mumbai",
+      storeAddress: "Shop 12, Phoenix Marketcity, Kurla West, Mumbai",
+    },
+    {
+      id: 2,
+      cityName: "Mumbai",
+      storeAddress: "Ground Floor, R City Mall, Ghatkopar West, Mumbai",
+    },
+  ],
+  [
+    {
+      id: 3,
+      cityName: "Pune",
+      storeAddress: "Shop 5, Seasons Mall, Magarpatta City, Pune",
+    },
+    {
+      id: 4,
+      cityName: "Pune",
+      storeAddress: "1st Floor, Amanora Mall, Hadapsar, Pune",
+    },
+  ],
+  [
+    {
+      id: 5,
+      cityName: "Bangalore",
+      storeAddress: "Shop 8, Orion Mall, Dr. Rajkumar Road, Bangalore",
+    },
+    {
+      id: 6,
+      cityName: "Bangalore",
+      storeAddress: "Ground Floor, Forum Mall, Koramangala, Bangalore",
+    },
+  ],
+  [
+    {
+      id: 7,
+      cityName: "Chennai",
+      storeAddress: "Shop 12, Express Avenue Mall, Royapettah, Chennai",
+    },
+    {
+      id: 8,
+      cityName: "Chennai",
+      storeAddress: "Ground Floor, Phoenix Marketcity, Velachery, Chennai",
+    },
+  ],
+  [
+    {
+      id: 9,
+      cityName: "Hyderabad",
+      storeAddress: "Shop 3, Inorbit Mall, Hitech City, Hyderabad",
+    },
+    {
+      id: 10,
+      cityName: "Hyderabad",
+      storeAddress: "Ground Floor, GVK One Mall, Banjara Hills, Hyderabad",
+    },
+  ],
+];
+
+export const storeMapper = [
+  {
+    id: 1,
+    cityName: "Mumbai",
+    storeAddress: "Shop 12, Phoenix Marketcity, Kurla West, Mumbai",
+  },
+  {
+    id: 2,
+    cityName: "Mumbai",
+    storeAddress: "Ground Floor, R City Mall, Ghatkopar West, Mumbai",
+  },
+  {
+    id: 3,
+    cityName: "Pune",
+    storeAddress: "Shop 5, Seasons Mall, Magarpatta City, Pune",
+  },
+  {
+    id: 4,
+    cityName: "Pune",
+    storeAddress: "1st Floor, Amanora Mall, Hadapsar, Pune",
+  },
+  {
+    id: 5,
+    cityName: "Bangalore",
+    storeAddress: "Shop 8, Orion Mall, Dr. Rajkumar Road, Bangalore",
+  },
+  {
+    id: 6,
+    cityName: "Bangalore",
+    storeAddress: "Ground Floor, Forum Mall, Koramangala, Bangalore",
+  },
+  {
+    id: 7,
+    cityName: "Chennai",
+    storeAddress: "Shop 12, Express Avenue Mall, Royapettah, Chennai",
+  },
+  {
+    id: 8,
+    cityName: "Chennai",
+    storeAddress: "Ground Floor, Phoenix Marketcity, Velachery, Chennai",
+  },
+  {
+    id: 9,
+    cityName: "Hyderabad",
+    storeAddress: "Shop 3, Inorbit Mall, Hitech City, Hyderabad",
+  },
+  {
+    id: 10,
+    cityName: "Hyderabad",
+    storeAddress: "Ground Floor, GVK One Mall, Banjara Hills, Hyderabad",
+  },
+];

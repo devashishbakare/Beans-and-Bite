@@ -384,8 +384,15 @@ export const UserCart = () => {
                   </div>
                 </div>
                 <div className="h-[50%] w-full flex items-center justify-center  md:pr-[10px] md:justify-start md:flex-row-reverse">
-                  <button className="h-[75%] w-[95%] addFont capitalize text-[0.89rem] bg-slate-200 rounded-3xl z-[9999] md:w-[220px]">
-                    Continue with payment
+                  <button
+                    onClick={() =>
+                      dispatch(
+                        updateNavbarOptionSelection({ option: "confirmOrder" })
+                      )
+                    }
+                    className="h-[75%] w-[95%] addFont capitalize text-[0.89rem] bg-slate-200 rounded-3xl z-[9999] md:w-[220px]"
+                  >
+                    proceed for order
                   </button>
                 </div>
               </div>

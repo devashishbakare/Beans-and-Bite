@@ -9,6 +9,7 @@ import { Favourite } from "./Favourite";
 import { Gift } from "./Gift";
 import { GiftView } from "./GiftView";
 import { Wallet } from "./Wallet";
+import { ConfirmOrder } from "./ConfirmOrder";
 export const Content = () => {
   //todo : update this with the redux slice
   // const { selectedOption, updateSelection } = useUpdateSelection();
@@ -37,7 +38,7 @@ export const Content = () => {
           <ProductOrder />
         </div>
       )}
-      {navbarOpationSelection == "cart" && (
+      {navbarOpationSelection == "Cart" && (
         <div className="h-full w-full">
           <UserCart />
         </div>
@@ -57,9 +58,14 @@ export const Content = () => {
           <GiftView />
         </div>
       )}
-      {navbarOpationSelection == "wallet" && (
+      {navbarOpationSelection == "Wallet" && (
         <div className="h-full w-full">
           <Wallet />
+        </div>
+      )}
+      {navbarOpationSelection == "confirmOrder" && (
+        <div className="h-full w-full">
+          <ConfirmOrder />
         </div>
       )}
     </div>
