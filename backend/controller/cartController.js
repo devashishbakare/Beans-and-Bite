@@ -220,6 +220,36 @@ const fetchFavouriteProduct = async (req, res) => {
   }
 };
 
+const updateFavoriteProduct = async (req, res) => {
+  try {
+    const userId = req.userId;
+    const user = await User.findById(userId);
+    if (!user) {
+      return res.status(400).json({ message: "User not found" });
+    }
+
+    let { favorites } = req.body;
+
+    const updateUserFavouriteFeild = {
+      $set: {
+        favourites: favorites,
+      },
+    };
+    const updateResponse = await User.updateOne(
+      { _id: user._id },
+      updateUserFavouriteFeild
+    );
+    return res
+      .status(200)
+      .json({ data: updateResponse, message: "Favourties has been updated" });
+  } catch (error) {
+    return res.status(500).json({
+      error: error.message,
+      message: "something went wrong, pleas try again later",
+    });
+  }
+};
+
 module.exports = {
   addToCart,
   showAllCartElement,
@@ -227,4 +257,5 @@ module.exports = {
   removeItemFromCart,
   updateCartProduct,
   fetchFavouriteProduct,
+  updateFavoriteProduct,
 };

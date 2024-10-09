@@ -174,3 +174,18 @@ export const payViaPaymentGateway = async (token, giftCollectedInfo) => {
     return { success: false, error: error.response.data.error };
   }
 };
+
+export const updateFavouriteOnLogout = async (token, favorites) => {
+  try {
+    const headers = createHeader(token);
+    const response = await axios.put(
+      `${baseUrl}/cart//updateFavorites`,
+      { favorites },
+      { headers }
+    );
+    const { message } = response.data;
+    return { success: true, message };
+  } catch (error) {
+    return { success: false, error: error.response.data.error };
+  }
+};

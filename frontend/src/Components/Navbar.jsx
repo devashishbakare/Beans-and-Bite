@@ -24,11 +24,12 @@ import { resetNotification } from "../redux/slices/notificationSlice";
 import { resetProductInfo } from "../redux/slices/ProductInfoSlice";
 import { updateSignInUpModal } from "../redux/slices/userAuthSlice";
 import { resetCart } from "../redux/slices/cartSlice";
+import { updateFavouriteOnLogout } from "../utils/api";
 export const Navbar = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { token } = useSelector((state) => state.userAuth);
-  const { cartCount, favoriteCount } = useSelector(
+  const { cartCount, favoriteCount, favorites } = useSelector(
     (state) => state.notification
   );
   const [searchIconClick, setSearchIconClick] = useState(false);
@@ -101,7 +102,9 @@ export const Navbar = () => {
     }
   };
 
-  const handleLogOut = () => {
+  const handleLogOut = async () => {
+    const response = await updateFavouriteOnLogout(token, favorites);
+    console.log(response.message);
     dispatch(resetUserAuth());
     dispatch(resetProductSlice());
     dispatch(resetNavbarSlice());

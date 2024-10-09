@@ -69,9 +69,9 @@ const notificationSlice = createSlice({
       state.favoriteCount -= 1;
     },
     setNotificationDetails: (state, action) => {
-      const { cartCount, favoriteCount, favourites, wallet } = action.payload;
+      const { cartCount, favouriteCount, favourites, wallet } = action.payload;
       state.cartCount = cartCount;
-      state.favoriteCount = favoriteCount;
+      state.favoriteCount = favouriteCount;
       state.favorites = favourites;
       state.wallet = wallet;
     },
