@@ -589,3 +589,31 @@ export const storeMapper = [
     storeAddress: "Ground Floor, GVK One Mall, Banjara Hills, Hyderabad",
   },
 ];
+
+export const cartProductInfo = {
+  _id: "66ffd02a1b2fbe32ac91e025",
+  userId: "66d2a1ffa885c553d06f567d",
+  productId: {
+    _id: "66c31de042624a9ad21020bd",
+    name: "Stardust Macchiato",
+    productInfo: "SHORT(Short Stardust Macchiato)",
+    productDetails:
+      "Super smooth and creamy vanilla half and half crowned with sweet and subtle cold foam, marked with an intense ristretto shot and cocoa dust",
+    category: "Drinks",
+    price: 414.75,
+    productCartImage:
+      "http://res.cloudinary.com/djgouef8q/image/upload/v1723956399/dw1w9sobw6cx2hecpzk8.jpg",
+    productDetailsImage:
+      "http://res.cloudinary.com/djgouef8q/image/upload/v1723956421/maaclqnvqefetwmosh3m.jpg",
+    productType: "Veg",
+    __v: 0,
+  },
+  amount: 414.75,
+  size: "Short",
+  milk: "No Milk",
+  espresso: "Indian Espresso Roast (Default)",
+  temperature: "Normal Hot",
+  whippedTopping: "No whipped Topping",
+  syrupAndSauces: [],
+  __v: 0,
+};
