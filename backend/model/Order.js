@@ -1,23 +1,24 @@
 const mongoose = require("mongoose");
-const AutoIncrement = require("mongoose-sequence");
+const AutoIncrement = require("mongoose-sequence")(mongoose);
 const orderSchema = mongoose.Schema({
   orderId: {
     type: Number,
     default: 0,
-  },
-  productId: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "Product",
-    required: true,
   },
   userId: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "User",
     required: true,
   },
-  address: {
+  products: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Cart",
+    },
+  ],
+  takeAwayFrom: {
     type: String,
-    minlength: 5,
+    minlength: 3,
   },
   amount: {
     type: Number,
@@ -25,8 +26,11 @@ const orderSchema = mongoose.Schema({
   },
   paymentMethod: {
     type: String,
-    enum: ["Online Payment", "Pay At Store"],
+    enum: ["Wallet", "Payment Gateway"],
     required: true,
+  },
+  additionalMessage: {
+    type: String,
   },
 });
 orderSchema.plugin(AutoIncrement, {

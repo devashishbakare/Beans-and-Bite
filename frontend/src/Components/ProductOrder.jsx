@@ -37,7 +37,7 @@ export const ProductOrder = () => {
     (state) => state.productInfo
   );
   console.log(customizationDetails, "details");
-  const { token } = useSelector((state) => state.userAuth);
+  const { token, isAuthenticated } = useSelector((state) => state.userAuth);
   const { cartError, favoriteError, favorites } = useSelector(
     (state) => state.notification
   );
@@ -225,6 +225,11 @@ export const ProductOrder = () => {
   };
 
   const handleAddToCart = async () => {
+    if (isAuthenticated == false) {
+      dispatch(updateSignInUpModal({ requestFor: "open" }));
+      return;
+    }
+
     const cartConstomizationData = {
       token: token,
       productId: product._id,
