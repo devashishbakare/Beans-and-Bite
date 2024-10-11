@@ -23,11 +23,10 @@ const createGiftOrder = async (req, res) => {
     };
     instance.orders.create(options, function (err, giftOrder) {
       if (err) {
-        return res
-          .status(500)
-          .json("something went wrong while creating order");
+        console.log(err, "something went wrong while creating order");
+        return res.status(500).json({ error: err });
       }
-      // console.log(giftOrder, "Gift giftOrder has been created");
+      //console.log(giftOrder, "Gift giftOrder has been created");
       return res.status(200).json({ data: giftOrder });
     });
   } catch (error) {

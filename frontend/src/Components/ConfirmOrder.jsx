@@ -6,10 +6,16 @@ import { FaLocationDot } from "react-icons/fa6";
 import { takeAwayStores, storeMapper } from "../utils/DisplayData";
 import { FaCaretDown, FaCaretUp } from "react-icons/fa";
 import { IoIosCloseCircle } from "react-icons/io";
-import { fetchProductFromCart } from "../utils/api";
+import {
+  fetchProductFromCart,
+  orderProducts,
+  razorpayCreateOrder,
+  razorpayVarifyOrder,
+} from "../utils/api";
 import { ToastContainer } from "react-toastify";
 import { PiWarningOctagonFill } from "react-icons/pi";
 import { updateNavbarOptionSelection } from "../redux/slices/NavbarSlice";
+import { resetCount } from "../redux/slices/notificationSlice";
 import { TiPen } from "react-icons/ti";
 import { IoWallet } from "react-icons/io5";
 // import { cartProductInfo } from "../utils/DisplayData";
@@ -19,6 +25,7 @@ import {
   showWarningNotification,
 } from "../utils/notification";
 import CircularSpinner from "../utils/Spinners/CircularSpinner";
+import { setWalletAmount } from "../redux/slices/notificationSlice";
 //todo : fetch card product details from db with useEffect and show here
 //todo : customization can be handle with setting up customization details to store same as cart
 export const ConfirmOrder = () => {
@@ -38,6 +45,7 @@ export const ConfirmOrder = () => {
     tax: 0,
   });
   const [paymentMethodModal, setPaymetMethodModal] = useState(false);
+  const [paymentLoader, setPaymentLoader] = useState(false);
   useEffect(() => {
     const updateHistory = () => {
       dispatch(addFromNavbar({ sectionName: "Cart" }));
@@ -105,6 +113,100 @@ export const ConfirmOrder = () => {
     }
   };
 
+  const handlePayOptions = async (paymentMethod) => {
+    let products = [];
+    cartProducts.forEach((cartProduct) => products.push(cartProduct._id));
+
+    const orderDetails = {
+      products,
+      takeAwayFrom: storeMapper[cityStoreSelectionId - 1].storeAddress,
+      amount: Number(bill.orderAmount.toFixed(2)),
+      paymentMethod,
+      additionalMessage,
+    };
+
+    if (paymentMethod == "Wallet") {
+      setPaymetMethodModal(false);
+      setPaymentLoader(true);
+      const response = await orderProducts(token, orderDetails);
+      //console.log("order response", response);
+      if (response.success) {
+        dispatch(setWalletAmount({ amount: response.data.walletAmount }));
+        dispatch(resetCount({ requestFor: "cart" }));
+        showSuccessNotification("Order has been confirmed!!");
+        //todo: you can move user to order summery page
+      } else {
+        showErrorNotification("something went wrong, please try again later");
+      }
+      setPaymentLoader(false);
+    } else {
+      setPaymetMethodModal(false);
+      setPaymentLoader(true);
+      const response = await razorpayCreateOrder(
+        token,
+        Number(bill.orderAmount.toFixed(2))
+      );
+      if (response.success) {
+        handleOpenRazerpay(response.data, orderDetails);
+      } else {
+        setPaymentLoader(false);
+        showErrorNotification("something went wrong, please try again later");
+      }
+    }
+  };
+
+  const handleOpenRazerpay = (createOrderDetails, orderDetails) => {
+    var options = {
+      key: "rzp_test_uYsyA6UZFPgGxV",
+      amount: Number(createOrderDetails.amount),
+      currency: createOrderDetails.currency,
+      name: "Beans and Bite",
+      description: "Test Transaction",
+      image:
+        "http://res.cloudinary.com/djgouef8q/image/upload/v1728289204/c6mavwy6p93u2vzp8lic.png",
+      order_id: createOrderDetails.id,
+      handler: async function (response) {
+        setPaymentLoader(true);
+        const data = {
+          giftOrder_id: createOrderDetails.id,
+          razorpay_order_id: response.razorpay_order_id,
+          razorpay_signature: response.razorpay_signature,
+          razorpay_payment_id: response.razorpay_payment_id,
+        };
+        const responseForVarification = await razorpayVarifyOrder(data);
+        //console.log(responseForVarification, "verify response");
+        if (responseForVarification.success === true) {
+          const response = await orderProducts(token, orderDetails);
+          //console.log(response, "pay via payment gateway response");
+
+          if (response.success) {
+            showSuccessNotification("Order has been confirmed!!");
+            dispatch(resetCount({ requestFor: "cart" }));
+          } else {
+            showErrorNotification(
+              "something went wrong, please try again later"
+            );
+          }
+        } else {
+          showErrorNotification("something went wrong, please try again later");
+        }
+        setPaymentLoader(false);
+      },
+      prefill: {},
+      notes: {
+        address: "Razorpay Corporate Office",
+      },
+      theme: {
+        color: "#3399cc",
+      },
+    };
+
+    var rzp = new window.Razorpay(options);
+    console.log("requesting for open razorpay");
+    setPaymentLoader(false);
+    rzp.open();
+  };
+
   return (
     <div className="h-full w-full flex flex-col relative">
       {paymentMethodModal && (
@@ -120,13 +222,13 @@ export const ConfirmOrder = () => {
             </span>
             <div className="h-[50px] w-[90%] centerDiv gap-2">
               <button
-                // onClick={() => handlePayOptions("wallet")}
+                onClick={() => handlePayOptions("Wallet")}
                 className=" h-[40px] w-[120px] capitalize text-[0.89rem] theamColor text-white rounded-md p-2 md:h-[40px]"
               >
                 Wallet
               </button>
               <button
-                // onClick={() => handlePayOptions("payment_gateway")}
+                onClick={() => handlePayOptions("Payment Gateway")}
                 className=" h-[40px] w-[180px] capitalize text-[0.89rem] theamColor text-white rounded-md p-2 md:h-[40px]"
               >
                 payment gateway
@@ -138,6 +240,16 @@ export const ConfirmOrder = () => {
               <span className="">{wallet == null ? 0 : wallet}</span>
             </div>
           </div>
+        </div>
+      )}
+      {paymentLoader == true && (
+        <div className="centerToPage h-[120px] w-[250px] z-[9999] bg-white flex flex-col items-center p-2 addShadow rounded-md">
+          <span className="h-[50%] w-full text-center addFont">
+            we are processing your request please wait
+          </span>
+          <span className="h-[50%] w-full centerDiv">
+            <CircularSpinner />
+          </span>
         </div>
       )}
       <div className="h-[9vh] w-full centerDiv theamColor">
@@ -189,8 +301,11 @@ export const ConfirmOrder = () => {
 
             {citySelection && (
               <div className="h-auto w-full  mt-[10px]">
-                {takeAwayStores.map((cityData) => (
-                  <div className="h-auto w-full flex items-cente ">
+                {takeAwayStores.map((cityData, index) => (
+                  <div
+                    key={"cityData" + index}
+                    className="h-auto w-full flex items-cente "
+                  >
                     {citySelection == cityData[0].cityName && (
                       <div className="h-auto w-full flex flex-col gap-[10px] items-center">
                         {cityData.map((city) => (
@@ -228,7 +343,6 @@ export const ConfirmOrder = () => {
                 ))}
               </div>
             )}
-            <div className="">{cityStoreSelectionId}</div>
           </div>
         </div>
       )}
@@ -280,7 +394,10 @@ export const ConfirmOrder = () => {
               ) : (
                 <div className="h-auto w-full flex flex-col gap-[10px] shrink-0">
                   {cartProducts.map((cartProductInfo) => (
-                    <div className="h-auto w-full shrink-0 flex flex-col p-2 addShadow rounded-md gap-2">
+                    <div
+                      key={"order" + cartProductInfo._id}
+                      className="h-auto w-full shrink-0 flex flex-col p-2 addShadow rounded-md gap-2"
+                    >
                       <div className="h-[80px] w-full flex">
                         <span className="h-full w-[80px]">
                           <img

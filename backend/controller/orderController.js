@@ -89,7 +89,7 @@ const createOrder = async (req, res) => {
     await session.commitTransaction();
 
     return res.status(200).json({
-      data: { order, updatedUserResponse },
+      data: { order, cartProducts, walletAmount: updatedUserResponse.wallet },
       message: "order has been created",
     });
   } catch (error) {

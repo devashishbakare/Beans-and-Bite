@@ -189,3 +189,44 @@ export const updateFavouriteOnLogout = async (token, favorites) => {
     return { success: false, error: error.response.data.error };
   }
 };
+
+export const orderProducts = async (token, orderDetails) => {
+  try {
+    const headers = createHeader(token);
+    const response = await axios.post(`${baseUrl}/order/create`, orderDetails, {
+      headers,
+    });
+    const { message, data } = response.data;
+    return { success: true, data };
+  } catch (error) {
+    return { success: false, error: error.response.data.error };
+  }
+};
+
+export const razorpayCreateOrder = async (token, amount) => {
+  try {
+    const headers = createHeader(token);
+    const response = await axios.post(
+      `${baseUrl}/payment/createGift`,
+      { amount },
+      { headers }
+    );
+    const { data } = response.data;
+    return { success: true, data };
+  } catch (error) {
+    return { success: false, error: error.response.data.error };
+  }
+};
+
+export const razorpayVarifyOrder = async (orderDetails) => {
+  try {
+    const response = await axios.post(
+      `${baseUrl}/payment/verifyGift`,
+      orderDetails
+    );
+    const { message } = response.data;
+    return { success: true, message };
+  } catch (error) {
+    return { success: false, error: error.response.data.error };
+  }
+};
