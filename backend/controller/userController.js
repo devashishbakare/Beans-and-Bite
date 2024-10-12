@@ -223,6 +223,28 @@ const removeFromFavorite = async (req, res) => {
   }
 };
 
+const fetchGiftHistory = async (req, res) => {
+  try {
+    const userId = req.userId;
+    const user = await User.findById(userId).populate({
+      path: "gifts.giftId",
+      model: "GiftCard",
+    });
+    if (!user) {
+      return res.status(400).json({ error: "User not found" });
+    }
+
+    const gifts = user.gifts;
+
+    return res.status(200).json({ data: gifts, message: "Gifts of user" });
+  } catch (error) {
+    return res.status(500).json({
+      error: error.message,
+      message: "Something went wrong, try again later",
+    });
+  }
+};
+
 module.exports = {
   t,
   signIn,
@@ -231,4 +253,5 @@ module.exports = {
   updateProfileInfo,
   addToFavorite,
   removeFromFavorite,
+  fetchGiftHistory,
 };

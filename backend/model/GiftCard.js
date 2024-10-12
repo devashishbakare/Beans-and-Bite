@@ -36,6 +36,10 @@ const giftCardSchema = mongoose.Schema({
   senderMessage: {
     type: String,
   },
+  giftCardImage: {
+    type: String,
+    required: true,
+  },
 });
 
 const GiftCard =

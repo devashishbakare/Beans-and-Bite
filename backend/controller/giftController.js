@@ -82,6 +82,7 @@ const handlePayViaWallet = async (req, res) => {
     const userId = req.userId;
     const {
       giftCardName,
+      giftCardImage,
       amount,
       recipientName,
       recipientEmailId,
@@ -144,6 +145,7 @@ const handlePayViaWallet = async (req, res) => {
           senderMobileNumber,
           senderEmailAddress: user.email,
           senderMessage: message,
+          giftCardImage,
         },
       ],
       { session }
@@ -220,6 +222,7 @@ const handlePayViaGateway = async (req, res) => {
       senderName,
       senderMobileNumber,
       message,
+      giftCardImage,
     } = req.body;
 
     const user = await User.findById(userId).session(session);
@@ -267,6 +270,7 @@ const handlePayViaGateway = async (req, res) => {
           senderMobileNumber,
           senderEmailAddress: user.email,
           senderMessage: message,
+          giftCardImage,
         },
       ],
       { session }

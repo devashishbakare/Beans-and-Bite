@@ -230,3 +230,28 @@ export const razorpayVarifyOrder = async (orderDetails) => {
     return { success: false, error: error.response.data.error };
   }
 };
+
+export const fetchUserDetails = async (token) => {
+  try {
+    const headers = createHeader(token);
+    const response = await axios.get(`${baseUrl}/user/details`, { headers });
+    const { data } = response.data;
+    return { success: true, data: data };
+  } catch (error) {
+    return { success: false, error: error.response.data.error };
+  }
+};
+
+export const fetchUserGiftHistory = async (token) => {
+  try {
+    const headers = createHeader(token);
+    const response = await axios.get(`${baseUrl}/user/giftHistory`, {
+      headers,
+    });
+    console.log(response, "from API");
+    const { data } = response.data;
+    return { success: true, data: data };
+  } catch (error) {
+    return { success: false, error: error.response.data.error };
+  }
+};

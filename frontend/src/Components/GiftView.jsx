@@ -103,8 +103,6 @@ export const GiftView = () => {
     }
   };
 
-  const handleMakePayment = () => {};
-
   const handleOutSideBoxCloseModal = (event) => {
     if (event.target.id == "payOptionModal") {
       setShowPayOptionModal(false);
@@ -121,6 +119,7 @@ export const GiftView = () => {
       senderName: giftCardFormik.values.senderName,
       senderMobileNumber: giftCardFormik.values.senderMobileNumber,
       message: giftCardFormik.values.message,
+      giftCardImage: cardInfo.image,
     };
 
     if (userPaymentOptionSelection == "wallet") {
