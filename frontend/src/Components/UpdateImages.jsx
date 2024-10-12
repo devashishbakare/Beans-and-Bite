@@ -10,7 +10,8 @@ export const UpdateImages = () => {
         picture.type === "image/png" ||
         picture.type === "image/x-icon" ||
         picture.type === "image/vnd.microsoft.icon" ||
-        picture.type === "image/webp"
+        picture.type === "image/webp" ||
+        picture.type === "image/svg+xml"
       ) {
         const data = new FormData();
         data.append("file", picture);

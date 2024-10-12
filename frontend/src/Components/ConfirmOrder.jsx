@@ -135,6 +135,7 @@ export const ConfirmOrder = () => {
         dispatch(resetCount({ requestFor: "cart" }));
         showSuccessNotification("Order has been confirmed!!");
         //todo: you can move user to order summery page
+        //todo : you can have something to re-direct
       } else {
         showErrorNotification("something went wrong, please try again later");
       }

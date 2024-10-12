@@ -98,7 +98,7 @@ export const Navbar = () => {
     if (token == null) {
       dispatch(updateSignInUpModal({ requestFor: "open" }));
     } else {
-      showSuccessNotification("user already login");
+      dispatch(updateNavbarOptionSelection({ option: "Account" }));
     }
   };
 
