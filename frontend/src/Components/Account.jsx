@@ -26,7 +26,6 @@ export const Account = () => {
     const getUserDetails = async (token) => {
       setIsLoading(true);
       const response = await fetchUserDetails(token);
-      console.log(response);
       if (response.success) {
         setUserDetails(response.data);
       } else {

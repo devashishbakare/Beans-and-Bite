@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
 const User = require("../model/User");
 const Product = require("../model/Product");
+const GiftCard = require("../model/GiftCard");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const t = async (req, res) => {
@@ -226,17 +227,32 @@ const removeFromFavorite = async (req, res) => {
 const fetchGiftHistory = async (req, res) => {
   try {
     const userId = req.userId;
-    const user = await User.findById(userId).populate({
-      path: "gifts.giftId",
-      model: "GiftCard",
-    });
+    const { limit, page } = req.query;
+    let skip = (page - 1) * limit;
+    let user = await User.findById(userId);
+    let totalGifts = user.gifts.length;
+    user = await User.findById(userId)
+      .select({
+        gifts: {
+          $slice: [skip, parseInt(limit)],
+        },
+      })
+      .exec();
     if (!user) {
-      return res.status(400).json({ error: "User not found" });
+      return res.status(404).json({ message: "User not found" });
     }
 
-    const gifts = user.gifts;
+    let giftDetails = await Promise.all(
+      user.gifts.map(async (giftData) => {
+        const gift = await GiftCard.findById(giftData.giftId);
+        return { status: giftData.status, giftCardDetails: gift };
+      })
+    );
 
-    return res.status(200).json({ data: gifts, message: "Gifts of user" });
+    return res.status(200).json({
+      data: { giftDetails, totalGifts },
+      message: "Gift Data for pagination",
+    });
   } catch (error) {
     return res.status(500).json({
       error: error.message,

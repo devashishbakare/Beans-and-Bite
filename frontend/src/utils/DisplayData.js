@@ -590,30 +590,21 @@ export const storeMapper = [
   },
 ];
 
-export const cartProductInfo = {
-  _id: "66ffd02a1b2fbe32ac91e025",
-  userId: "66d2a1ffa885c553d06f567d",
-  productId: {
-    _id: "66c31de042624a9ad21020bd",
-    name: "Stardust Macchiato",
-    productInfo: "SHORT(Short Stardust Macchiato)",
-    productDetails:
-      "Super smooth and creamy vanilla half and half crowned with sweet and subtle cold foam, marked with an intense ristretto shot and cocoa dust",
-    category: "Drinks",
-    price: 414.75,
-    productCartImage:
-      "http://res.cloudinary.com/djgouef8q/image/upload/v1723956399/dw1w9sobw6cx2hecpzk8.jpg",
-    productDetailsImage:
-      "http://res.cloudinary.com/djgouef8q/image/upload/v1723956421/maaclqnvqefetwmosh3m.jpg",
-    productType: "Veg",
+export const tempGiftCardDetails = {
+  status: "sent",
+  giftCardDetails: {
+    _id: "6704a38c6f9d3c93b7fe8f83",
+    name: "My Treat",
+    amount: 200,
+    recipientName: "devashish bakare",
+    recipientMobileNumber: "7774816727",
+    recipientEmailAddress: "darknet311298@gmail.com",
+    senderName: "John Doe",
+    senderMobileNumber: "9087654321",
+    senderEmailAddress: "devbakare00@gmail.com",
+    senderMessage: "have it brother, you earn it",
     __v: 0,
+    giftCardImage:
+      "http://res.cloudinary.com/djgouef8q/image/upload/v1728117402/xz9drtijg95zvj7bp5jz.png",
   },
-  amount: 414.75,
-  size: "Short",
-  milk: "No Milk",
-  espresso: "Indian Espresso Roast (Default)",
-  temperature: "Normal Hot",
-  whippedTopping: "No whipped Topping",
-  syrupAndSauces: [],
-  __v: 0,
 };

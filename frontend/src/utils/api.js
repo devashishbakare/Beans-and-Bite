@@ -242,13 +242,16 @@ export const fetchUserDetails = async (token) => {
   }
 };
 
-export const fetchUserGiftHistory = async (token) => {
+export const fetchUserGiftHistory = async (token, page, limit) => {
   try {
     const headers = createHeader(token);
     const response = await axios.get(`${baseUrl}/user/giftHistory`, {
       headers,
+      params: {
+        page,
+        limit,
+      },
     });
-    console.log(response, "from API");
     const { data } = response.data;
     return { success: true, data: data };
   } catch (error) {

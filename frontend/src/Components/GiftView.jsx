@@ -20,10 +20,7 @@ import {
   razorpayCreateGiftRequest,
   razorpayVarifyGiftOrder,
 } from "../utils/api";
-import {
-  setWalletAmount,
-  updateWallet,
-} from "../redux/slices/notificationSlice";
+import { setWalletAmount } from "../redux/slices/notificationSlice";
 export const GiftView = () => {
   const dispatch = useDispatch();
   const { extraData } = useSelector((state) => state.navbarSelection);
