@@ -10,4 +10,5 @@ router.patch("/editProfile", authenticate, userController.updateProfileInfo);
 router.post("/addFavorite", authenticate, userController.addToFavorite);
 router.post("/removeFavorite", authenticate, userController.removeFromFavorite);
 router.get("/giftHistory", authenticate, userController.fetchGiftHistory);
+router.get("/orderHistory", authenticate, userController.fetchOrderHistory);
 module.exports = router;

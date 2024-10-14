@@ -103,6 +103,38 @@ const createOrder = async (req, res) => {
   }
 };
 
+function getTimestampFromObjectId(objectId) {
+  return new Date(parseInt(objectId.toString().substring(0, 8), 16) * 1000);
+}
+
+const updateOrderDates = async (req, res) => {
+  try {
+    const orders = await Order.find({});
+    const updatedOrders = await Promise.all(
+      orders.map(async (order) => {
+        const createdAt = getTimestampFromObjectId(order._id);
+        return await Order.updateOne(
+          { _id: order._id },
+          { $set: { createdAt } }
+        );
+      })
+    );
+
+    return res.status(200).json({
+      data: updatedOrders,
+      message: "Order dates have been updated successfully",
+    });
+  } catch (error) {
+    return res.status(500).json({
+      error: error.message,
+      message: "Something went wrong while updating order dates",
+    });
+  }
+};
+
+module.exports = { updateOrderDates };
+
 module.exports = {
   createOrder,
+  updateOrderDates,
 };

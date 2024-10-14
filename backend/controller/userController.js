@@ -2,8 +2,10 @@ const mongoose = require("mongoose");
 const User = require("../model/User");
 const Product = require("../model/Product");
 const GiftCard = require("../model/GiftCard");
+const Order = require("../model/Order");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
+
 const t = async (req, res) => {
   try {
   } catch (error) {
@@ -261,6 +263,38 @@ const fetchGiftHistory = async (req, res) => {
   }
 };
 
+const fetchOrderHistory = async (req, res) => {
+  try {
+    const userId = req.userId;
+    const { page, limit } = req.query;
+    let user = await User.findById(userId);
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+    let totalOrderCount = user.orders.length;
+    let skip = (page - 1) * limit;
+    user = await User.findById(userId).select({
+      orders: {
+        $slice: [skip, parseInt(limit)],
+      },
+    });
+
+    const pageOrderHistory = await Promise.all(
+      user.orders.map(async (orderId) => await Order.findById(orderId))
+    );
+
+    return res.status(200).json({
+      data: { orders: pageOrderHistory, totalOrder: totalOrderCount },
+      message: "Order History of current page",
+    });
+  } catch (error) {
+    return res.status(500).json({
+      error: error.message,
+      message: "Something went wrong, try again later",
+    });
+  }
+};
+
 module.exports = {
   t,
   signIn,
@@ -270,4 +304,5 @@ module.exports = {
   addToFavorite,
   removeFromFavorite,
   fetchGiftHistory,
+  fetchOrderHistory,
 };
