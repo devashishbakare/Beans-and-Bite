@@ -280,8 +280,21 @@ const fetchOrderHistory = async (req, res) => {
     });
 
     const pageOrderHistory = await Promise.all(
-      user.orders.map(async (orderId) => await Order.findById(orderId))
+      user.orders.map(
+        async (orderId) =>
+          await Order.findById(orderId)
+            .populate({
+              path: "products",
+              populate: {
+                path: "productId",
+                model: "Product",
+              },
+            })
+            .exec()
+      )
     );
+
+    //pageOrderHistory = await Promise.all(pageOrderHistory.map(async(order) => await order.products.populate()));
 
     return res.status(200).json({
       data: { orders: pageOrderHistory, totalOrder: totalOrderCount },

@@ -5,7 +5,6 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { addFromNavbar } from "../redux/slices/historySlice";
 import CircularSpinner from "../utils/Spinners/CircularSpinner";
-import { tempGiftCardDetails } from "../utils/DisplayData";
 import { MdOutlineSort } from "react-icons/md";
 import { showErrorNotification } from "../utils/notification";
 export const GiftHistory = () => {
