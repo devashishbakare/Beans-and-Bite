@@ -12,6 +12,7 @@ import { Wallet } from "./Wallet";
 import { ConfirmOrder } from "./ConfirmOrder";
 import { Account } from "./Account";
 import { GiftHistory } from "./GiftHistory";
+import { OrderHistory } from "./OrderHistory";
 export const Content = () => {
   //todo : update this with the redux slice
   // const { selectedOption, updateSelection } = useUpdateSelection();
@@ -78,6 +79,11 @@ export const Content = () => {
       {navbarOpationSelection == "giftHistory" && (
         <div className="h-full w-full">
           <GiftHistory />
+        </div>
+      )}
+      {navbarOpationSelection == "orderHistory" && (
+        <div className="h-full w-full">
+          <OrderHistory />
         </div>
       )}
     </div>

@@ -258,3 +258,20 @@ export const fetchUserGiftHistory = async (token, page, limit) => {
     return { success: false, error: error.response.data.error };
   }
 };
+
+export const fetchUserOrderHistory = async (token, page, limit) => {
+  try {
+    const headers = createHeader(token);
+    const response = await axios.get(`${baseUrl}/user/orderHistory`, {
+      headers,
+      params: {
+        page,
+        limit,
+      },
+    });
+    const { data } = response.data;
+    return { success: true, data: data };
+  } catch (error) {
+    return { success: false, error: error.response.data.error };
+  }
+};

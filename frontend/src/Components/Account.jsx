@@ -49,13 +49,15 @@ export const Account = () => {
         </div>
       </div>
       {isLoading == true ? (
-        <div className="h-full w-full bg-white centerDiv p-2 rounded-md">
-          <span className="h-[50%] w-full text-center addFont">
-            we are processing your request please wait
-          </span>
-          <span className="h-[50%] w-full centerDiv">
-            <CircularSpinner />
-          </span>
+        <div className="h-full w-full bg-black bg-opacity-15 centerDiv p-2 rounded-md">
+          <div className="h-[150px] w-[250px] bg-white flex flex-col items-center p-2 addShadow rounded-md">
+            <span className="h-[50%] w-full text-center addFont">
+              we are processing your request please wait
+            </span>
+            <span className="h-[50%] w-full centerDiv">
+              <CircularSpinner />
+            </span>
+          </div>
         </div>
       ) : (
         <div className="flex-1 w-full flex flex-col overflow-y-scroll theamColor">
@@ -93,7 +95,10 @@ export const Account = () => {
           </div>
           <div className="h-auto w-full centerDiv shrink-0 bg-[#f4f4f4] rounded-t-3xl">
             <div className="h-auto w-full max-w-[1050px] p-2 flex flex-col items-center gap-1">
-              <div className="h-[70px] w-full flex cursor-pointer mt-[30px]">
+              <div
+                onClick={() => handleChangeComponent("orderHistory")}
+                className="h-[70px] w-full flex cursor-pointer mt-[30px]"
+              >
                 <div className="h-full flex-1 flex md:pl-[30px]">
                   <span className="h-full w-[60px] centerDiv">
                     <CiCoffeeCup className="text-[2rem] baseColor" />
