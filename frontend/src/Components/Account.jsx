@@ -13,11 +13,21 @@ import { ToastContainer } from "react-toastify";
 import { showErrorNotification } from "../utils/notification";
 import CircularSpinner from "../utils/Spinners/CircularSpinner";
 import { updateNavbarOptionSelection } from "../redux/slices/NavbarSlice";
+import { resetUserAuth } from "../redux/slices/userAuthSlice";
+import { resetProductSlice } from "../redux/slices/productSlice";
+import { resetNavbarSlice } from "../redux/slices/NavbarSlice";
+import { resetHistory } from "../redux/slices/historySlice";
+import { resetProductInfo } from "../redux/slices/ProductInfoSlice";
+import { resetNotification } from "../redux/slices/notificationSlice";
+import { resetCart } from "../redux/slices/cartSlice";
+import { persistor } from "../redux/store";
+import { updateFavouriteOnLogout } from "../utils/api";
 export const Account = () => {
   //todo : user loader and test the API
   const dispatch = useDispatch();
   const [userDetails, setUserDetails] = useState({});
   const { token } = useSelector((state) => state.userAuth);
+  const { favorites } = useSelector((state) => state.notification);
   const [isLoading, setIsLoading] = useState(false);
   useEffect(() => {
     const updateHistory = () => {
@@ -39,6 +49,20 @@ export const Account = () => {
 
   const handleChangeComponent = (optionName) => {
     dispatch(updateNavbarOptionSelection({ option: optionName }));
+  };
+
+  const handleLogOut = async () => {
+    const response = await updateFavouriteOnLogout(token, favorites);
+    console.log(response.message);
+    dispatch(resetUserAuth());
+    dispatch(resetProductSlice());
+    dispatch(resetNavbarSlice());
+    dispatch(resetHistory());
+    dispatch(resetProductInfo());
+    dispatch(resetNotification());
+    dispatch(resetCart());
+    persistor.purge();
+    dispatch(updateNavbarOptionSelection({ option: "Home" }));
   };
 
   return (
@@ -129,7 +153,10 @@ export const Account = () => {
                 </span>
               </div>
               <hr className="border-[1px] w-[90%] border-gray-300 md:w-[100%]" />
-              <div className="h-[70px] w-full flex cursor-pointer">
+              <div
+                onClick={() => handleChangeComponent("Wallet")}
+                className="h-[70px] w-full flex cursor-pointer"
+              >
                 <div className="h-full flex-1 flex md:pl-[30px]">
                   <span className="h-full w-[60px] centerDiv">
                     <IoWallet className="text-[1.7rem] baseColor" />
@@ -143,7 +170,10 @@ export const Account = () => {
                 </span>
               </div>
               <hr className="border-[1px] w-[90%] border-gray-300 md:w-[100%]" />
-              <div className="h-[70px] w-full flex cursor-pointer">
+              <div
+                onClick={() => handleChangeComponent("Cart")}
+                className="h-[70px] w-full flex cursor-pointer"
+              >
                 <div className="h-full flex-1 flex md:pl-[30px]">
                   <span className="h-full w-[60px] centerDiv">
                     <IoCartSharp className="text-[1.7rem] baseColor" />
@@ -157,7 +187,11 @@ export const Account = () => {
                 </span>
               </div>
               <hr className="border-[1px] w-[90%] border-gray-300 md:w-[100%]" />
-              <div className="h-[70px] w-full flex cursor-pointer">
+
+              <div
+                onClick={() => handleChangeComponent("favourite")}
+                className="h-[70px] w-full flex cursor-pointer"
+              >
                 <div className="h-full flex-1 flex md:pl-[30px]">
                   <span className="h-full w-[60px] centerDiv">
                     <FaHeart className="text-[1.5rem] baseColor" />
@@ -185,7 +219,10 @@ export const Account = () => {
                 </span>
               </div>
               <hr className="border-[1px] w-[90%] border-gray-300 md:w-[100%]" />
-              <div className="h-[70px] w-full flex cursor-pointer">
+              <div
+                onClick={() => handleLogOut()}
+                className="h-[70px] w-full flex cursor-pointer"
+              >
                 <div className="h-full flex-1 flex md:pl-[30px]">
                   <span className="h-full w-[60px] centerDiv">
                     <RiLogoutCircleFill className="text-[1.7rem] baseColor" />

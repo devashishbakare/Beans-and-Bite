@@ -18,7 +18,12 @@ export const History = () => {
     ) {
       dispatch(updateNavbarOptionSelection({ option: sectionName }));
     } else {
-      dispatch(updateNavbarOptionSelection("Order"));
+      dispatch(
+        updateNavbarOptionSelection({
+          option: "Order",
+          extraData: { currSelectedOption: sectionName },
+        })
+      );
       dispatch(removeFromHistory({ index, sectionName }));
     }
   };

@@ -21,7 +21,10 @@ import { resetProductSlice } from "../redux/slices/productSlice";
 import { resetNavbarSlice } from "../redux/slices/NavbarSlice";
 import { resetHistory } from "../redux/slices/historySlice";
 import { resetNotification } from "../redux/slices/notificationSlice";
-import { resetProductInfo } from "../redux/slices/ProductInfoSlice";
+import {
+  addProductInfo,
+  resetProductInfo,
+} from "../redux/slices/ProductInfoSlice";
 import { updateSignInUpModal } from "../redux/slices/userAuthSlice";
 import { resetCart } from "../redux/slices/cartSlice";
 import { updateFavouriteOnLogout } from "../utils/api";
@@ -44,12 +47,12 @@ export const Navbar = () => {
       console.log(input, page);
       if (input) {
         setIsLoading(true);
-        console.log("while calling");
-        console.log(input, page);
+        // console.log("while calling");
+        // console.log(input, page);
         const response = await fetchSearchResult(input, page);
         if (response.success) {
           setSearchResult(response.data);
-          console.log(response);
+          // console.log(response);
           setSearchResultFlag(true);
           setTotalPages(response.totalPages);
           setCurrentPage(response.currentPage);
@@ -83,7 +86,7 @@ export const Navbar = () => {
   };
 
   const handlePaginationNavigation = (requestFor) => {
-    console.log(currentPage);
+    // console.log(currentPage);
     if (requestFor === "prev") {
       fetchSearchWithDebouncing(searchKey, currentPage - 1);
     } else {
@@ -102,9 +105,18 @@ export const Navbar = () => {
     }
   };
 
+  const handleProductClick = (product) => {
+    setSearchResultFlag(false);
+    setSearchKey("");
+    setSearchResult([]);
+    setSearchIconClick(false);
+    dispatch(addProductInfo({ data: product }));
+    dispatch(updateNavbarOptionSelection({ option: "productOrder" }));
+  };
+
   const handleLogOut = async () => {
     const response = await updateFavouriteOnLogout(token, favorites);
-    console.log(response.message);
+    // console.log(response.message);
     dispatch(resetUserAuth());
     dispatch(resetProductSlice());
     dispatch(resetNavbarSlice());
@@ -134,7 +146,7 @@ export const Navbar = () => {
               onClick={() =>
                 dispatch(updateNavbarOptionSelection({ option: "Home" }))
               }
-              className="h-full min-w-[70px] centerDiv"
+              className="h-full min-w-[70px] centerDiv cursor-pointer"
             >
               Home
             </div>
@@ -142,7 +154,7 @@ export const Navbar = () => {
               onClick={() =>
                 dispatch(updateNavbarOptionSelection({ option: "Gift" }))
               }
-              className="h-full min-w-[70px] centerDiv"
+              className="h-full min-w-[70px] centerDiv cursor-pointer"
             >
               Gift
             </div>
@@ -150,7 +162,7 @@ export const Navbar = () => {
               onClick={() =>
                 dispatch(updateNavbarOptionSelection({ option: "Order" }))
               }
-              className="h-full min-w-[70px] centerDiv"
+              className="h-full min-w-[70px] centerDiv cursor-pointer"
             >
               Order
             </div>
@@ -158,7 +170,7 @@ export const Navbar = () => {
               onClick={() =>
                 dispatch(updateNavbarOptionSelection({ option: "Wallet" }))
               }
-              className="h-full min-w-[70px] centerDiv"
+              className="h-full min-w-[70px] centerDiv cursor-pointer"
             >
               Wallet
             </div>
@@ -168,7 +180,7 @@ export const Navbar = () => {
             <div className="h-[70%] ml-[10%] w-full border-[1.2px] border-gray-400 rounded-[30px] flex items-center bg-[#f9f9f8] relative">
               <span
                 onClick={() => setSearchIconClick(false)}
-                className="h-full w-[50px] centerDiv"
+                className="h-full w-[50px] centerDiv cursor-pointer"
               >
                 <IoIosArrowRoundBack className="text-[1.8rem]" />
               </span>
@@ -182,7 +194,7 @@ export const Navbar = () => {
               {searchKey.length > 0 && (
                 <span
                   onClick={handleCloseSearch}
-                  className="h-full w-[50px] centerDiv"
+                  className="h-full w-[50px] centerDiv cursor-pointer"
                 >
                   <IoCloseCircleSharp className="text-[1.5rem]" />
                 </span>
@@ -204,8 +216,9 @@ export const Navbar = () => {
                       searchResult &&
                       searchResult.map((product, index) => (
                         <div
+                          onClick={() => handleProductClick(product)}
                           key={`mobSearch-${product._id}`}
-                          className={`h-[80px] w-[95%] p-2 flex gap-1 addShadow bg-[#f4f4f4] ${
+                          className={`h-[80px] w-[95%] p-2 flex gap-1 addShadow bg-[#f4f4f4] rounded-md cursor-pointer  ${
                             index == 0 && `mt-[10px]`
                           }`}
                         >
@@ -213,7 +226,7 @@ export const Navbar = () => {
                             <img
                               src={product.productCartImage}
                               alt="productImage"
-                              className="h-[70px] w-[70px] bg-cover"
+                              className="h-[60px] w-[60px] bg-cover"
                             />
                           </div>
                           <div className="h-full w-[75%] flex flex-col">
@@ -221,7 +234,7 @@ export const Navbar = () => {
                               {product.name}
                             </div>
                             <div className="h-[50%] w-full pl-2 text-[0.9rem] truncate opacity-[80%]">
-                              {product.productInfo}
+                              {product.productDetails}
                             </div>
                           </div>
                         </div>
@@ -233,7 +246,7 @@ export const Navbar = () => {
                           {currentPage > 1 && (
                             <button
                               onClick={() => handlePaginationNavigation("prev")}
-                              className="h-[40px] w-[100px] border-[1px] border-[#1e3933] baseColor addFont rounded-md ml-[2%]"
+                              className="h-[40px] w-[100px] border-[1px] border-[#1e3933] baseColor addFont rounded-md ml-[2%] cursor-pointer"
                             >
                               Prev
                             </button>
@@ -244,7 +257,7 @@ export const Navbar = () => {
                           {currentPage < totalPages && (
                             <button
                               onClick={() => handlePaginationNavigation("next")}
-                              className="h-[40px] w-[100px] border-[1px] border-[#1e3933] baseColor addFont rounded-md ml-[2%]"
+                              className="h-[40px] w-[100px] border-[1px] border-[#1e3933] baseColor addFont rounded-md ml-[2%] cursor-pointer"
                             >
                               next
                             </button>
@@ -266,30 +279,30 @@ export const Navbar = () => {
       >
         <div
           onClick={handleShowProfilePage}
-          className="h-full w-[60px] centerDiv"
+          className="h-full w-[60px] centerDiv cursor-pointer"
         >
           <HiOutlineUserCircle className="text-[2.1rem] text-[#1e3933]" />
         </div>
-        <div className="h-full w-[60px] centerDiv relative">
-          <CiShoppingCart
-            onClick={() =>
-              dispatch(updateNavbarOptionSelection({ option: "Cart" }))
-            }
-            className="text-[1.8rem] text-[#1e3933]"
-          />
+        <div
+          onClick={() =>
+            dispatch(updateNavbarOptionSelection({ option: "Cart" }))
+          }
+          className="h-full w-[60px] centerDiv relative cursor-pointer"
+        >
+          <CiShoppingCart className="text-[1.8rem] text-[#1e3933]" />
           {cartCount > 0 && (
             <span className="absolute top-[10px] right-[5px] h-[20px] w-[20px] rounded-[50%] centerDiv text-[0.8rem] bg-[#1e3933] text-white">
               {cartCount}
             </span>
           )}
         </div>
-        <div className="h-full w-[60px] centerDiv relative">
-          <CiHeart
-            onClick={() =>
-              dispatch(updateNavbarOptionSelection({ option: "favourite" }))
-            }
-            className="text-[1.8rem] text-[#1e3933]"
-          />
+        <div
+          onClick={() =>
+            dispatch(updateNavbarOptionSelection({ option: "favourite" }))
+          }
+          className="h-full w-[60px] centerDiv relative cursor-pointer"
+        >
+          <CiHeart className="text-[1.8rem] text-[#1e3933]" />
           {favoriteCount > 0 && (
             <span className="absolute top-[10px] right-[5px] h-[20px] w-[20px] rounded-[50%] centerDiv text-[0.8rem] bg-[#1e3933] text-white">
               {favoriteCount}
@@ -297,7 +310,7 @@ export const Navbar = () => {
           )}
         </div>
         {searchIconClick === false && (
-          <div className="h-full w-[60px] centerDiv">
+          <div className="h-full w-[60px] centerDiv cursor-pointer">
             <CiSearch
               onClick={() => setSearchIconClick(true)}
               className="text-[1.8rem] text-[#1e3933]"

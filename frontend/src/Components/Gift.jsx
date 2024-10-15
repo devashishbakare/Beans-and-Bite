@@ -117,21 +117,21 @@ export const Gift = () => {
       <div className="flex-1 w-full centerDiv">
         <div className="h-full w-full max-w-[1050px]">
           {optionSelectionIndex == 1 && (
-            <div className="h-full w-full flex flex-wrap p-2 justify-center lg:justify-start">
+            <div className="h-full w-full flex flex-wrap p-2 items-center justify-center md:items-start md:justify-start">
               {giftCartInfo[0].map((cardInfo) => (
                 <GiftCard cardInfo={cardInfo} key={cardInfo.id} />
               ))}
             </div>
           )}
           {optionSelectionIndex == 2 && (
-            <div className="h-full w-full flex flex-wrap p-2 justify-center lg:justify-start">
+            <div className="h-full w-full flex flex-wrap p-2 items-center justify-center md:items-start md:justify-start">
               {giftCartInfo[1].map((cardInfo) => (
                 <GiftCard cardInfo={cardInfo} key={cardInfo.id} />
               ))}
             </div>
           )}
           {optionSelectionIndex == 3 && (
-            <div className="h-full w-full flex flex-wrap p-2 justify-center lg:justify-start">
+            <div className="h-full w-full flex flex-wrap p-2 items-center justify-center md:items-start md:justify-start">
               {giftCartInfo[2].map((cardInfo) => (
                 <GiftCard cardInfo={cardInfo} key={cardInfo.id} />
               ))}

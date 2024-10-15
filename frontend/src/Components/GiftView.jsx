@@ -14,6 +14,7 @@ import { ToastContainer } from "react-toastify";
 import { updateSignInUpModal } from "../redux/slices/userAuthSlice";
 import CircularSpinner from "../utils/Spinners/CircularSpinner";
 import { IoWallet } from "react-icons/io5";
+import { addToHistory } from "../redux/slices/historySlice";
 import {
   payViaWallet,
   payViaPaymentGateway,
@@ -24,6 +25,7 @@ import { setWalletAmount } from "../redux/slices/notificationSlice";
 export const GiftView = () => {
   const dispatch = useDispatch();
   const { extraData } = useSelector((state) => state.navbarSelection);
+  console.log(extraData);
   const { wallet } = useSelector((state) => state.notification);
   const { isAuthenticated, token } = useSelector((state) => state.userAuth);
   const cardInfo = extraData;
@@ -37,7 +39,11 @@ export const GiftView = () => {
         dispatch(updateSignInUpModal({ requestFor: "open" }));
       }
     };
+    const updateHistory = () => {
+      dispatch(addToHistory({ sectionName: cardInfo.title }));
+    };
     checkLogin();
+    updateHistory();
   }, []);
 
   const giftCardInitialValue = {

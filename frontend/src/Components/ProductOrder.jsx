@@ -111,8 +111,12 @@ export const ProductOrder = () => {
         }));
       }
     };
+    const updateHistory = () => {
+      dispatch(addToHistory({ sectionName: product.name }));
+    };
     checkProductInFavoriteOrNot();
     updateSyrupAndSacesOption();
+    updateHistory();
   }, [favorites]);
   const handleSlideAbove = (event, index) => {
     if (event.target.id == "topSlideHeading") {

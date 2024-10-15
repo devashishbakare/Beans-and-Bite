@@ -91,7 +91,10 @@ export const OrderHistory = () => {
             </div>
             <div className="flex-1 w-full flex flex-col overflow-y-scroll gap-[10px]">
               {orderDetails.products.map((order) => (
-                <div className="h-auto w-full flex flex-col p-1  addShadow rounded-md">
+                <div
+                  key={"order-history" + order._id}
+                  className="h-auto w-full flex flex-col p-1  addShadow rounded-md"
+                >
                   <div className="h-[100px] w-full flex">
                     <div className="h-[100px] w-[100px] centerDiv">
                       <img

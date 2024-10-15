@@ -15,6 +15,7 @@ import {
 import { updateNavbarOptionSelection } from "../redux/slices/NavbarSlice";
 export const Order = () => {
   const { extraData } = useSelector((state) => state.navbarSelection);
+  //console.log("sent option selection", extraData.currSelectedOption);
   const [currSelectedOption, setCurrentSelectedOption] = useState(
     extraData != null ? extraData.currSelectedOption : "Bestseller"
   );
@@ -25,31 +26,27 @@ export const Order = () => {
   const [isLoading, setIsLoading] = useState(false);
   const { categories, error } = useSelector((state) => state.category);
 
-  const handleCategoryChange = (categoryName) => {
-    setIsLoading(true);
-    dispatch(checkAndFetchProduct(categoryName));
-    setCurrentSelectedOption(categoryName);
-    dispatch(removeFromHistory({ index: 1, sectionName: categoryName }));
-    dispatch(addToHistory({ sectionName: categoryName }));
-    setIsLoading(false);
-    if (error || categories[categoryName]?.length == 0) {
-      showErrorNotification("something went wrong try again later");
-    }
-  };
-
   useEffect(() => {
-    const fetchBestSellingProduct = (categoryName) => {
-      handleCategoryChange(categoryName);
+    const updateHistory = () => {
+      dispatch(addFromNavbar({ sectionName: "Order" }));
+      dispatch(addToHistory({ sectionName: currSelectedOption }));
     };
-    dispatch(addFromNavbar({ sectionName: "Order" }));
-    dispatch(addToHistory({ sectionName: "Bestseller" }));
-    fetchBestSellingProduct(currSelectedOption);
-    if (isOrderCategoryChange) {
-      let historyLength = history.length;
-      let lastCategory = history[historyLength - 1];
-      handleCategoryChange(lastCategory);
-    }
-  }, [dispatch, isOrderCategoryChange]);
+    const fetchData = () => {
+      setIsLoading(true);
+      dispatch(checkAndFetchProduct(currSelectedOption));
+      setIsLoading(false);
+      if (error || categories[currSelectedOption]?.length == 0) {
+        showErrorNotification("something went wrong try again later");
+      }
+    };
+
+    fetchData();
+    updateHistory();
+  }, [currSelectedOption]);
+
+  const handleCategoryChange = (categoryName) => {
+    setCurrentSelectedOption(categoryName);
+  };
 
   return (
     <>

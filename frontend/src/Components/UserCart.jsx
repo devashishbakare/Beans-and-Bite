@@ -10,17 +10,18 @@ import CircularSpinner from "../utils/Spinners/CircularSpinner";
 import { decrementCount } from "../redux/slices/notificationSlice";
 import { addProductInfo } from "../redux/slices/ProductInfoSlice";
 import { updateNavbarOptionSelection } from "../redux/slices/NavbarSlice";
-import { sampleProductCart } from "../utils/DisplayData";
+//import { sampleProductCart } from "../utils/DisplayData";
 import {
   updateCartPrice,
   addCartProductQuantity,
   updateCartProductQuantity,
   removeFromCart,
 } from "../redux/slices/cartSlice";
+import { updateSignInUpModal } from "../redux/slices/userAuthSlice";
 export const UserCart = () => {
   //todo : we have to take care of cart notification here, keep in mind
   const dispatch = useDispatch();
-  const { token } = useSelector((state) => state.userAuth);
+  const { token, isAuthenticated } = useSelector((state) => state.userAuth);
   const [cartProducts, setCartProducts] = useState([]);
   const [globalLoader, setGlobalLoader] = useState(false);
   const [loaderIndex, setLoaderIndex] = useState(-1);
@@ -35,38 +36,42 @@ export const UserCart = () => {
 
   useEffect(() => {
     const fetchCartProduct = async (token) => {
-      setGlobalLoader(true);
-      const response = await fetchProductFromCart(token);
-      if (response.success) {
-        // console.log(response.data);
-
-        let initialCartProductWithQuantity = [];
-        response.data.forEach((cartProduct) => {
-          initialCartProductWithQuantity.push({
-            cartId: cartProduct._id,
-            quantity: 1,
-            cartProductPrice: cartProduct.amount,
-          });
-        });
-
-        dispatch(
-          addCartProductQuantity({
-            cartProducts: initialCartProductWithQuantity,
-          })
-        );
-        // setCartProductQuantity(new Array(response.data.length).fill(1));
-        setShowCartCustomizationDetails(
-          new Array(response.data.length).fill(false)
-        );
-        setCartProducts(response.data);
-        //setCartItemLoaders(new Array(response.data.length).fill(false));
+      if (isAuthenticated == false) {
+        dispatch(updateSignInUpModal({ requestFor: "open" }));
       } else {
-        showErrorNotification(response.error);
+        setGlobalLoader(true);
+        const response = await fetchProductFromCart(token);
+        if (response.success) {
+          // console.log(response.data);
+
+          let initialCartProductWithQuantity = [];
+          response.data.forEach((cartProduct) => {
+            initialCartProductWithQuantity.push({
+              cartId: cartProduct._id,
+              quantity: 1,
+              cartProductPrice: cartProduct.amount,
+            });
+          });
+
+          dispatch(
+            addCartProductQuantity({
+              cartProducts: initialCartProductWithQuantity,
+            })
+          );
+          // setCartProductQuantity(new Array(response.data.length).fill(1));
+          setShowCartCustomizationDetails(
+            new Array(response.data.length).fill(false)
+          );
+          setCartProducts(response.data);
+          //setCartItemLoaders(new Array(response.data.length).fill(false));
+        } else {
+          showErrorNotification(response.error);
+        }
+        setGlobalLoader(false);
       }
-      setGlobalLoader(false);
     };
-    fetchCartProduct(token);
-  }, [token]);
+    fetchCartProduct(token, isAuthenticated);
+  }, [token, isAuthenticated]);
 
   const handleShowCartCustomization = (cartProductIndex) => {
     setShowCartCustomizationDetails((previousCartCustomization) =>

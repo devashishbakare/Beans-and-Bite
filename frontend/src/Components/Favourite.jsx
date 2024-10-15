@@ -21,23 +21,22 @@ export const Favourite = () => {
   const [localLoaderIndex, setLocalLoaderIndex] = useState(-1);
   const [globalLoader, setGlobalLoader] = useState(false);
   useEffect(() => {
-    const checkAuthentication = () => {
+    const fetchFavouriteProducts = async () => {
       if (isAuthenticated == false) {
         dispatch(updateSignInUpModal({ requestFor: "open" }));
-      }
-    };
-    const fetchFavouriteProducts = async () => {
-      setGlobalLoader(true);
-      const response = await fetchFavouritesProduct(token, favorites);
-      if (response.success) {
-        console.log(response.data);
-        setUserFavourites(response.data);
       } else {
-        showErrorNotification("something went wrong, please try again later");
+        setGlobalLoader(true);
+        const response = await fetchFavouritesProduct(token, favorites);
+        if (response.success) {
+          console.log(response.data);
+          setUserFavourites(response.data);
+        } else {
+          showErrorNotification("something went wrong, please try again later");
+        }
+        setGlobalLoader(false);
       }
-      setGlobalLoader(false);
     };
-    checkAuthentication();
+
     fetchFavouriteProducts();
   }, []);
 

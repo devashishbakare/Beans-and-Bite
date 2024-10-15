@@ -4,17 +4,21 @@ import { Contact } from "./Contact";
 import { fetchBestSellingProducts } from "../utils/api";
 import { ToastContainer } from "react-toastify";
 import PageSpinner from "../utils/Spinners/PageSpinner";
+import { addProductInfo } from "../redux/slices/ProductInfoSlice";
 import {
   showErrorNotification,
   showSuccessNotification,
 } from "../utils/notification";
+import { resetHistory, addToHistory } from "../redux/slices/historySlice";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchBestSellingProductThunk } from "../redux/Thunk/commonThunk";
 import Slider from "react-slick";
+import { updateNavbarOptionSelection } from "../redux/slices/NavbarSlice";
 //#edebe9
 //http://res.cloudinary.com/djgouef8q/image/upload/v1724383231/kofsfd2k9puxunklexup.png
 //add item #16754a
 //bg-[#edebe9]
+// todo : Article page has to build before you add onClick
 export const Display = () => {
   const dispatch = useDispatch();
   // const { token } = useSelector((state) => state.userAuth);
@@ -53,6 +57,23 @@ export const Display = () => {
   }, [dispatch, status, error]);
   //todo : here we need to navigate to coffee making info
 
+  const handleCategoryClick = (categoryData) => {
+    console.log(categoryData.name);
+
+    dispatch(
+      updateNavbarOptionSelection({
+        option: "Order",
+        extraData: { currSelectedOption: categoryData.name },
+      })
+    );
+  };
+
+  const handleAddItem = (product) => {
+    dispatch(resetHistory());
+    dispatch(addProductInfo({ data: product }));
+    dispatch(updateNavbarOptionSelection({ option: "productOrder" }));
+  };
+
   return (
     <>
       {isLoading ? (
@@ -80,8 +101,9 @@ export const Display = () => {
               <div className="h-auto w-full flex flex-wrap justify-around">
                 {handcraftedData.map((data, index) => (
                   <div
+                    onClick={() => handleCategoryClick(data)}
                     key={`${index}-bestselling`}
-                    className="h-[150px] w-[140px] flex flex-col centerDiv gap-3 rounded-lg shadow-lg bg-[#f4f4f4]"
+                    className="h-[150px] w-[140px] flex flex-col centerDiv gap-3 rounded-lg shadow-lg bg-[#f4f4f4] cursor-pointer"
                   >
                     <img
                       src={data.url}
@@ -138,7 +160,10 @@ export const Display = () => {
                             <span className="ml-[30px] w-[150px] addFont text-[0.98rem]">
                               ₹ 309.75
                             </span>
-                            <button className="h-[30px] w-[90px] bg-[#16754a] text-[white] rounded-[20px] text-[0.8rem] addFont mr-[30px]">
+                            <button
+                              onClick={() => handleAddItem(product)}
+                              className="h-[30px] w-[90px] bg-[#16754a] text-[white] rounded-[20px] text-[0.8rem] addFont mr-[30px] cursor-pointer"
+                            >
                               Add Item
                             </button>
                           </div>
