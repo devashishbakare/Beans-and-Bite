@@ -6,6 +6,7 @@ import { addFromNavbar } from "../redux/slices/historySlice";
 import { fetchUserOrderHistory } from "../utils/api";
 import CircularSpinner from "../utils/Spinners/CircularSpinner";
 import { MdOutlineSort } from "react-icons/md";
+import { IoIosCloseCircle } from "react-icons/io";
 export const OrderHistory = () => {
   const dispatch = useDispatch();
   const { token } = useSelector((state) => state.userAuth);
@@ -18,6 +19,8 @@ export const OrderHistory = () => {
     totalOrderCount: 0,
   });
   const [showFilterOption, setShowFilterOption] = useState(false);
+  const [orderDetails, setOrderDetails] = useState({});
+  const [showOrderDetailsModal, setShowOrderDetailsModal] = useState(false);
 
   const getOrderHistory = async (token, page, limit) => {
     setIsLoading(true);
@@ -66,8 +69,106 @@ export const OrderHistory = () => {
     setShowFilterOption(false);
   };
 
+  const handleOrderDetailsModal = (order) => {
+    setOrderDetails(order);
+    console.log(order);
+    setShowOrderDetailsModal(true);
+  };
+
   return (
-    <div className="h-full w-full flex flex-col centerDiv">
+    <div className="h-full w-full flex flex-col centerDiv relative">
+      {showOrderDetailsModal && (
+        <div className="centerToPage z-[8890] h-full w-full bg-black bg-opacity-15 centerDiv">
+          <div className="h-auto w-[95%] md:w-[600px] flex flex-col items-center bg-white rounded-md addShadow max-h-[530px] overflow-y-scroll">
+            <div className="h-[60px] w-full items-center pl-[10px] flex justify-between pr-[10px] bg-[#13603c] rounded-t-md shrink-0">
+              <span className="addFont text-[1.2rem] font-bold text-[#f4f4f4] pl-[10px]">
+                Order Details
+              </span>
+              <IoIosCloseCircle
+                onClick={() => setShowOrderDetailsModal(false)}
+                className="text-[1.6rem] text-white"
+              />
+            </div>
+            <div className="flex-1 w-full flex flex-col overflow-y-scroll gap-[10px]">
+              {orderDetails.products.map((order) => (
+                <div className="h-auto w-full flex flex-col p-1  addShadow rounded-md">
+                  <div className="h-[100px] w-full flex">
+                    <div className="h-[100px] w-[100px] centerDiv">
+                      <img
+                        src={order.productId.productCartImage}
+                        alt="productImage"
+                        className="h-[90px] w-[90px] bg-cover rounded-md"
+                      />
+                    </div>
+
+                    <div className="h-full flex-1 flex flex-col">
+                      <span className="h-auto w-full pl-[10px] flex items-center addFont text-[0.95rem] mt-[10px]">
+                        {order.productId.name}
+                      </span>
+                      <span className="h-auto w-full text-ellipsis line-clamp-2 pl-[10px] overflow-hidden text-[0.8rem] opacity-85">
+                        {order.productId.productDetails}
+                      </span>
+                    </div>
+                  </div>
+                  {(order.productId.category == "Bestseller" ||
+                    order.productId.category == "Drinks") && (
+                    <div className="h-auto w-full flex flex-wrap mt-[5px] text-[0.8rem] opacity-80 addFont">
+                      <span className="h-auto w-auto flex items-center text-[0.75rem] pl-2">
+                        {order.size}&#44;
+                      </span>
+                      <span className="h-auto w-auto flex items-center text-[0.75rem] pl-2">
+                        {order.milk}&#44;
+                      </span>
+                      <span className="h-auto w-auto flex items-center text-[0.75rem] pl-2">
+                        {order.espresso}&#44;
+                      </span>
+                      <span className="h-auto w-auto flex items-center text-[0.75rem] pl-2">
+                        {order.temperature}&#44;
+                      </span>
+                      <span className="h-auto w-auto flex items-center text-[0.75rem] pl-2">
+                        {order.whippedTopping}&#44;
+                      </span>
+                      {order.syrupAndSauces.length > 0 &&
+                        order.syrupAndSauces.map((data, index) => (
+                          <span
+                            key={"cartCusto" + data.type + index}
+                            className="h-auto w-auto flex items-center text-[0.75rem] pl-2"
+                          >
+                            {data.type}
+                            {index != order.syrupAndSauces.length - 1 && (
+                              <>&#44;</>
+                            )}
+                          </span>
+                        ))}
+                    </div>
+                  )}
+                </div>
+              ))}
+            </div>
+            <div className="h-auto w-full flex flex-col gap-[10px] pl-[5px] mt-[10px]">
+              <div className="h-auto w-full flex items-center gap-1 pl-[10px]">
+                <span className="addFont text-[0.9rem]">Take Away From</span>:
+                <span className="addFont text-[0.9rem] opacity-80">
+                  {orderDetails.takeAwayFrom}
+                </span>
+              </div>
+              <div className="h-auto w-full flex items-center gap-1 pl-[10px]">
+                <span className="addFont text-[0.9rem]">Payment Method</span>:
+                <span className="addFont text-[0.9rem] opacity-80">
+                  {orderDetails.paymentMethod}
+                </span>
+              </div>
+              <div className="h-auto w-full flex items-center gap-1 pl-[10px] mb-[30px]">
+                <span className="addFont text-[0.9rem]">Total Amount</span>:
+                <span className="addFont text-[0.9rem] opacity-80">
+                  {orderDetails.amount}
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
       <div className="h-[70px] w-full centerDiv theamColor">
         <div className="h-[70px] w-full centerDiv  max-w-[1050px]">
           <History />
@@ -137,7 +238,10 @@ export const OrderHistory = () => {
                 </div>
                 <div className="flex-1 w-full flex flex-col gap-2 items-center overflow-y-scroll shrink-0 md:pl-[10px] md:items-start">
                   {orderHistory.map((order) => (
-                    <div className="h-auto w-[95%] flex flex-col items-center p-2 addShadow rounded-md shrink-0 md:w-[99%]">
+                    <div
+                      key={"oh" + order._id}
+                      className="h-auto w-[95%] flex flex-col items-center p-2 addShadow rounded-md shrink-0 md:w-[99%]"
+                    >
                       <div className="h-[55px] w-full flex items-center theamColor rounded-md">
                         <div className="h-full flex-1 flex items-center gap-2">
                           <img
@@ -149,7 +253,10 @@ export const OrderHistory = () => {
                             Order Summery
                           </span>
                         </div>
-                        <span className="h-full w-[100px] text-white flex flex-row-reverse pr-[10px] items-center text-[0.9rem] underline cursor-pointer">
+                        <span
+                          onClick={() => handleOrderDetailsModal(order)}
+                          className="h-full w-[100px] text-white flex flex-row-reverse pr-[10px] items-center text-[0.9rem] underline cursor-pointer"
+                        >
                           View Details
                         </span>
                       </div>

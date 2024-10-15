@@ -293,9 +293,6 @@ const fetchOrderHistory = async (req, res) => {
             .exec()
       )
     );
-
-    //pageOrderHistory = await Promise.all(pageOrderHistory.map(async(order) => await order.products.populate()));
-
     return res.status(200).json({
       data: { orders: pageOrderHistory, totalOrder: totalOrderCount },
       message: "Order History of current page",

@@ -309,14 +309,18 @@ export const UserCart = () => {
                             </div>
                           </div>
                         </div>
-                        <div
-                          onClick={() => handleShowCartCustomization(index)}
-                          className="h-[35px] w-full flex items-center pl-1 text-[0.95rem] text-blue-800 opacity-90 underline"
-                        >
-                          {showCartCustomizationDetails[index] == false
-                            ? "show product customization details"
-                            : "hide product customization details"}
-                        </div>
+                        {(cartProduct.productId.category == "Bestseller" ||
+                          cartProduct.productId.category == "Drinks") && (
+                          <div
+                            onClick={() => handleShowCartCustomization(index)}
+                            className="h-[35px] w-full flex items-center pl-1 text-[0.95rem] text-blue-800 opacity-90 underline addBorder"
+                          >
+                            {showCartCustomizationDetails[index] == false
+                              ? "show product customization details"
+                              : "hide product customization details"}
+                          </div>
+                        )}
+
                         {showCartCustomizationDetails[[index]] == true && (
                           <div className="h-auto w-full flex flex-col">
                             <div className="h-auto w-full flex flex-wrap items-center font-thin">
