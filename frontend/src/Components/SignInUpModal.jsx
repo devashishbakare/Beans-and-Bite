@@ -132,7 +132,7 @@ export const SignInUpModal = () => {
                   value={signInFormik.values.userName}
                   onChange={signInFormik.handleChange}
                   onBlur={signInFormik.handleBlur}
-                  // data-testid="signIn-email-input-testid"
+                  data-testid="signIn-userName"
                 />
                 <span className="w-[98%] border-[1px] border-gray-500 ml-2"></span>
               </div>
@@ -154,7 +154,7 @@ export const SignInUpModal = () => {
                     value={signInFormik.values.password}
                     onChange={signInFormik.handleChange}
                     onBlur={signInFormik.handleBlur}
-                    // data-testid="signIn-email-input-testid"
+                    data-testid="signIn-password"
                   />
                   <span
                     onClick={() =>
@@ -182,6 +182,7 @@ export const SignInUpModal = () => {
               <span
                 onClick={() => setUserSigningIn(false)}
                 className="baseColor underline cursor-pointer"
+                data-testid="showSignUpForm"
               >
                 SignUp
               </span>
@@ -190,6 +191,7 @@ export const SignInUpModal = () => {
               <button
                 type="submit"
                 className="h-[50px] w-[80%] rounded-[25px] theamColor cursor-pointer"
+                data-testid="signInButton"
               >
                 {isLoading ? (
                   <div className="h-full w-full centerDiv">
@@ -235,6 +237,7 @@ export const SignInUpModal = () => {
                   value={signUpFormik.values.name}
                   onChange={signUpFormik.handleChange}
                   onBlur={signUpFormik.handleBlur}
+                  data-testid="signUpName"
                 />
                 <span className="w-[98%] border-[1px] border-gray-500 ml-2"></span>
               </div>
@@ -255,6 +258,7 @@ export const SignInUpModal = () => {
                   value={signUpFormik.values.email}
                   onChange={signUpFormik.handleChange}
                   onBlur={signUpFormik.handleBlur}
+                  data-testid="signUpEmail"
                 />
                 <span className="w-[98%] border-[1px] border-gray-500 ml-2"></span>
               </div>
@@ -275,6 +279,7 @@ export const SignInUpModal = () => {
                   value={signUpFormik.values.mobileNumber}
                   onChange={signUpFormik.handleChange}
                   onBlur={signUpFormik.handleBlur}
+                  data-testid="signUpMobileNumber"
                 />
                 <span className="w-[98%] border-[1px] border-gray-500 ml-2"></span>
               </div>
@@ -297,6 +302,7 @@ export const SignInUpModal = () => {
                     value={signUpFormik.values.password}
                     onChange={signUpFormik.handleChange}
                     onBlur={signUpFormik.handleBlur}
+                    data-testid="signUpPassword"
                   />
                   <span
                     onClick={() =>
@@ -331,6 +337,7 @@ export const SignInUpModal = () => {
                     value={signUpFormik.values.confirmPassword}
                     onChange={signUpFormik.handleChange}
                     onBlur={signUpFormik.handleBlur}
+                    data-testid="signUpConfirmPassword"
                   />
                   <span
                     onClick={() =>
@@ -369,6 +376,7 @@ export const SignInUpModal = () => {
               <button
                 type="submit"
                 className="h-[50px] w-[80%] rounded-[25px] theamColor cursor-pointer centerDiv"
+                data-testid="signUpButton"
               >
                 {isLoading ? (
                   <div className="h-full w-full centerDiv">
