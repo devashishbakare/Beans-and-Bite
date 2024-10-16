@@ -71,14 +71,24 @@ export const OrderHistory = () => {
 
   const handleOrderDetailsModal = (order) => {
     setOrderDetails(order);
-    console.log(order);
+    //console.log(order);
     setShowOrderDetailsModal(true);
+  };
+
+  const handleOutsideBoxClick = (event) => {
+    if (event.target.id == "outsideModal") {
+      setShowOrderDetailsModal(false);
+    }
   };
 
   return (
     <div className="h-full w-full flex flex-col centerDiv relative">
       {showOrderDetailsModal && (
-        <div className="centerToPage z-[8890] h-full w-full bg-black bg-opacity-15 centerDiv">
+        <div
+          id="outsideModal"
+          onClick={(e) => handleOutsideBoxClick(e)}
+          className="centerToPage z-[8890] h-full w-full bg-black bg-opacity-15 centerDiv"
+        >
           <div className="h-auto w-[95%] md:w-[600px] flex flex-col items-center bg-white rounded-md addShadow max-h-[530px] overflow-y-scroll">
             <div className="h-[60px] w-full items-center pl-[10px] flex justify-between pr-[10px] bg-[#13603c] rounded-t-md shrink-0">
               <span className="addFont text-[1.2rem] font-bold text-[#f4f4f4] pl-[10px]">

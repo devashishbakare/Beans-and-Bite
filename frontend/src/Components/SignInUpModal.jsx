@@ -340,7 +340,7 @@ export const SignInUpModal = () => {
                     }
                     className="h-full w-[17%] mr-2 centerDiv"
                   >
-                    {showSignInPasswordStatus == false ? (
+                    {showSingUpConfirmPasswordStatus == false ? (
                       <GoEyeClosed className="text-[1.3rem]" />
                     ) : (
                       <GoEye className="text-[1.3rem]" />

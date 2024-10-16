@@ -275,3 +275,16 @@ export const fetchUserOrderHistory = async (token, page, limit) => {
     return { success: false, error: error.response.data.error };
   }
 };
+
+export const editUserDetails = async (token, userDetails) => {
+  try {
+    const headers = createHeader(token);
+    const response = await axios.post(`${baseUrl}/user/update`, userDetails, {
+      headers,
+    });
+    const { data } = response.data;
+    return { success: true, data: data };
+  } catch (error) {
+    return { success: false, error: error.response.data.error };
+  }
+};

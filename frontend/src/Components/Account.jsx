@@ -10,7 +10,10 @@ import { IoWallet } from "react-icons/io5";
 import { RiLogoutCircleFill } from "react-icons/ri";
 import { fetchUserDetails } from "../utils/api";
 import { ToastContainer } from "react-toastify";
-import { showErrorNotification } from "../utils/notification";
+import {
+  showErrorNotification,
+  showSuccessNotification,
+} from "../utils/notification";
 import CircularSpinner from "../utils/Spinners/CircularSpinner";
 import { updateNavbarOptionSelection } from "../redux/slices/NavbarSlice";
 import { resetUserAuth } from "../redux/slices/userAuthSlice";
@@ -22,13 +25,30 @@ import { resetNotification } from "../redux/slices/notificationSlice";
 import { resetCart } from "../redux/slices/cartSlice";
 import { persistor } from "../redux/store";
 import { updateFavouriteOnLogout } from "../utils/api";
+import { GoEyeClosed, GoEye } from "react-icons/go";
+import { useFormik } from "formik";
+import { IoCloseCircleSharp } from "react-icons/io5";
+import { editProfileSchema } from "../ValidationSchema/EditProfile";
+import { editUserDetails } from "../utils/api";
 export const Account = () => {
   //todo : user loader and test the API
+  const editProfileInitialValue = {
+    userName: "",
+    email: "",
+    mobileNumber: "",
+    password: "",
+    confirmPassword: "",
+  };
   const dispatch = useDispatch();
   const [userDetails, setUserDetails] = useState({});
   const { token } = useSelector((state) => state.userAuth);
   const { favorites } = useSelector((state) => state.notification);
   const [isLoading, setIsLoading] = useState(false);
+  const [editFormLoader, setEditFormLoader] = useState(false);
+  const [showEditProfileModal, setShowEditProfileModal] = useState(false);
+  const [showEditConfirmPasswordStatus, setShowEditConfirmPasswordStatus] =
+    useState(false);
+  const [showEditPasswordStatus, setShowEditPasswordStatus] = useState(false);
   useEffect(() => {
     const updateHistory = () => {
       dispatch(addFromNavbar({ sectionName: "Account" }));
@@ -37,6 +57,15 @@ export const Account = () => {
       setIsLoading(true);
       const response = await fetchUserDetails(token);
       if (response.success) {
+        // console.log(response.data);
+        editProfileFormik.setValues({
+          userName: response.data.name,
+          email: response.data.email,
+          mobileNumber: response.data.mobileNumber,
+          password: "",
+          confirmPassword: "",
+          formType: "editProfile",
+        });
         setUserDetails(response.data);
       } else {
         showErrorNotification("something went wrong, please try again later");
@@ -53,7 +82,7 @@ export const Account = () => {
 
   const handleLogOut = async () => {
     const response = await updateFavouriteOnLogout(token, favorites);
-    console.log(response.message);
+    // console.log(response.message);
     dispatch(resetUserAuth());
     dispatch(resetProductSlice());
     dispatch(resetNavbarSlice());
@@ -65,8 +94,202 @@ export const Account = () => {
     dispatch(updateNavbarOptionSelection({ option: "Home" }));
   };
 
+  const editProfileFormik = useFormik({
+    initialValues: { ...editProfileInitialValue, formType: "editProfile" },
+    validationSchema: editProfileSchema,
+    onSubmit: async (values, action) => {
+      setEditFormLoader(true);
+      const response = await editUserDetails(token, values);
+      if (response.success) {
+        showSuccessNotification("Details has been updated");
+        setShowEditProfileModal(false);
+      } else {
+        showErrorNotification("Something went wrong, please try again later");
+      }
+      // console.log(values);
+      setEditFormLoader(false);
+      action.resetForm();
+    },
+  });
+
+  const handleOutsideModalClick = (event) => {
+    if (event.target.id == "outsideModal") {
+      setShowEditProfileModal(false);
+    }
+  };
+
   return (
-    <div className="h-full w-full flex flex-col centerDiv">
+    <div className="h-full w-full flex flex-col centerDiv relative">
+      {showEditProfileModal && (
+        <div
+          id="outsideModal"
+          onClick={(e) => handleOutsideModalClick(e)}
+          className="centerToPage z-[8890] h-full w-full bg-black bg-opacity-15 centerDiv"
+        >
+          <form
+            onSubmit={editProfileFormik.handleSubmit}
+            className="h-auto w-[90%] max-h-[550px] overflow-y-scroll flex flex-col p-2 gap-1 bg-[#f4f4f4] addShadow rounded-md relative md:w-[500px] md:max-h-[600px]"
+          >
+            <span
+              onClick={() => setShowEditProfileModal(false)}
+              className="absolute t-0 right-4 h-[50px] w-[50px] centerDiv"
+            >
+              <IoCloseCircleSharp className="text-[2rem]" />
+            </span>
+            <div className="h-[100px] w-full flex flex-col p-2">
+              <span className="uppercase addFont ml-2">Username</span>
+              <div className="h-[50px] w-full flex items-center bg-[#f6f6f6] flex-col">
+                <input
+                  type="text"
+                  name="userName"
+                  className="h-[40px] w-full outline-none pl-2 bg-[#f6f6f6] placeHolder"
+                  placeholder="Enter name"
+                  value={editProfileFormik.values.userName}
+                  onChange={editProfileFormik.handleChange}
+                  onBlur={editProfileFormik.handleBlur}
+                />
+                <span className="w-[98%] border-[1px] border-gray-500 ml-2"></span>
+              </div>
+              {editProfileFormik.errors.userName &&
+              editProfileFormik.touched.userName ? (
+                <span className="h-[30px] w-[98%] text-[0.8rem] ml-2 pl-1 bg-[#f6dae7] text-red-600 font-thin">
+                  {editProfileFormik.errors.userName}
+                </span>
+              ) : null}
+            </div>
+            <div className="h-[100px] w-full flex flex-col p-2">
+              <span className="uppercase addFont ml-2">email id</span>
+              <div className="h-[50px] w-full flex items-center bg-[#f6f6f6] flex-col">
+                <input
+                  type="text"
+                  name="email"
+                  className="h-[40px] w-full outline-none pl-2 bg-[#f6f6f6] placeHolder"
+                  placeholder="Enter Email Id"
+                  value={editProfileFormik.values.email}
+                  onChange={editProfileFormik.handleChange}
+                  onBlur={editProfileFormik.handleBlur}
+                />
+                <span className="w-[98%] border-[1px] border-gray-500 ml-2"></span>
+              </div>
+              {editProfileFormik.errors.email &&
+              editProfileFormik.touched.email ? (
+                <span className="h-[30px] w-[98%] text-[0.8rem] ml-2 pl-1 bg-[#f6dae7] text-red-600 font-thin">
+                  {editProfileFormik.errors.email}
+                </span>
+              ) : null}
+            </div>
+            <div className="h-[100px] w-full flex flex-col p-2">
+              <span className="uppercase addFont ml-2">mobile number</span>
+              <div className="h-[50px] w-full flex items-center bg-[#f6f6f6] flex-col">
+                <input
+                  type="text"
+                  name="mobileNumber"
+                  className="h-[40px] w-full outline-none pl-2 bg-[#f6f6f6] placeHolder"
+                  placeholder="Enter Mobile Number"
+                  value={editProfileFormik.values.mobileNumber}
+                  onChange={editProfileFormik.handleChange}
+                  onBlur={editProfileFormik.handleBlur}
+                />
+                <span className="w-[98%] border-[1px] border-gray-500 ml-2"></span>
+              </div>
+              {editProfileFormik.errors.mobileNumber &&
+              editProfileFormik.touched.mobileNumber ? (
+                <span className="h-[30px] w-[98%] text-[0.8rem] ml-2 pl-1 bg-[#f6dae7] text-red-600 font-thin">
+                  {editProfileFormik.errors.mobileNumber}
+                </span>
+              ) : null}
+            </div>
+            <div className="h-[100px] w-full flex flex-col p-2">
+              <span className="uppercase addFont ml-2">password</span>
+              <div className="h-[50px] w-full flex items-center bg-[#f6f6f6] flex-col">
+                <div className="h-full w-full flex items-center gap-2">
+                  <input
+                    type={showEditPasswordStatus ? "text" : "password"}
+                    name="password"
+                    className="h-[40px] w-[80%] outline-none pl-2 bg-[#f6f6f6] placeHolder"
+                    placeholder="Enter password"
+                    value={editProfileFormik.values.password}
+                    onChange={editProfileFormik.handleChange}
+                    onBlur={editProfileFormik.handleBlur}
+                  />
+                  <span
+                    onClick={() =>
+                      setShowEditPasswordStatus(!showEditPasswordStatus)
+                    }
+                    className="h-full w-[17%] mr-2 centerDiv"
+                  >
+                    {showEditPasswordStatus == false ? (
+                      <GoEyeClosed className="text-[1.3rem]" />
+                    ) : (
+                      <GoEye className="text-[1.3rem]" />
+                    )}
+                  </span>
+                </div>
+                <span className="w-[98%] border-[1px] border-gray-500 ml-2"></span>
+              </div>
+              {editProfileFormik.errors.password &&
+              editProfileFormik.touched.password ? (
+                <span className="h-auto w-[98%] text-[0.8rem] ml-2 pl-1 bg-[#f6dae7] text-red-600 font-thin">
+                  {editProfileFormik.errors.password}
+                </span>
+              ) : null}
+            </div>
+            <div className="h-[100px] w-full flex flex-col p-2">
+              <span className="uppercase addFont ml-2">confirm password</span>
+              <div className="h-[50px] w-full flex items-center bg-[#f6f6f6] flex-col">
+                <div className="h-full w-full flex items-center gap-2">
+                  <input
+                    type={showEditConfirmPasswordStatus ? "text" : "password"}
+                    name="confirmPassword"
+                    className="h-[40px] w-[80%] outline-none pl-2 bg-[#f6f6f6] placeHolder"
+                    placeholder="Re-enter password"
+                    value={editProfileFormik.values.confirmPassword}
+                    onChange={editProfileFormik.handleChange}
+                    onBlur={editProfileFormik.handleBlur}
+                  />
+                  <span
+                    onClick={() =>
+                      setShowEditConfirmPasswordStatus(
+                        !showEditConfirmPasswordStatus
+                      )
+                    }
+                    className="h-full w-[17%] mr-2 centerDiv"
+                  >
+                    {showEditConfirmPasswordStatus == false ? (
+                      <GoEyeClosed className="text-[1.3rem]" />
+                    ) : (
+                      <GoEye className="text-[1.3rem]" />
+                    )}
+                  </span>
+                </div>
+                <span className="w-[98%] border-[1px] border-gray-500 ml-2"></span>
+              </div>
+              {editProfileFormik.errors.confirmPassword &&
+              editProfileFormik.touched.confirmPassword ? (
+                <span className="h-[30px] w-[98%] text-[0.8rem] ml-2 pl-1 bg-[#f6dae7] text-red-600 font-thin">
+                  {editProfileFormik.errors.confirmPassword}
+                </span>
+              ) : null}
+            </div>
+            <div className="h-auto w-full flex flex-col centerDiv p-2">
+              <button
+                type="submit"
+                className="h-[50px] w-[80%] rounded-[25px] theamColor cursor-pointer"
+              >
+                {editFormLoader ? (
+                  <div className="h-full w-full centerDiv">
+                    <CircularSpinner />
+                  </div>
+                ) : (
+                  <span className="addFont text-[0.95rem] text-white">
+                    Edit Profile
+                  </span>
+                )}
+              </button>
+            </div>
+          </form>
+        </div>
+      )}
       <div className="h-[70px] w-full centerDiv theamColor">
         <div className="h-[70px] w-full centerDiv  max-w-[1050px]">
           <History />
@@ -205,7 +428,10 @@ export const Account = () => {
                 </span>
               </div>
               <hr className="border-[1px] w-[90%] border-gray-300 md:w-[100%]" />
-              <div className="h-[70px] w-full flex cursor-pointer">
+              <div
+                onClick={() => setShowEditProfileModal(true)}
+                className="h-[70px] w-full flex cursor-pointer"
+              >
                 <div className="h-full flex-1 flex md:pl-[30px]">
                   <span className="h-full w-[60px] centerDiv">
                     <FaEdit className="text-[1.7rem] baseColor" />

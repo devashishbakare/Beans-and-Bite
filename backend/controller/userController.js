@@ -305,6 +305,40 @@ const fetchOrderHistory = async (req, res) => {
   }
 };
 
+const editProfile = async (req, res) => {
+  try {
+    const userId = req.userId;
+
+    const { userName, email, mobileNumber, password } = req.body;
+
+    const saltRounds = 10;
+    const salt = bcrypt.genSaltSync(saltRounds);
+    const hash = bcrypt.hashSync(password, salt);
+
+    const updateFields = {
+      $set: {
+        name: userName,
+        email,
+        mobileNumber,
+        password: hash,
+      },
+    };
+
+    const updatedUser = await User.findByIdAndUpdate(userId, updateFields, {
+      new: true,
+    });
+
+    return res
+      .status(200)
+      .json({ data: updatedUser, message: "User Has Been Updated" });
+  } catch (error) {
+    return res.status(500).json({
+      error: error.message,
+      message: "Something went wrong, try again later",
+    });
+  }
+};
+
 module.exports = {
   t,
   signIn,
@@ -315,4 +349,5 @@ module.exports = {
   removeFromFavorite,
   fetchGiftHistory,
   fetchOrderHistory,
+  editProfile,
 };
