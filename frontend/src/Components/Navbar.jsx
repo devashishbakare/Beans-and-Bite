@@ -30,7 +30,7 @@ import { resetCart } from "../redux/slices/cartSlice";
 import { updateFavouriteOnLogout } from "../utils/api";
 export const Navbar = () => {
   const dispatch = useDispatch();
-  const navigate = useNavigate();
+  //const navigate = useNavigate();
   const { token } = useSelector((state) => state.userAuth);
   const { cartCount, favoriteCount, favorites } = useSelector(
     (state) => state.notification
@@ -125,7 +125,7 @@ export const Navbar = () => {
     dispatch(resetNotification());
     dispatch(resetCart());
     persistor.purge();
-    navigate("/uploadImages");
+    dispatch(updateNavbarOptionSelection({ option: "Home" }));
   };
 
   return (
@@ -280,6 +280,7 @@ export const Navbar = () => {
         <div
           onClick={handleShowProfilePage}
           className="h-full w-[60px] centerDiv cursor-pointer"
+          data-testid="profilePage"
         >
           <HiOutlineUserCircle className="text-[2.1rem] text-[#1e3933]" />
         </div>
