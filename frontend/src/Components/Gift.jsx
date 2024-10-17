@@ -82,6 +82,7 @@ export const Gift = () => {
             <span
               onClick={() => setOptionSelectionIndex(1)}
               className="flex-1 w-full addFont uppercase centerDiv text-[0.93rem]"
+              data-testid="anytimeSection"
             >
               anytime
             </span>
@@ -94,6 +95,7 @@ export const Gift = () => {
             <span
               onClick={() => setOptionSelectionIndex(2)}
               className="flex-1 w-full addFont uppercase centerDiv text-[0.93rem]"
+              data-testid="congratsSection"
             >
               congrats
             </span>
@@ -105,6 +107,7 @@ export const Gift = () => {
             <span
               onClick={() => setOptionSelectionIndex(3)}
               className="flex-1 w-full addFont uppercase centerDiv text-[0.93rem]"
+              data-testid="thankYouSection"
             >
               thank you
             </span>

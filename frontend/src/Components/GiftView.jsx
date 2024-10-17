@@ -25,7 +25,7 @@ import { setWalletAmount } from "../redux/slices/notificationSlice";
 export const GiftView = () => {
   const dispatch = useDispatch();
   const { extraData } = useSelector((state) => state.navbarSelection);
-  console.log(extraData);
+  //console.log(extraData);
   const { wallet } = useSelector((state) => state.notification);
   const { isAuthenticated, token } = useSelector((state) => state.userAuth);
   const cardInfo = extraData;
@@ -330,7 +330,7 @@ export const GiftView = () => {
                       }
                       onChange={giftCardFormik.handleChange}
                       onBlur={giftCardFormik.handleBlur}
-                      data-testid="giftCard-amount-input-testid"
+                      data-testid="giftViewAmount"
                     />
                     <span className="w-[98%] max-w-[400px] border-[1px] border-gray-500 ml-2"></span>
                   </div>
@@ -378,7 +378,7 @@ export const GiftView = () => {
                       value={giftCardFormik.values.recipientName}
                       onChange={giftCardFormik.handleChange}
                       onBlur={giftCardFormik.handleBlur}
-                      data-testid="giftCard-amount-input-testid"
+                      data-testid="giftViewRecipientName"
                     />
                     <span className="w-[98%] max-w-[400px] border-[1px] border-gray-500 ml-2"></span>
                   </div>
@@ -402,7 +402,7 @@ export const GiftView = () => {
                       value={giftCardFormik.values.recipientEmailId}
                       onChange={giftCardFormik.handleChange}
                       onBlur={giftCardFormik.handleBlur}
-                      data-testid="giftCard-amount-input-testid"
+                      data-testid="giftViewRecipientEmailId"
                     />
                     <span className="w-[98%] max-w-[400px] border-[1px] border-gray-500 ml-2"></span>
                   </div>
@@ -426,7 +426,7 @@ export const GiftView = () => {
                       value={giftCardFormik.values.recipientMobileNumber}
                       onChange={giftCardFormik.handleChange}
                       onBlur={giftCardFormik.handleBlur}
-                      data-testid="giftCard-amount-input-testid"
+                      data-testid="giftViewRecipientMobileNumber"
                     />
                     <span className="w-[98%] max-w-[400px] border-[1px] border-gray-500 ml-2"></span>
                   </div>
@@ -479,7 +479,7 @@ export const GiftView = () => {
                       value={giftCardFormik.values.senderName}
                       onChange={giftCardFormik.handleChange}
                       onBlur={giftCardFormik.handleBlur}
-                      data-testid="giftCard-amount-input-testid"
+                      data-testid="giftViewSenderName"
                     />
                     <span className="w-[98%] max-w-[400px] border-[1px] border-gray-500 ml-2"></span>
                   </div>
@@ -503,7 +503,7 @@ export const GiftView = () => {
                       value={giftCardFormik.values.senderMobileNumber}
                       onChange={giftCardFormik.handleChange}
                       onBlur={giftCardFormik.handleBlur}
-                      data-testid="giftCard-amount-input-testid"
+                      data-testid="giftViewSenderMobileNumber"
                     />
                     <span className="w-[98%] max-w-[400px] border-[1px] border-gray-500 ml-2"></span>
                   </div>
@@ -527,7 +527,7 @@ export const GiftView = () => {
                       value={giftCardFormik.values.message}
                       onChange={giftCardFormik.handleChange}
                       onBlur={giftCardFormik.handleBlur}
-                      data-testid="giftCard-message-textarea-testid"
+                      data-testid="giftViewMessage"
                     />
                     {/* <span className="w-[98%] max-w-[400px] border-[1px] border-gray-500 ml-2"></span> */}
                   </div>
@@ -553,6 +553,7 @@ export const GiftView = () => {
                 <button
                   type="submit"
                   className="h-[35px] w-[120px] bg-[#f4f4f4] baseColor rounded-[20px] text-[0.8rem] addFont"
+                  data-testid="giftViewMakePayment"
                 >
                   Make Payment
                 </button>
