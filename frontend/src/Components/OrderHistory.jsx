@@ -210,7 +210,7 @@ export const OrderHistory = () => {
                     className="h-[250px] w-[250px] bg-cover rounded-[50%]"
                   />
                   <span className="addFont opacity-50 capitalize">
-                    You haven't sent or received any gifts yet.
+                    you don't have any order yet
                   </span>
                 </div>
               </div>
@@ -269,6 +269,7 @@ export const OrderHistory = () => {
                         <span
                           onClick={() => handleOrderDetailsModal(order)}
                           className="h-full w-[100px] text-white flex flex-row-reverse pr-[10px] items-center text-[0.9rem] underline cursor-pointer"
+                          data-testid="ohViewDetailsTest"
                         >
                           View Details
                         </span>
