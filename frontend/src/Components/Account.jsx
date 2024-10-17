@@ -147,6 +147,7 @@ export const Account = () => {
                   value={editProfileFormik.values.userName}
                   onChange={editProfileFormik.handleChange}
                   onBlur={editProfileFormik.handleBlur}
+                  data-testid="userNameTest"
                 />
                 <span className="w-[98%] border-[1px] border-gray-500 ml-2"></span>
               </div>
@@ -168,6 +169,7 @@ export const Account = () => {
                   value={editProfileFormik.values.email}
                   onChange={editProfileFormik.handleChange}
                   onBlur={editProfileFormik.handleBlur}
+                  data-testid="emailTest"
                 />
                 <span className="w-[98%] border-[1px] border-gray-500 ml-2"></span>
               </div>
@@ -189,6 +191,7 @@ export const Account = () => {
                   value={editProfileFormik.values.mobileNumber}
                   onChange={editProfileFormik.handleChange}
                   onBlur={editProfileFormik.handleBlur}
+                  data-testid="mobileNumberTest"
                 />
                 <span className="w-[98%] border-[1px] border-gray-500 ml-2"></span>
               </div>
@@ -211,6 +214,7 @@ export const Account = () => {
                     value={editProfileFormik.values.password}
                     onChange={editProfileFormik.handleChange}
                     onBlur={editProfileFormik.handleBlur}
+                    data-testid="passwordTest"
                   />
                   <span
                     onClick={() =>
@@ -246,6 +250,7 @@ export const Account = () => {
                     value={editProfileFormik.values.confirmPassword}
                     onChange={editProfileFormik.handleChange}
                     onBlur={editProfileFormik.handleBlur}
+                    data-testid="confirmPasswordTest"
                   />
                   <span
                     onClick={() =>
@@ -275,6 +280,7 @@ export const Account = () => {
               <button
                 type="submit"
                 className="h-[50px] w-[80%] rounded-[25px] theamColor cursor-pointer"
+                data-testid="editProfileButtonTest"
               >
                 {editFormLoader ? (
                   <div className="h-full w-full centerDiv">
@@ -431,6 +437,7 @@ export const Account = () => {
               <div
                 onClick={() => setShowEditProfileModal(true)}
                 className="h-[70px] w-full flex cursor-pointer"
+                data-testid="editProfileDiv"
               >
                 <div className="h-full flex-1 flex md:pl-[30px]">
                   <span className="h-full w-[60px] centerDiv">

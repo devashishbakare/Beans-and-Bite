@@ -6,6 +6,10 @@ import { Home } from "../Components/Home";
 import { Provider } from "react-redux";
 import { store } from "../redux/store";
 describe("Sign In Up Form", () => {
+  afterEach(() => {
+    jest.clearAllMocks();
+  });
+
   test("Render Sign In Up Component", () => {
     act(() => {
       render(

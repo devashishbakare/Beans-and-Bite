@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { showErrorNotification } from "../utils/notification";
 import { CiCirclePlus, CiCircleMinus } from "react-icons/ci";
 import { ToastContainer } from "react-toastify";
-import PageSpinner from "../utils/Spinners/PageSpinner";
+//import PageSpinner from "../utils/Spinners/PageSpinner";
 import CircularSpinner from "../utils/Spinners/CircularSpinner";
 import { decrementCount } from "../redux/slices/notificationSlice";
 import { addProductInfo } from "../redux/slices/ProductInfoSlice";
@@ -176,6 +176,11 @@ export const UserCart = () => {
 
   return (
     <div className="h-full w-full centerDiv flex flex-col relative ">
+      <img
+        src="http://res.cloudinary.com/djgouef8q/image/upload/v1724383231/kofsfd2k9puxunklexup.png"
+        alt="flower"
+        className="hide xl:flex absolute right-[20px] top-12 h-[80px] w-[80px] bg-cover"
+      />
       {showCartModal && (
         <div
           onClick={(e) => handleOutSideBoxCloseModal(e)}
@@ -203,9 +208,21 @@ export const UserCart = () => {
           </div>
         </div>
       )}
+      <div className="h-[60px] w-full centerDiv theamColor">
+        <div className="h-full w-full max-w-[1050px] flex items-center addFont font-bold pl-[20px] text-[#f4f4f4]">
+          Cart
+        </div>
+      </div>
       {globalLoader == true ? (
-        <div className="h-full w-full centerDiv">
-          <PageSpinner />
+        <div className="h-full w-full bg-black bg-opacity-15 centerDiv p-2 rounded-md">
+          <div className="h-[150px] w-[250px] bg-white flex flex-col items-center p-2 addShadow rounded-md">
+            <span className="h-[50%] w-full text-center addFont">
+              we are processing your request please wait
+            </span>
+            <span className="h-[50%] w-full centerDiv">
+              <CircularSpinner />
+            </span>
+          </div>
         </div>
       ) : (
         <>
