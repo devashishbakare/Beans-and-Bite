@@ -177,6 +177,7 @@ export const Wallet = () => {
                     placeholder="Add Amount here.."
                     value={amount}
                     onChange={handleChange}
+                    data-testid="walletAmount"
                   />
                   <span className="w-[98%] border-[1px] border-gray-500 ml-2"></span>
                 </div>

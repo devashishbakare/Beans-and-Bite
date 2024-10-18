@@ -16,6 +16,7 @@ import { OrderHistory } from "./OrderHistory";
 export const Content = () => {
   //todo : update this with the redux slice
   // const { selectedOption, updateSelection } = useUpdateSelection();
+  console.log("Request for update here");
   const { navbarOpationSelection } = useSelector(
     (state) => state.navbarSelection
   );
@@ -34,11 +35,6 @@ export const Content = () => {
       {navbarOpationSelection == "Order" && (
         <div className="h-full w-full">
           <Order />
-        </div>
-      )}
-      {navbarOpationSelection == "productOrder" && (
-        <div className="h-full w-full">
-          <ProductOrder />
         </div>
       )}
       {navbarOpationSelection == "Cart" && (
@@ -84,6 +80,11 @@ export const Content = () => {
       {navbarOpationSelection == "orderHistory" && (
         <div className="h-full w-full">
           <OrderHistory />
+        </div>
+      )}
+      {navbarOpationSelection == "productOrder" && (
+        <div className="h-full w-full">
+          <ProductOrder />
         </div>
       )}
     </div>

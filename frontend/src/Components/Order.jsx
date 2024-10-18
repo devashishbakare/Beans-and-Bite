@@ -10,6 +10,7 @@ import { History } from "./History";
 import {
   addFromNavbar,
   addToHistory,
+  resetHistory,
   removeFromHistory,
 } from "../redux/slices/historySlice";
 import { updateNavbarOptionSelection } from "../redux/slices/NavbarSlice";
@@ -28,6 +29,7 @@ export const Order = () => {
 
   useEffect(() => {
     const updateHistory = () => {
+      dispatch(resetHistory());
       dispatch(addFromNavbar({ sectionName: "Order" }));
       dispatch(addToHistory({ sectionName: currSelectedOption }));
     };

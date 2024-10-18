@@ -146,9 +146,14 @@ export const UserCart = () => {
     product,
     customizationDetails
   ) => {
-    // console.log("request fullfilled");
+    console.log(
+      "request for same customization",
+      product,
+      customizationDetails
+    );
+
     dispatch(addProductInfo({ data: product, customizationDetails }));
-    dispatch(updateNavbarOptionSelection("productOrder"));
+    dispatch(updateNavbarOptionSelection({ option: "productOrder" }));
   };
 
   const handleOutSideBoxCloseModal = (event) => {
@@ -185,7 +190,7 @@ export const UserCart = () => {
         <div
           onClick={(e) => handleOutSideBoxCloseModal(e)}
           id="cartModalParent"
-          className="absolute centerToPage z-[8890] h-full w-full bg-black bg-opacity-15 centerDiv addBorder"
+          className="absolute centerToPage z-[8890] h-full w-full bg-black bg-opacity-15 centerDiv"
         >
           <div className="addShadow h-auto w-[300px] centerDiv flex-col p-2 gap-[10px] rounded-md bg-slate-50 md:w-[500px] ">
             <span className="h-[auto] w-[90%] p-2 addFont ">
@@ -335,7 +340,7 @@ export const UserCart = () => {
                           cartProduct.productId.category == "Drinks") && (
                           <div
                             onClick={() => handleShowCartCustomization(index)}
-                            className="h-[35px] w-full flex items-center pl-1 text-[0.95rem] text-blue-800 opacity-90 underline addBorder"
+                            className="h-[35px] w-full flex items-center pl-1 text-[0.95rem] text-blue-800 opacity-90 underline"
                           >
                             {showCartCustomizationDetails[index] == false
                               ? "show product customization details"

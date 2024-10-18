@@ -42,7 +42,7 @@ export const Favourite = () => {
 
   const handleAddToCart = (product) => {
     dispatch(addProductInfo({ data: product }));
-    dispatch(updateNavbarOptionSelection("productOrder"));
+    dispatch(updateNavbarOptionSelection({ option: "productOrder" }));
   };
 
   const handleDeleteFromCart = (product, index) => {

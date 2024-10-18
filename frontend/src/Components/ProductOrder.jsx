@@ -32,11 +32,12 @@ import { updateSignInUpModal } from "../redux/slices/userAuthSlice";
 import { updateCartProduct } from "../utils/api";
 import { addProductInfo } from "../redux/slices/ProductInfoSlice";
 export const ProductOrder = () => {
+  console.log("rendering details here");
   const dispatch = useDispatch();
   const { product, customizationDetails } = useSelector(
     (state) => state.productInfo
   );
-  console.log(customizationDetails, "details");
+  console.log(product, "details");
   const { token, isAuthenticated } = useSelector((state) => state.userAuth);
   const { cartError, favoriteError, favorites } = useSelector(
     (state) => state.notification
@@ -304,11 +305,13 @@ export const ProductOrder = () => {
             <FcLike
               onClick={() => handleAddToFavorite(product._id)}
               className="text-[2.1rem]"
+              data-testid="favTest"
             />
           ) : (
             <CiHeart
               onClick={() => handleAddToFavorite(product._id)}
-              className="text-[2.1rem] "
+              className="text-[2.1rem]"
+              data-testid="notFavTest"
             />
           )}
         </div>
@@ -328,6 +331,7 @@ export const ProductOrder = () => {
                 ? "translate-y-[-350px] theamColor border-none"
                 : "translate-y-0 bg-[#f1ebeb] border-[0.6px] border-gray-100"
             }`}
+            data-testid="customTest"
           >
             <div className="h-full w-full max-w-[1050px] flex flex-col">
               <div
