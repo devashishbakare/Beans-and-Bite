@@ -2,27 +2,38 @@ import React from "react";
 import propTypes from "prop-types";
 import { CiHome, CiSearch, CiGift } from "react-icons/ci";
 import { HiOutlineUserCircle } from "react-icons/hi2";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { updateNavbarOptionSelection } from "../redux/slices/NavbarSlice";
 import { updateSignInUpModal } from "../redux/slices/userAuthSlice";
-export const MobileViewNavBar = ({ openSignInUpModal }) => {
+
+export const MobileViewNavBar = () => {
   const dispatch = useDispatch();
-  const handleShowProfilePage = () => {
-    // todo : if there is token then move to profile page
-    // todo : else show signInModal
-    dispatch(updateSignInUpModal({ requestFor: "open" }));
+  const { isAuthenticated } = useSelector((state) => state.userAuth);
+  const handleProfileClick = () => {
+    if (isAuthenticated == false) {
+      dispatch(updateSignInUpModal({ requestFor: "open" }));
+    } else {
+      dispatch(updateNavbarOptionSelection({ option: "Account" }));
+    }
   };
   return (
     <div className="h-full w-full flex">
       <div className="h-full w-[40%] flex">
         <div
-          onClick={() => dispatch(updateNavbarOptionSelection("home"))}
+          onClick={() =>
+            dispatch(updateNavbarOptionSelection({ option: "Home" }))
+          }
           className="h-full w-[50%] centerDiv flex-col gap-1"
         >
           <CiHome className="text-[1.7rem] text-green-800 " />
           <span className="text-[0.6rem]">Home</span>
         </div>
-        <div className="h-full w-[50%] centerDiv flex-col gap-1">
+        <div
+          onClick={() =>
+            dispatch(updateNavbarOptionSelection({ option: "Gift" }))
+          }
+          className="h-full w-[50%] centerDiv flex-col gap-1"
+        >
           <CiGift className="text-[1.7rem] text-green-800 " />
           <span className="text-[0.6rem]">Gift</span>
         </div>
@@ -37,7 +48,7 @@ export const MobileViewNavBar = ({ openSignInUpModal }) => {
         </div>
         <span
           onClick={() =>
-            dispatch(updateNavbarOptionSelection({ option: "order" }))
+            dispatch(updateNavbarOptionSelection({ option: "Order" }))
           }
           className="w-full h-[30%] text-[0.7rem] centerDiv mb-2"
         >
@@ -55,7 +66,7 @@ export const MobileViewNavBar = ({ openSignInUpModal }) => {
           <span className="text-[0.6rem]">Search</span>
         </div>
         <div
-          onClick={handleShowProfilePage}
+          onClick={() => handleProfileClick()}
           className="h-full w-[50%] centerDiv flex-col gap-1 "
         >
           <HiOutlineUserCircle className="text-[1.7rem] text-green-800 " />

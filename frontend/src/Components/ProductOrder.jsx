@@ -32,12 +32,13 @@ import { updateSignInUpModal } from "../redux/slices/userAuthSlice";
 import { updateCartProduct } from "../utils/api";
 import { addProductInfo } from "../redux/slices/ProductInfoSlice";
 export const ProductOrder = () => {
-  console.log("rendering details here");
+  //console.log("rendering details here");
   const dispatch = useDispatch();
   const { product, customizationDetails } = useSelector(
     (state) => state.productInfo
   );
-  console.log(product, "details");
+  const { history } = useSelector((state) => state.history);
+  //console.log(product, "details");
   const { token, isAuthenticated } = useSelector((state) => state.userAuth);
   const { cartError, favoriteError, favorites } = useSelector(
     (state) => state.notification
@@ -113,7 +114,9 @@ export const ProductOrder = () => {
       }
     };
     const updateHistory = () => {
-      dispatch(addToHistory({ sectionName: product.name }));
+      if (history[history.length - 1] != product.name) {
+        dispatch(addToHistory({ sectionName: product.name }));
+      }
     };
     checkProductInFavoriteOrNot();
     updateSyrupAndSacesOption();
@@ -293,14 +296,14 @@ export const ProductOrder = () => {
   };
 
   return (
-    <div className="h-full w-full flex flex-col addBorder relative">
+    <div className="h-full w-full flex flex-col relative">
       {isLoading == true && (
         <div className="h-full w-full centerDiv">
           <CircularSpinner />
         </div>
       )}
       <div className="h-full w-full flex flex-col relative theamColor overflow-hidden">
-        <div className="absolute top-[100px] right-[5%] addBorder h-[50px] w-[50px] centerDiv cursor-pointer md:right-[10%] bg-white rounded-full">
+        <div className="absolute top-[100px] right-[5%] h-[50px] w-[50px] centerDiv cursor-pointer md:right-[10%] bg-white rounded-full">
           {isFavorite == true ? (
             <FcLike
               onClick={() => handleAddToFavorite(product._id)}

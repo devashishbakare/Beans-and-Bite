@@ -23,9 +23,9 @@ export const GiftHistory = () => {
   const getHistory = async (token, page, limit) => {
     setIsLoading(true);
     const response = await fetchUserGiftHistory(token, page, limit);
-    console.log(response, "from component");
+    //console.log(response, "from component");
     if (response.success) {
-      console.log(response.data);
+      //console.log(response.data);
       const { giftDetails, totalGifts } = response.data;
       setPaginationDetails((prevDetails) => ({
         ...prevDetails,

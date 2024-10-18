@@ -146,11 +146,11 @@ export const UserCart = () => {
     product,
     customizationDetails
   ) => {
-    console.log(
-      "request for same customization",
-      product,
-      customizationDetails
-    );
+    // console.log(
+    //   "request for same customization",
+    //   product,
+    //   customizationDetails
+    // );
 
     dispatch(addProductInfo({ data: product, customizationDetails }));
     dispatch(updateNavbarOptionSelection({ option: "productOrder" }));

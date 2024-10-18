@@ -11,7 +11,7 @@ export const Home = () => {
 
   return (
     <div className="h-[100vh] w-[100vw] flex flex-col-reverse relative sm:flex-col">
-      <div className="hide sm:flex justify-center items-center h-[70px] w-full addBorder ">
+      <div className="hide sm:flex justify-center items-center h-[70px] w-full ">
         <Navbar />
       </div>
       <div className="h-[70px] w-full max-w-[1050px] centerDiv sm:hidden">

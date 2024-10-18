@@ -8,7 +8,6 @@ export const ProductInfoCart = ({ products }) => {
   const dispatch = useDispatch();
 
   const handleAddToCart = (product) => {
-    console.log("request fullfilled");
     dispatch(addProductInfo({ data: product }));
     dispatch(updateNavbarOptionSelection({ option: "productOrder" }));
   };

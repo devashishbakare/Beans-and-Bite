@@ -28,7 +28,7 @@ export const Favourite = () => {
         setGlobalLoader(true);
         const response = await fetchFavouritesProduct(token, favorites);
         if (response.success) {
-          console.log(response.data);
+          //console.log(response.data);
           setUserFavourites(response.data);
         } else {
           showErrorNotification("something went wrong, please try again later");

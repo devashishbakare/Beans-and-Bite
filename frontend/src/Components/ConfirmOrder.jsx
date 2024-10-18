@@ -55,7 +55,7 @@ export const ConfirmOrder = () => {
       setIsLoading(true);
       const response = await fetchProductFromCart(token);
       if (response.success) {
-        console.log(response.data);
+        //console.log(response.data);
         let tempCost = 0;
         response.data.forEach((cartItem) => (tempCost += cartItem.amount));
         let perCent = tempCost / 100;
@@ -83,7 +83,7 @@ export const ConfirmOrder = () => {
   };
 
   const handleCitySelection = (cityName) => {
-    console.log(cityName, "reached in updating city");
+    // console.log(cityName, "reached in updating city");
     setCitySelection(cityName);
     setShowCityOption(false);
   };
@@ -203,7 +203,7 @@ export const ConfirmOrder = () => {
     };
 
     var rzp = new window.Razorpay(options);
-    console.log("requesting for open razorpay");
+    //console.log("requesting for open razorpay");
     setPaymentLoader(false);
     rzp.open();
   };
@@ -325,6 +325,7 @@ export const ConfirmOrder = () => {
                                   onChange={() =>
                                     handleCityStoreSelection(city.id)
                                   }
+                                  data-testid={`radio-${city.id}`}
                                 />
                               </div>
                             </div>
@@ -358,6 +359,7 @@ export const ConfirmOrder = () => {
                 <FaLocationDot className="text-[1.2rem] mb-[2px]" />
                 {(citySelection.length == 0 || cityStoreSelectionId == -1) && (
                   <button
+                    data-testid="selectCityTest"
                     onClick={() => setShowStoreSelectionModal(true)}
                     className=" capitalize h-[40px] w-[120px] theamColor text-[#f4f4f4] rounded-full text-[0.9rem] font-light ml-[10px]"
                   >
@@ -581,6 +583,7 @@ export const ConfirmOrder = () => {
             </span>
             <button
               onClick={() => handlePlaceOrder()}
+              data-testid="placeOrderTest"
               className="h-[40px] w-[130px] addFont capitalize text-[0.89rem] bg-slate-200 rounded-3xl z-[9999] md:w-[220px]"
             >
               Place Order

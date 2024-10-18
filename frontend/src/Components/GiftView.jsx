@@ -25,6 +25,7 @@ import { setWalletAmount } from "../redux/slices/notificationSlice";
 export const GiftView = () => {
   const dispatch = useDispatch();
   const { extraData } = useSelector((state) => state.navbarSelection);
+  const { history } = useSelector((state) => state.history);
   //console.log(extraData);
   const { wallet } = useSelector((state) => state.notification);
   const { isAuthenticated, token } = useSelector((state) => state.userAuth);
@@ -40,7 +41,9 @@ export const GiftView = () => {
       }
     };
     const updateHistory = () => {
-      dispatch(addToHistory({ sectionName: cardInfo.title }));
+      if (history[history.length - 1] != cardInfo.title) {
+        dispatch(addToHistory({ sectionName: cardInfo.title }));
+      }
     };
     checkLogin();
     updateHistory();
@@ -147,7 +150,7 @@ export const GiftView = () => {
         token,
         giftCardFormik.values.amount
       );
-      console.log(response, "response from create gift request");
+      //console.log(response, "response from create gift request");
       if (response.success) {
         handleOpenRazerpay(response.data, giftCollectedInfo);
       } else {
@@ -177,10 +180,10 @@ export const GiftView = () => {
           razorpay_payment_id: response.razorpay_payment_id,
         };
         const responseForVarification = await razorpayVarifyGiftOrder(data);
-        console.log(responseForVarification, "verify response");
+        //console.log(responseForVarification, "verify response");
         if (responseForVarification.success === true) {
           const response = await payViaPaymentGateway(token, giftCollectedInfo);
-          console.log(response, "pay via payment gateway response");
+          //console.log(response, "pay via payment gateway response");
 
           if (response.success) {
             showSuccessNotification(
@@ -208,7 +211,7 @@ export const GiftView = () => {
     };
 
     var rzp = new window.Razorpay(options);
-    console.log("requesting for open razorpay");
+    //console.log("requesting for open razorpay");
     setPaymentLoader(false);
     rzp.open();
   };
@@ -219,7 +222,7 @@ export const GiftView = () => {
         <div
           onClick={(e) => handleOutSideBoxCloseModal(e)}
           id="payOptionModal"
-          className="absolute centerToPage z-[8890] h-full w-full bg-black bg-opacity-15 centerDiv addBorder "
+          className="absolute centerToPage z-[8890] h-full w-full bg-black bg-opacity-15 centerDiv "
         >
           <div className="addShadow h-auto w-[90%] min-w-[300px] max-w-[600px] centerDiv flex-col p-2 gap-[10px] rounded-md bg-slate-50 md:w-[500px] ">
             <span className="h-[auto] w-[90%] p-2 addFont text-center ">
@@ -251,11 +254,11 @@ export const GiftView = () => {
       <div className="h-[70px] w-full centerDiv theamColor shrink-0 z-[8886]">
         <History />
       </div>
-      <div className="h-full w-full addBorder centerDiv">
+      <div className="h-full w-full centerDiv">
         <form
           onSubmit={giftCardFormik.handleSubmit}
           autoComplete="off"
-          className="h-full w-full max-w-[1050px] addBorder flex flex-col overflow-hidden relative"
+          className="h-full w-full max-w-[1050px] flex flex-col overflow-hidden relative"
         >
           {paymentLoader == true && (
             <div className="centerToPage h-[120px] w-[250px] z-[9999] bg-white flex flex-col items-center p-2 addShadow rounded-md">

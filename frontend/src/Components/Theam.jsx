@@ -9,7 +9,7 @@ export const Theam = () => {
       <div className="h-[8vh] w-full max-w-[1250px] centerDiv sm:hidden">
         <MobileViewNavBar />
       </div>
-      <div className="h-[92vh] w-full addBorder centerDiv">other content</div>
+      <div className="h-[92vh] w-full centerDiv">other content</div>
     </div>
   );
 };

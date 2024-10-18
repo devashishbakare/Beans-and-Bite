@@ -6,8 +6,12 @@ import { showErrorNotification } from "../utils/notification";
 import { ToastContainer } from "react-toastify";
 import { fetchSearchResult, fetchBestSellingProducts } from "../utils/api";
 import CircularSpinner from "../utils/Spinners/CircularSpinner";
+import { addProductInfo } from "../redux/slices/ProductInfoSlice";
+import { updateNavbarOptionSelection } from "../redux/slices/NavbarSlice";
+import { useDispatch } from "react-redux";
 //todo : addItem into user cart yet to implement
 export const MobileSearch = () => {
+  const dispatch = useDispatch();
   const [searchKey, setSearchKey] = useState("");
   const [bestSellingProducts, setBestSellingProducts] = useState([]);
   const [searchResult, setSearchResult] = useState([]);
@@ -58,6 +62,11 @@ export const MobileSearch = () => {
   const cancelSearchOperation = () => {
     setSearchKey("");
     setNotFoundFlag(false);
+  };
+
+  const handleAddItem = (product) => {
+    dispatch(addProductInfo({ data: product }));
+    dispatch(updateNavbarOptionSelection({ option: "productOrder" }));
   };
 
   return (
@@ -147,7 +156,10 @@ export const MobileSearch = () => {
                       <span className="h-full w-[50%] addFont text-[0.98rem] flex items-center pl-2">
                         ₹ {product.price}
                       </span>
-                      <span className=" h-auto w-[50%] flex items-center">
+                      <span
+                        onClick={() => handleAddItem(product)}
+                        className=" h-auto w-[50%] flex items-center"
+                      >
                         <button className="h-[30px] w-[90px] bg-[#16754a] text-[white] rounded-[20px] text-[0.8rem] addFont ">
                           Add Item
                         </button>
@@ -192,8 +204,11 @@ export const MobileSearch = () => {
                         <span className="h-full w-[50%] addFont text-[0.98rem] flex items-center pl-2">
                           ₹ {product.price}
                         </span>
-                        <span className=" h-auto w-[50%] flex items-center">
-                          <button className=" h-[30px] w-[90px] bg-[#16754a] text-[white] rounded-[20px] text-[0.8rem] addFont ">
+                        <span
+                          onClick={() => handleAddItem(product)}
+                          className=" h-auto w-[50%] flex items-center"
+                        >
+                          <button className=" h-[30px] w-[90px] bg-[#16754a] text-[white] rounded-[20px] text-[0.8rem] addFont">
                             Add Item
                           </button>
                         </span>

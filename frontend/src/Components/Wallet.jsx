@@ -21,7 +21,7 @@ import {
 } from "../utils/api";
 export const Wallet = () => {
   const { wallet } = useSelector((state) => state.notification);
-  console.log(wallet);
+  //console.log(wallet);
   const { isAuthenticated, token } = useSelector((state) => state.userAuth);
   const dispatch = useDispatch();
   const [paymentLoader, setPaymentLoader] = useState(false);
@@ -48,7 +48,7 @@ export const Wallet = () => {
     }
     setPaymentLoader(true);
     const response = await razorpayCreateGiftRequest(token, amount);
-    console.log(response, "response from create gift request");
+    // console.log(response, "response from create gift request");
     if (response.success) {
       handleOpenRazerpay(response.data);
     } else {
@@ -91,10 +91,10 @@ export const Wallet = () => {
           razorpay_payment_id: response.razorpay_payment_id,
         };
         const responseForVarification = await razorpayVarifyGiftOrder(data);
-        console.log(responseForVarification, "verify response");
+        // console.log(responseForVarification, "verify response");
         if (responseForVarification.success === true) {
           const response = await addToWallet(token, amount);
-          console.log(response, "add to wallet response");
+          // console.log(response, "add to wallet response");
 
           if (response.success) {
             showSuccessNotification("Money has been added to your wallet");
@@ -121,7 +121,7 @@ export const Wallet = () => {
     };
 
     var rzp = new window.Razorpay(options);
-    console.log("requesting for open razorpay");
+    // console.log("requesting for open razorpay");
     setPaymentLoader(false);
     rzp.open();
   };

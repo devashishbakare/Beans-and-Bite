@@ -44,7 +44,7 @@ export const Navbar = () => {
   const [totalPages, setTotalPages] = useState(0);
   const fetchSearchWithDebouncing = useCallback(
     debounce(async (input, page) => {
-      console.log(input, page);
+      //console.log(input, page);
       if (input) {
         setIsLoading(true);
         // console.log("while calling");
@@ -318,11 +318,11 @@ export const Navbar = () => {
             />
           </div>
         )}
-        <div className="h-full w-[80px] centerDiv">
+        {/* <div className="h-full w-[80px] centerDiv">
           <button onClick={handleLogOut} className="h-[50px] w-full addBorder">
             Logout
           </button>
-        </div>
+        </div> */}
       </div>
       <ToastContainer />
     </div>
