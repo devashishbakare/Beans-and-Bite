@@ -590,97 +590,81 @@ export const storeMapper = [
   },
 ];
 
-export const tempOrderDetails = {
-  _id: "6708912d85b09c34ec3bab44",
-  orderId: 1,
-  userId: "66d2a1ffa885c553d06f567d",
-  products: [
-    {
-      _id: "66ffd02a1b2fbe32ac91e025",
-      userId: "66d2a1ffa885c553d06f567d",
-      productId: {
-        _id: "66c31de042624a9ad21020bd",
-        name: "Stardust Macchiato",
-        productInfo: "SHORT(Short Stardust Macchiato)",
-        productDetails:
-          "Super smooth and creamy vanilla half and half crowned with sweet and subtle cold foam, marked with an intense ristretto shot and cocoa dust",
-        category: "Drinks",
-        price: 414.75,
-        productCartImage:
-          "http://res.cloudinary.com/djgouef8q/image/upload/v1723956399/dw1w9sobw6cx2hecpzk8.jpg",
-        productDetailsImage:
-          "http://res.cloudinary.com/djgouef8q/image/upload/v1723956421/maaclqnvqefetwmosh3m.jpg",
-        productType: "Veg",
-        __v: 0,
-      },
-      amount: 414.75,
-      size: "Short",
-      milk: "No Milk",
-      espresso: "Indian Espresso Roast (Default)",
-      temperature: "Normal Hot",
-      whippedTopping: "No whipped Topping",
-      syrupAndSauces: [],
-      __v: 0,
-    },
-    {
-      _id: "67077a71d1802a4fe4b7567a",
-      userId: "66d2a1ffa885c553d06f567d",
-      productId: {
-        _id: "66c31de042624a9ad21020bc",
-        name: "cold coffee",
-        productInfo: "TALL(354 ML) .354 kcal",
-        productDetails:
-          "Our signature rich in flavour espresso blended with delicate vanilla flavour and milk to create a perfect cold coffee delight. An all time favourite. Allergen-Contains Milk, Tall: 354 ML, 354 kcal, Grande: 473 ML, 473 kcal, Venti: 591 ML, 501 kcal.An average active adult requires 2000 kcal energy per day, however, calorie needs may vary",
-        category: "Bestseller",
-        price: 283.5,
-        productCartImage:
-          "http://res.cloudinary.com/djgouef8q/image/upload/v1723955959/o7aepu4j0xc2brsic0om.webp",
-        productDetailsImage:
-          "http://res.cloudinary.com/djgouef8q/image/upload/v1723955936/t8xafu6kv5xtwvchj25z.jpg",
-        productType: "Veg",
-        __v: 0,
-      },
-      amount: 283.5,
-      size: "Short",
-      milk: "No Milk",
-      espresso: "Indian Espresso Roast (Default)",
-      temperature: "Normal Hot",
-      whippedTopping: "No whipped Topping",
-      syrupAndSauces: [],
-      __v: 0,
-    },
-    {
-      _id: "67077a80d1802a4fe4b75688",
-      userId: "66d2a1ffa885c553d06f567d",
-      productId: {
-        _id: "66c31de042624a9ad21020c0",
-        name: "Mushroom Cheese Melt Baguette Sandwich",
-        productInfo: "210g/541kcal",
-        productDetails:
-          "Hearty mushrooms topped with melted yellow cheddar cheese in a herbed aioli garnished with chopped parsley served in a baguette",
-        category: "Food",
-        price: 462,
-        productCartImage:
-          "http://res.cloudinary.com/djgouef8q/image/upload/v1723956991/soewojbbr0jujhr5okce.jpg",
-        productDetailsImage:
-          "http://res.cloudinary.com/djgouef8q/image/upload/v1723956953/sal7dmpuesy2pknbmoc8.jpg",
-        productType: "Veg",
-        __v: 0,
-      },
-      amount: 462,
-      size: "Short",
-      milk: "No Milk",
-      espresso: "Indian Espresso Roast (Default)",
-      temperature: "Normal Hot",
-      whippedTopping: "No whipped Topping",
-      syrupAndSauces: [],
-      __v: 0,
-    },
-  ],
-  takeAwayFrom: "Shop 8, Orion Mall, Dr. Rajkumar Road, Bangalore",
-  amount: 1218.26,
-  paymentMethod: "Payment Gateway",
-  additionalMessage: "",
-  __v: 0,
-  updatedAt: "2024-10-14T01:49:46.016Z",
-};
+export const articleData = [
+  {
+    id: "article-0",
+    tittle: "Art & Science of coffee brewing",
+    image:
+      "http://res.cloudinary.com/djgouef8q/image/upload/v1724472065/fylfg29273jqhurwsewr.jpg",
+    coffeeArticle: [
+      [
+        "The Art and Science of Coffee and Brewing",
+        "Coffee is more than just a morning ritual; it is an intricate balance between art and science. From the cultivation of beans to the final brewed cup, every step plays a vital role in delivering that perfect sip.",
+      ],
+      [
+        "The Origins of Coffee",
+        "Coffee originates from the highlands of Ethiopia, where legend has it that a goat herder named Kaldi discovered the stimulating effects of coffee beans after his goats became particularly energetic after eating them. Over centuries, coffee spread across the globe, becoming a cultural staple in regions such as the Middle East, Europe, and the Americas.",
+      ],
+      [
+        "The Science of Coffee Beans",
+        "Two primary species of coffee beans dominate the world market: Arabica and Robusta. Arabica beans are known for their smooth, rich flavors and lower caffeine content, while Robusta beans have a stronger, more bitter taste with higher caffeine levels.",
+      ],
+      [
+        "The Art of Brewing",
+        "Once you have high-quality beans, the brewing process becomes an art form that allows you to extract the best possible flavors. Key factors include grind size, water temperature, brew time, water quality, and coffee-to-water ratio.",
+      ],
+      [
+        "Brewing Methods",
+        "There are countless ways to brew coffee, each offering unique benefits, from espresso and pour-over to French press and cold brew, all of which impact the taste, strength, and body of the coffee.",
+      ],
+      [
+        "The Role of Baristas",
+        "Skilled baristas use both precision and intuition to create balanced and enjoyable coffee drinks. Their expertise extends to espresso-based drinks like lattes and cappuccinos, adding a touch of art through latte designs.",
+      ],
+      [
+        "The Experience of Coffee",
+        "Coffee has become a social and cultural experience. Cafes around the world serve as gathering places where people share conversations, work, or simply take a moment to enjoy the atmosphere. For many, coffee is not just a drink but a ritual that starts the day or provides a much-needed break.",
+      ],
+    ],
+  },
+  {
+    id: "article-1",
+    tittle: "Make Pefect Coffee At Home",
+    image:
+      "http://res.cloudinary.com/djgouef8q/image/upload/v1729303620/sw2sxyg34bssyoao4ab5.jpg",
+    coffeeArticle: [
+      [
+        "Choose Fresh, High-Quality Beans",
+        "The foundation of great coffee starts with fresh, high-quality beans. Opt for whole beans rather than pre-ground coffee, as the flavor starts to degrade once the beans are ground. Always check the roast date and try to use beans within two to three weeks of roasting.",
+      ],
+      [
+        "Store Beans Properly",
+        "Coffee beans should be stored in an airtight container away from light, heat, and moisture. Avoid keeping beans in the fridge or freezer, as they can absorb moisture and odors, affecting the flavor. Instead, store them at room temperature in a dark, cool place.",
+      ],
+      [
+        "Grind Your Beans Before Brewing",
+        "For the best flavor, grind your coffee just before brewing. The grind size should match your brewing method. For example, use a coarse grind for French press, medium grind for drip coffee makers, and fine grind for espresso.",
+      ],
+      [
+        "Use the Right Water",
+        "Since coffee is mostly water, using good-quality water is essential. Filtered water without strong mineral content works best. Avoid distilled or overly soft water as it can lead to flat-tasting coffee.",
+      ],
+      [
+        "Measure Your Coffee and Water",
+        "Getting the right coffee-to-water ratio is key to making the perfect cup. A good starting point is using 1 to 2 tablespoons of coffee per 6 ounces of water. Adjust according to your taste preference.",
+      ],
+      [
+        "Brew at the Right Temperature",
+        "The ideal water temperature for brewing coffee is between 195°F and 205°F (90°C - 96°C). If the water is too hot, it can result in bitter coffee; if too cold, the coffee will taste flat and under-extracted.",
+      ],
+      [
+        "Experiment with Brewing Methods",
+        "Different brewing methods can bring out different flavors in your coffee. Try experimenting with methods like pour-over, French press, AeroPress, or espresso to see which one suits your taste preferences.",
+      ],
+      [
+        "Clean Your Equipment Regularly",
+        "Ensure your coffee maker, grinder, and other brewing equipment are cleaned regularly to avoid a buildup of coffee oils and residues that can affect the taste. A clean machine makes a better cup of coffee.",
+      ],
+    ],
+  },
+];

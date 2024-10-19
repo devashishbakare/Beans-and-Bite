@@ -14,7 +14,8 @@ export const History = () => {
       sectionName == "Gift" ||
       sectionName == "Home" ||
       sectionName == "Wallet" ||
-      sectionName == "Cart"
+      sectionName == "Cart" ||
+      sectionName == "Article"
     ) {
       dispatch(updateNavbarOptionSelection({ option: sectionName }));
     } else {

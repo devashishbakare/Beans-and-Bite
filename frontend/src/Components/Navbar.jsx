@@ -174,6 +174,14 @@ export const Navbar = () => {
             >
               Wallet
             </div>
+            <div
+              onClick={() =>
+                dispatch(updateNavbarOptionSelection({ option: "Article" }))
+              }
+              className="h-full min-w-[70px] centerDiv cursor-pointer"
+            >
+              Articles
+            </div>
           </>
         ) : (
           <div className="h-full w-[95%] centerDiv">
@@ -310,6 +318,7 @@ export const Navbar = () => {
             </span>
           )}
         </div>
+
         {searchIconClick === false && (
           <div className="h-full w-[60px] centerDiv cursor-pointer">
             <CiSearch

@@ -15,6 +15,7 @@ import {
   showSuccessNotification,
 } from "../utils/notification";
 import CircularSpinner from "../utils/Spinners/CircularSpinner";
+import { MdArticle } from "react-icons/md";
 import { updateNavbarOptionSelection } from "../redux/slices/NavbarSlice";
 import { resetUserAuth } from "../redux/slices/userAuthSlice";
 import { resetProductSlice } from "../redux/slices/productSlice";
@@ -427,6 +428,26 @@ export const Account = () => {
                   </span>
                   <span className="h-full flex-1 text-[1.1rem] addFont flex items-center ml-[10px] uppercase baseColor md:text-[1.2rem]">
                     Favourites
+                  </span>
+                </div>
+                <span className="h-full w-[60px] centerDiv">
+                  <FaAngleRight className="text-[1.4rem]" />
+                </span>
+              </div>
+              <hr className="border-[1px] w-[90%] border-gray-300 md:w-[100%]" />
+              <div
+                onClick={() =>
+                  dispatch(updateNavbarOptionSelection({ option: "Article" }))
+                }
+                className="h-[70px] w-full flex cursor-pointer"
+                data-testid="editProfileDiv"
+              >
+                <div className="h-full flex-1 flex md:pl-[30px]">
+                  <span className="h-full w-[60px] centerDiv">
+                    <MdArticle className="text-[1.7rem] baseColor" />
+                  </span>
+                  <span className="h-full flex-1 text-[1.1rem] addFont flex items-center ml-[10px] uppercase baseColor md:text-[1.2rem]">
+                    Articles
                   </span>
                 </div>
                 <span className="h-full w-[60px] centerDiv">

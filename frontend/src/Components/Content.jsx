@@ -13,6 +13,8 @@ import { ConfirmOrder } from "./ConfirmOrder";
 import { Account } from "./Account";
 import { GiftHistory } from "./GiftHistory";
 import { OrderHistory } from "./OrderHistory";
+import { Article } from "./Article";
+import { ArticleView } from "./ArticleView";
 export const Content = () => {
   //todo : update this with the redux slice
   // const { selectedOption, updateSelection } = useUpdateSelection();
@@ -85,6 +87,16 @@ export const Content = () => {
       {navbarOpationSelection == "productOrder" && (
         <div className="h-full w-full">
           <ProductOrder />
+        </div>
+      )}
+      {navbarOpationSelection == "Article" && (
+        <div className="h-full w-full">
+          <Article />
+        </div>
+      )}
+      {navbarOpationSelection == "articleView" && (
+        <div className="h-full w-full">
+          <ArticleView />
         </div>
       )}
     </div>

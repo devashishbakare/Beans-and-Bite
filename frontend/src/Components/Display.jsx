@@ -88,9 +88,9 @@ export const Display = () => {
                 Beans And Bite
               </span>
 
-              <span className="h-[35px] w-[100px] border-[1px] border-white text-[#f4f4f4] text-[0.8rem] centerDiv rounded-lg mr-[20px]">
+              {/* <span className="h-[35px] w-[100px] border-[1px] border-white text-[#f4f4f4] text-[0.8rem] centerDiv rounded-lg mr-[20px]">
                 Know More
-              </span>
+              </span> */}
             </div>
           </div>
           <div className="h-auto w-full centerDiv">
@@ -238,7 +238,14 @@ export const Display = () => {
                     </span>
                   </div>
                   <div className="h-[80px] w-auto flex flex-col-reverse ml-3">
-                    <button className="h-[40px] w-[190px] bg-[#f4f4f4] rounded-[30px] addFont text-[0.86rem]">
+                    <button
+                      onClick={() =>
+                        dispatch(
+                          updateNavbarOptionSelection({ option: "Article" })
+                        )
+                      }
+                      className="h-[40px] w-[190px] bg-[#f4f4f4] rounded-[30px] addFont text-[0.86rem]"
+                    >
                       Learn more
                     </button>
                   </div>
