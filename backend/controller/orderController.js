@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
 const User = require("../model/User");
 const Cart = require("../model/CartCustomization");
+const { beansAndBiteEmailQueue } = require("../config/queue");
 const Order = require("../model/Order");
 const t = async (req, res) => {
   try {
@@ -86,6 +87,21 @@ const createOrder = async (req, res) => {
         { new: true, session }
       );
     }
+
+    const mailSendingInfo = {
+      name: user.name,
+      amount: order.amount,
+      takeAwayFrom,
+    };
+
+    await beansAndBiteEmailQueue.add("Order Confirmed", {
+      from: "beansandbite@gmail.com",
+      to: user.email,
+      requestFor: "confirmOrder",
+      subject: "Order Confirmation - Beans and Bite",
+      data: mailSendingInfo,
+    });
+
     await session.commitTransaction();
 
     return res.status(200).json({
@@ -132,9 +148,28 @@ const updateOrderDates = async (req, res) => {
   }
 };
 
-module.exports = { updateOrderDates };
+const testEmailFunctionality = async (req, res) => {
+  console.log("request comming here", req.body);
+  try {
+    const { to, mailSendingInfo } = req.body;
+    await beansAndBiteEmailQueue.add("Order Confirmed", {
+      from: "beansandbite@gmail.com",
+      to,
+      requestFor: "confirmOrder",
+      subject: "Order Confirmation - Beans and Bite",
+      data: mailSendingInfo,
+    });
+    return res.status(200).json({ message: "added to queue" });
+  } catch (error) {
+    return res.status(500).json({
+      error: error.message,
+      message: "Something went wrong while updating order dates",
+    });
+  }
+};
 
 module.exports = {
   createOrder,
   updateOrderDates,
+  testEmailFunctionality,
 };

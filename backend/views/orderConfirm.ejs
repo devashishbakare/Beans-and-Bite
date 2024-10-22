@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Order Confirmation - Beans and Bite</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        font-size: 1rem;
+        color: #333;
+        background-color: #f9f9f9;
+        margin: 0;
+        padding: 0;
+      }
+      .container {
+        max-width: 600px;
+        margin: 0 auto;
+        background-color: #ffffff;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      }
+      .header {
+        font-size: 1.25rem;
+        font-weight: 600;
+        color: #116241;
+        margin-bottom: 20px;
+      }
+      .content {
+        font-size: 1rem;
+        line-height: 1.6;
+      }
+      .content span {
+        font-weight: 600;
+      }
+      .footer {
+        margin-top: 40px;
+        font-size: 0.9rem;
+        color: #555;
+      }
+      .footer span {
+        font-weight: 600;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="header">Order Confirmation - Beans and Bite</div>
+
+      <div class="content">
+        Dear <%= orderDetails.name %>, <br /><br />
+        We’re thrilled to confirm your order! 🎉 We’ve received your payment of
+        Rs. <span><%= orderDetails.amount %></span> and are currently preparing
+        your order with care. <br /><br />
+
+        You can pick up your order from: <br />
+        <span><%= orderDetails.takeAwayFrom %></span>
+        <br /><br />
+
+        For your convenience, the detailed order invoice has been attached to
+        this email. <br /><br />
+
+        Thank you for choosing Beans and Bite! We look forward to serving you.
+        😊
+        <br /><br />
+      </div>
+
+      <div class="footer">
+        <span>Warm regards,</span><br />
+        The Beans and Bite Team<br />
+        <br />
+        If you have any questions about your order, please don’t hesitate to
+        reach out to us.
+      </div>
+    </div>
+  </body>
+</html>

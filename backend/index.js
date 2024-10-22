@@ -11,6 +11,7 @@ const cors = require("cors");
 const db = require("./config/mongoose");
 const passportConfig = require("./config/passport");
 db();
+const beansAndBiteEmailWorker = require("./queue/beansAndBiteEmailQueue");
 //middelware
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
