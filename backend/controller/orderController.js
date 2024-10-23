@@ -1,7 +1,9 @@
 const mongoose = require("mongoose");
 const User = require("../model/User");
 const Cart = require("../model/CartCustomization");
+const Product = require("../model/Product");
 const { beansAndBiteEmailQueue } = require("../config/queue");
+
 const Order = require("../model/Order");
 const t = async (req, res) => {
   try {
@@ -24,11 +26,21 @@ const createOrder = async (req, res) => {
       await session.abortTransaction();
       return res.status(400).json({ message: "User not found" });
     }
-
+    let storeProductInfo = [];
     const cartProducts = await Promise.all(
-      products.map(
-        async (cartId) => await Cart.findById(cartId).session(session)
-      )
+      products.map(async (cartId) => {
+        const productCustomizationDetails = await Cart.findById(cartId).session(
+          session
+        );
+        const productId = productCustomizationDetails.productId;
+        const product = await Product.findById(productId);
+        const productInfo = {
+          image: product.productCartImage,
+          name: product.name,
+        };
+        storeProductInfo.push(productInfo);
+        return productCustomizationDetails;
+      })
     );
 
     if (cartProducts.includes(null)) {
@@ -94,18 +106,37 @@ const createOrder = async (req, res) => {
       takeAwayFrom,
     };
 
-    await beansAndBiteEmailQueue.add("Order Confirmed", {
-      from: "beansandbite@gmail.com",
-      to: user.email,
-      requestFor: "confirmOrder",
-      subject: "Order Confirmation - Beans and Bite",
-      data: mailSendingInfo,
-    });
+    const pdfInfo = {
+      user: {
+        name: user.name,
+        email: user.email,
+        mobileNumber: user.mobileNumber,
+      },
+      productInfo: storeProductInfo,
+      paymentInfo: {
+        paymentMethod,
+        amount: totalAmount,
+      },
+    };
+    console.log(pdfInfo);
+
+    // await beansAndBiteEmailQueue.add("Order Confirmed", {
+    //   from: "beansandbite@gmail.com",
+    //   to: user.email,
+    //   requestFor: "confirmOrder",
+    //   subject: "Order Confirmation - Beans and Bite",
+    //   data: mailSendingInfo,
+    // });
 
     await session.commitTransaction();
 
     return res.status(200).json({
-      data: { order, cartProducts, walletAmount: updatedUserResponse.wallet },
+      data: {
+        order,
+        cartProducts,
+        walletAmount: updatedUserResponse.wallet,
+        pdfInfo,
+      },
       message: "order has been created",
     });
   } catch (error) {
@@ -168,8 +199,38 @@ const testEmailFunctionality = async (req, res) => {
   }
 };
 
+const showOrderTemplate = (req, res) => {
+  console.log("request comming here");
+  const pdfInfo = {
+    user: {
+      name: "John Doe",
+      email: "devbakare00@gmail.com",
+      mobileNumber: "9876543211",
+    },
+    productInfo: [
+      {
+        image:
+          "http://res.cloudinary.com/djgouef8q/image/upload/v1724035655/mkpaehgvls2zv2fxh2lk.jpg",
+        name: "Via-Italian Roast",
+      },
+      {
+        image:
+          "http://res.cloudinary.com/djgouef8q/image/upload/v1724035989/i2ipwq4ebpf7fpwacmbz.jpg",
+        name: "Almond Biscotti",
+      },
+    ],
+    paymentInfo: {
+      paymentMethod: "Payment Gateway",
+      amount: 850.5,
+    },
+  };
+
+  return res.render("orderSummary", { pdfInfo });
+};
+
 module.exports = {
   createOrder,
   updateOrderDates,
   testEmailFunctionality,
+  showOrderTemplate,
 };

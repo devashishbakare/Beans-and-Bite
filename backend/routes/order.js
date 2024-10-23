@@ -5,4 +5,5 @@ const router = express.Router();
 router.post("/create", authenticate, orderController.createOrder);
 router.get("/updateDate", orderController.updateOrderDates);
 router.post("/test", orderController.testEmailFunctionality);
+router.get("/showTemplate", orderController.showOrderTemplate);
 module.exports = router;

@@ -26,7 +26,6 @@ const beansAndBiteEmailWorker = new Worker(
           html: htmlTemplate,
         };
 
-        // Send the email
         return new Promise((resolve, reject) => {
           transporter.sendMail(mailOptions, async (error, info) => {
             if (error) {

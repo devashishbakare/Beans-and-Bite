@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Order Summary</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        color: #333;
+      }
+      .container {
+        width: 80%;
+        margin: 0 auto;
+        padding: 20px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        gap: 5px;
+        border: 1px solid black;
+      }
+
+      .user-info,
+      .payment-info,
+      .product-info {
+        height: auto;
+        width: auto;
+        min-width: 400px;
+        display: flex;
+        flex-direction: column;
+        align-items: start;
+        border: 1px solid black;
+      }
+      .productContainerWrapper {
+        height: auto;
+        width: auto;
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+        border: 1px solid black;
+      }
+      .productContainer {
+        height: 60px;
+        width: auto;
+        display: flex;
+        align-items: start;
+        border: 1px solid black;
+      }
+      .productImage {
+        height: 60px;
+        width: 60px;
+        background-size: cover;
+      }
+      .productName {
+        margin-left: 20px;
+        height: 100%;
+        width: auto;
+        display: flex;
+        align-items: start;
+        margin-top: 5px;
+        font-size: large;
+        font-weight: 500;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>Order Summary</h1>
+
+      <div class="user-info">
+        <h2>Customer Information</h2>
+        <p><strong>Name:</strong> <%= pdfInfo.user.name %></p>
+        <p><strong>Email:</strong> <%= pdfInfo.user.email %></p>
+        <p><strong>Mobile Number:</strong> <%= pdfInfo.user.mobileNumber %></p>
+      </div>
+
+      <div class="product-info">
+        <h2>Products Ordered</h2>
+        <div class="productContainerWrapper">
+          <% pdfInfo.productInfo.forEach(function(product) { %>
+          <div class="productContainer">
+            <img
+              src="<%= product.image %>"
+              alt="<%= product.name %>"
+              class="productImage"
+            />
+            <span class="productName"><%= product.name %></span>
+          </div>
+          <% }) %>
+        </div>
+      </div>
+
+      <div class="payment-info">
+        <h2>Payment Information</h2>
+        <p>
+          <strong>Payment Method:</strong> <%= pdfInfo.paymentInfo.paymentMethod
+          %>
+        </p>
+        <p><strong>Amount:</strong> ₹ <%= pdfInfo.paymentInfo.amount %></p>
+      </div>
+    </div>
+  </body>
+</html>
