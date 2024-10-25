@@ -288,3 +288,14 @@ export const editUserDetails = async (token, userDetails) => {
     return { success: false, error: error.response.data.error };
   }
 };
+
+export const fetchNotificationDetails = async (token) => {
+  try {
+    const headers = createHeader(token);
+    const response = await axios.get(`${baseUrl}/user/data`, { headers });
+    const { data } = response.data;
+    return { success: true, data: data };
+  } catch (error) {
+    return { success: false, error: error.response.data.error };
+  }
+};

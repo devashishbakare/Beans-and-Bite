@@ -13,11 +13,11 @@ router.get("/google/callback", (req, res, next) => {
       return next(err);
     }
     if (!user) {
-      return res.redirect(`${process.env.FRONTEND_URL}/signIn`);
+      return res.redirect(`${process.env.FRONTEND_URL}`);
     }
     // Generate token and redirect
     const token = user.token;
-    res.redirect(`${process.env.FRONTEND_URL}/?token=${token}`);
+    res.redirect(`${process.env.FRONTEND_URL}?token=${token}`);
   })(req, res, next);
 });
 

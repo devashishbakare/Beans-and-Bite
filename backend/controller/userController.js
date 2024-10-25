@@ -339,6 +339,29 @@ const editProfile = async (req, res) => {
   }
 };
 
+const getUserData = async (req, res) => {
+  try {
+    const userId = req.userId;
+    const user = await User.findById(userId);
+    if (!user) {
+      return res.status(400).json({ message: "Token Missing" });
+    }
+    const cartCount = user.cart.length;
+    const favouriteCount = user.favourites.length;
+    const favourites = user.favourites;
+    const wallet = user.wallet;
+    return res.status(200).json({
+      data: { cartCount, favouriteCount, favourites, wallet },
+      message: "User data",
+    });
+  } catch (error) {
+    return res.status(500).json({
+      error: error.message,
+      message: "Something went wrong, try again later",
+    });
+  }
+};
+
 module.exports = {
   t,
   signIn,
@@ -350,4 +373,5 @@ module.exports = {
   fetchGiftHistory,
   fetchOrderHistory,
   editProfile,
+  getUserData,
 };

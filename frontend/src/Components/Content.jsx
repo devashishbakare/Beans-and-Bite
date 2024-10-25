@@ -16,9 +16,6 @@ import { OrderHistory } from "./OrderHistory";
 import { Article } from "./Article";
 import { ArticleView } from "./ArticleView";
 export const Content = () => {
-  //todo : update this with the redux slice
-  // const { selectedOption, updateSelection } = useUpdateSelection();
-  console.log("Request for update here");
   const { navbarOpationSelection } = useSelector(
     (state) => state.navbarSelection
   );

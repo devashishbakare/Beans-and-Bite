@@ -1,6 +1,6 @@
 const passport = require("passport");
 const GoogleStrategy = require("passport-google-oauth20").Strategy;
-const User = require("../model/user");
+const User = require("../model/User");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 
@@ -10,7 +10,7 @@ passport.use(
       //todo : you need to create at google cloud API
       clientID: process.env.GOOGLE_CLIENT_ID,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-      callbackURL: `${process.env.BACKEND_URL}/auth/google/callback`,
+      callbackURL: `${process.env.BACKEND_URL}auth/google/callback`,
     },
     async (accessToken, refreshToken, profile, done) => {
       try {
@@ -26,7 +26,7 @@ passport.use(
             password: hash,
           });
           await user.save();
-          console.log("creating user");
+          //console.log("creating user");
         }
 
         const payload = {
@@ -37,7 +37,7 @@ passport.use(
         const token = jwt.sign(payload, process.env.JWT_SECRET_KEY, {
           expiresIn: "1d",
         });
-        console.log("returning user");
+        //console.log("returning user");
         return done(null, { token });
       } catch (error) {
         return done(error, null);

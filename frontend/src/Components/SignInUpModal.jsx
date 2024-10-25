@@ -10,6 +10,7 @@ import {
   showErrorNotification,
   showSuccessNotification,
 } from "../utils/notification";
+import { baseUrl } from "../utils/Constant";
 import { ToastContainer } from "react-toastify";
 import { useDispatch } from "react-redux";
 import { updateToken } from "../redux/slices/userAuthSlice";
@@ -91,6 +92,10 @@ export const SignInUpModal = () => {
       action.resetForm();
     },
   });
+
+  const handleGoogleClick = () => {
+    window.location.href = `${baseUrl}/auth/google`;
+  };
 
   return (
     <div
@@ -216,7 +221,10 @@ export const SignInUpModal = () => {
                 <span className="">OR</span>
                 <span className="w-[40%] border-[1px] border-gray-400"></span>
               </div>
-              <div className="h-[65px] w-full centerDiv cursor-pointer">
+              <div
+                onClick={() => handleGoogleClick()}
+                className="h-[65px] w-full centerDiv cursor-pointer"
+              >
                 <FcGoogle className="text-[2.5rem]" />
               </div>
             </div>
@@ -395,7 +403,10 @@ export const SignInUpModal = () => {
                 <span className="">OR</span>
                 <span className="w-[40%] border-[1px] border-gray-400"></span>
               </div>
-              <div className="h-[65px] w-full centerDiv cursor-pointer">
+              <div
+                onClick={() => handleGoogleClick()}
+                className="h-[65px] w-full centerDiv cursor-pointer"
+              >
                 <FcGoogle className="text-[2.5rem]" />
               </div>
             </div>

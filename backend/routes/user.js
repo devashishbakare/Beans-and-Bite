@@ -12,4 +12,5 @@ router.post("/removeFavorite", authenticate, userController.removeFromFavorite);
 router.get("/giftHistory", authenticate, userController.fetchGiftHistory);
 router.get("/orderHistory", authenticate, userController.fetchOrderHistory);
 router.post("/update", authenticate, userController.editProfile);
+router.get("/data", authenticate, userController.getUserData);
 module.exports = router;
