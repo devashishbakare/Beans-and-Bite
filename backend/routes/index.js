@@ -9,4 +9,5 @@ router.use("/product", require("./product"));
 router.use("/cart", require("./cart"));
 router.use("/payment", require("./payment"));
 router.use("/auth", require("./auth"));
+router.use("/resetPassword", require("./resetPassword"));
 module.exports = router;

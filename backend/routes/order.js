@@ -6,4 +6,5 @@ router.post("/create", authenticate, orderController.createOrder);
 router.get("/updateDate", orderController.updateOrderDates);
 router.post("/test", orderController.testEmailFunctionality);
 router.get("/showTemplate", orderController.showOrderTemplate);
+router.get("/rp", orderController.showResetTemplate);
 module.exports = router;

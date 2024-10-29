@@ -4,7 +4,6 @@ import { FcGoogle } from "react-icons/fc";
 import { useFormik } from "formik";
 import { SignInSchema } from "../ValidationSchema/SignIn";
 import { SignUpSchema } from "../ValidationSchema/signUp";
-import { OtpNumber } from "../ValidationSchema/OtpNumber";
 import { GoEyeClosed, GoEye } from "react-icons/go";
 import { userSignIn, userSignUp } from "../utils/api";
 import {
@@ -20,6 +19,7 @@ import { updateSignInUpModal } from "../redux/slices/userAuthSlice";
 import { setNotificationDetails } from "../redux/slices/notificationSlice";
 import { ResetPasswordSchema } from "../ValidationSchema/resetPassword";
 import { ForgotPasswordSchema } from "../ValidationSchema/forgotPassword";
+import { forgotPassword } from "../utils/api";
 export const SignInUpModal = () => {
   //todo : notification not working, check that once
   const dispatch = useDispatch();
@@ -107,7 +107,14 @@ export const SignInUpModal = () => {
     },
     validationSchema: ForgotPasswordSchema,
     onSubmit: async (values, action) => {
-      console.log(values);
+      setIsLoading(true);
+      const response = await forgotPassword(values.email);
+      if (response.success) {
+        showSuccessNotification("Email has been sent, Check your email");
+      } else {
+        showErrorNotification("Something went wrong, please try again later");
+      }
+      setIsLoading(false);
       action.resetForm();
     },
   });

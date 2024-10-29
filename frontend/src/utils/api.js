@@ -299,3 +299,12 @@ export const fetchNotificationDetails = async (token) => {
     return { success: false, error: error.response.data.error };
   }
 };
+
+export const forgotPassword = async (email) => {
+  try {
+    await axios.get(`${baseUrl}/resetPassword/forgotPassword/${email}`);
+    return { success: true };
+  } catch (error) {
+    return { success: false, error: error.response.data.error };
+  }
+};

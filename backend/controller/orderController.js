@@ -228,9 +228,19 @@ const showOrderTemplate = (req, res) => {
   return res.render("orderSummary", { pdfInfo });
 };
 
+const showResetTemplate = (req, res) => {
+  //console.log("request comming here");
+  const resetPasswordInfo = {
+    name: "John Doe",
+    url: "abc",
+  };
+
+  return res.render("resetPassword", { resetPasswordInfo });
+};
 module.exports = {
   createOrder,
   updateOrderDates,
   testEmailFunctionality,
   showOrderTemplate,
+  showResetTemplate,
 };
