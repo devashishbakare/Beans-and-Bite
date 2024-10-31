@@ -308,3 +308,12 @@ export const forgotPassword = async (email) => {
     return { success: false, error: error.response.data.error };
   }
 };
+
+export const updatePassword = async (userInfo) => {
+  try {
+    await axios.patch(`${baseUrl}/resetPassword/reset/`, userInfo);
+    return { success: true };
+  } catch (error) {
+    return { success: false, error: error.response.data.error };
+  }
+};
