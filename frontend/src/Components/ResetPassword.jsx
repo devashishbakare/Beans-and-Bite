@@ -6,9 +6,19 @@ import {
   showSuccessNotification,
   showErrorNotification,
 } from "../utils/notification";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { GoEyeClosed, GoEye } from "react-icons/go";
+import { useDispatch } from "react-redux";
+import {
+  updateSignInUpModal,
+  updateToken,
+} from "../redux/slices/userAuthSlice";
+import { updateNavbarOptionSelection } from "../redux/slices/NavbarSlice";
+import CircularSpinner from "../utils/Spinners/CircularSpinner";
+import { setNotificationDetails } from "../redux/slices/notificationSlice";
 export const ResetPassword = () => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
   const { resetPasswordToken } = useParams();
   const [isLoading, setIsLoading] = useState(false);
   const [showResetPasswordStatus, setShowResetPasswordStatus] = useState(false);
@@ -28,14 +38,27 @@ export const ResetPassword = () => {
         resetPasswordToken,
       };
       const response = await updatePassword(resetPasswordInfo);
+      const { token, cartCount, favouriteCount, favourites, wallet } =
+        response.data;
+      //console.log(response.data);
       if (response.success) {
+        dispatch(updateToken({ token: token, isAuthenticated: true }));
+        dispatch(
+          setNotificationDetails({
+            cartCount,
+            favouriteCount,
+            favourites,
+            wallet,
+          })
+        );
+        dispatch(updateSignInUpModal({ requestFor: "close" }));
         setTimeout(() => {
-          showSuccessNotification("Password has been updated successfully");
+          showSuccessNotification("Password Has Been Reset Successfully");
         }, 1000);
-        //todo : here you need to change to component
+        navigate("/");
       } else {
         showErrorNotification(
-          "Password reset token is invalid or has expired, try again later"
+          "Password reset token is invalid or has expired, Request Reset Password again"
         );
       }
       setIsLoading(false);
@@ -62,7 +85,7 @@ export const ResetPassword = () => {
                 <div className="h-full w-full flex items-center gap-2">
                   <input
                     type={showResetPasswordStatus ? "text" : "password"}
-                    name="confirmPassword"
+                    name="password"
                     className="h-[40px] w-[80%] outline-none pl-2 bg-[#f6f6f6] placeHolder"
                     placeholder="Enter password"
                     value={ResetPasswordFormik.values.password}
@@ -99,10 +122,10 @@ export const ResetPassword = () => {
                 <div className="h-full w-full flex items-center gap-2">
                   <input
                     type={showResetConfirmPasswordStatus ? "text" : "password"}
-                    name="confirmPassword"
+                    name="confirm_password"
                     className="h-[40px] w-[80%] outline-none pl-2 bg-[#f6f6f6] placeHolder"
                     placeholder="Re-enter password"
-                    value={ResetPasswordFormik.values.confirmPassword}
+                    value={ResetPasswordFormik.values.confirm_password}
                     onChange={ResetPasswordFormik.handleChange}
                     onBlur={ResetPasswordFormik.handleBlur}
                     data-testid="signUpConfirmPassword"
@@ -124,10 +147,10 @@ export const ResetPassword = () => {
                 </div>
                 <span className="w-[98%] border-[1px] border-gray-500 ml-2"></span>
               </div>
-              {ResetPasswordFormik.errors.confirmPassword &&
-              ResetPasswordFormik.touched.confirmPassword ? (
+              {ResetPasswordFormik.errors.confirm_password &&
+              ResetPasswordFormik.touched.confirm_password ? (
                 <span className="h-[30px] w-[98%] text-[0.8rem] ml-2 pl-1 bg-[#f6dae7] text-red-600 font-thin">
-                  {ResetPasswordFormik.errors.confirmPassword}
+                  {ResetPasswordFormik.errors.confirm_password}
                 </span>
               ) : null}
             </div>

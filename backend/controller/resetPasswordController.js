@@ -3,6 +3,7 @@ const ResetPassword = require("../model/ResetPassword");
 const User = require("../model/User");
 const bcrypt = require("bcrypt");
 const { transporter, renderTemplate } = require("../config/nodeMailer");
+const jwt = require("jsonwebtoken");
 const forgotPassword = async (req, res) => {
   try {
     const email = req.params.email;
@@ -78,6 +79,21 @@ const reset = async (req, res) => {
         password: hash,
       },
     };
+    const user = await User.findOne({ email: userResetPasswordInfo.email });
+    const cartCount = user.cart.length;
+    const favouriteCount = user.favourites.length;
+    const favourites = user.favourites;
+    const wallet = user.wallet;
+
+    const payload = {
+      userId: user._id,
+      email: user.email,
+    };
+
+    const token = jwt.sign(payload, process.env.JWT_SECRET_KEY, {
+      expiresIn: "1d",
+    });
+
     const response = await User.findOneAndUpdate(
       { email: userResetPasswordInfo.email },
       updatePassword
@@ -85,9 +101,10 @@ const reset = async (req, res) => {
 
     await ResetPassword.deleteOne({ email: userResetPasswordInfo.email });
 
-    return res
-      .status(200)
-      .json({ data: response, message: "password has been updated" });
+    return res.status(200).json({
+      data: { token, cartCount, favouriteCount, favourites, wallet, response },
+      message: "password has been updated",
+    });
   } catch (error) {
     return res.status(500).json({
       error: error.message,

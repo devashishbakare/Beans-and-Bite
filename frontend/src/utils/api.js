@@ -311,8 +311,12 @@ export const forgotPassword = async (email) => {
 
 export const updatePassword = async (userInfo) => {
   try {
-    await axios.patch(`${baseUrl}/resetPassword/reset/`, userInfo);
-    return { success: true };
+    const response = await axios.patch(
+      `${baseUrl}/resetPassword/reset/`,
+      userInfo
+    );
+    const { data } = response.data;
+    return { success: true, data };
   } catch (error) {
     return { success: false, error: error.response.data.error };
   }
