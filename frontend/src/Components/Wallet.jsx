@@ -149,7 +149,12 @@ export const Wallet = () => {
             Balance in your wallet &nbsp; <IoWallet className="text-[1.8rem]" />
           </span>
           <div className="h-[170px] w-[95%] addShadow rounded-md theamColor centerDiv font-gilroy-bold text-[50px] tracking-tighter leading-[45.5px] text-[#f8f8f8] font-bold">
-            ₹ {isAuthenticated == false ? 0 : wallet == null ? 0 : wallet}
+            ₹{" "}
+            {isAuthenticated == false
+              ? 0
+              : wallet == null
+              ? 0
+              : parseFloat(wallet.toFixed(2))}
           </div>
           <button
             onClick={() => setShowAmountSection(true)}

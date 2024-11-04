@@ -15,91 +15,147 @@
         width: 80%;
         margin: 0 auto;
         padding: 20px;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        gap: 5px;
         border: 1px solid black;
+        margin-top: 30px;
       }
-
-      .user-info,
-      .payment-info,
-      .product-info {
-        height: auto;
-        width: auto;
-        min-width: 400px;
-        display: flex;
-        flex-direction: column;
-        align-items: start;
-        border: 1px solid black;
-      }
-      .productContainerWrapper {
-        height: auto;
-        width: auto;
-        display: flex;
-        flex-direction: column;
-        gap: 5px;
-        border: 1px solid black;
-      }
-      .productContainer {
+      .headingBar {
         height: 60px;
-        width: auto;
+        width: 100%;
         display: flex;
-        align-items: start;
-        border: 1px solid black;
+        justify-content: space-between;
+        align-items: center;
+        border-bottom: 1px solid black;
+        padding-bottom: 10px;
+      }
+      .logo {
+        height: 40px;
+        width: 40px;
+        object-fit: cover;
+      }
+      .headingText {
+        font-size: large;
+        font-weight: 600;
+      }
+      table {
+        width: 100%;
+        margin-top: 20px;
+        border-collapse: collapse;
+      }
+      th,
+      td {
+        border: 1px solid #ddd;
+        padding: 8px;
+        text-align: left;
+      }
+      th {
+        background-color: #f2f2f2;
+        font-weight: bold;
+      }
+      .footer {
+        margin-top: 30px;
+        font-size: 0.9rem;
+        color: #555;
+        text-align: center;
+      }
+      .productTable {
+        height: auto;
+        width: auto;
       }
       .productImage {
-        height: 60px;
-        width: 60px;
-        background-size: cover;
+        width: 80px;
+        height: 80px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
       }
       .productName {
-        margin-left: 20px;
-        height: 100%;
-        width: auto;
+        width: 100%;
+      }
+      .centerWrapper {
         display: flex;
-        align-items: start;
-        margin-top: 5px;
-        font-size: large;
-        font-weight: 500;
+        flex-direction: row;
+        align-items: center;
+        padding-right: 10px;
+        gap: 10px;
       }
     </style>
   </head>
   <body>
     <div class="container">
-      <h1>Order Summary</h1>
-
-      <div class="user-info">
-        <h2>Customer Information</h2>
-        <p><strong>Name:</strong> <%= pdfInfo.user.name %></p>
-        <p><strong>Email:</strong> <%= pdfInfo.user.email %></p>
-        <p><strong>Mobile Number:</strong> <%= pdfInfo.user.mobileNumber %></p>
-      </div>
-
-      <div class="product-info">
-        <h2>Products Ordered</h2>
-        <div class="productContainerWrapper">
-          <% pdfInfo.productInfo.forEach(function(product) { %>
-          <div class="productContainer">
-            <img
-              src="<%= product.image %>"
-              alt="<%= product.name %>"
-              class="productImage"
-            />
-            <span class="productName"><%= product.name %></span>
-          </div>
-          <% }) %>
+      <!-- Header Section -->
+      <div class="headingBar">
+        <span class="headingText">Order Summary</span>
+        <div class="centerWrapper">
+          <img
+            src="http://res.cloudinary.com/djgouef8q/image/upload/v1724295399/hkijeoyi8l90co1j2yeu.png"
+            alt="Beans and Bite Logo"
+            class="logo"
+          />
+          <span>Beans and Bite</span>
         </div>
       </div>
 
-      <div class="payment-info">
-        <h2>Payment Information</h2>
-        <p>
-          <strong>Payment Method:</strong> <%= pdfInfo.paymentInfo.paymentMethod
-          %>
-        </p>
-        <p><strong>Amount:</strong> ₹ <%= pdfInfo.paymentInfo.amount %></p>
+      <!-- Main Order Information -->
+      <table>
+        <tr>
+          <th>Order Details</th>
+          <th>Information</th>
+        </tr>
+        <tr>
+          <td>Order ID</td>
+          <td><%= orderDetails.orderId %></td>
+        </tr>
+        <tr>
+          <td>Order Date</td>
+          <td><%= orderDetails.orderDate %></td>
+        </tr>
+        <tr>
+          <td>Name</td>
+          <td><%= orderDetails.user.name %></td>
+        </tr>
+        <tr>
+          <td>Email</td>
+          <td><%= orderDetails.user.email %></td>
+        </tr>
+        <tr>
+          <td>Mobile Number</td>
+          <td><%= orderDetails.user.mobileNumber %></td>
+        </tr>
+        <tr>
+          <td>Payment Method</td>
+          <td><%= orderDetails.paymentInfo.paymentMethod %></td>
+        </tr>
+        <tr>
+          <td>Total Amount</td>
+          <td>₹ <%= orderDetails.paymentInfo.amount.toFixed(2) %></td>
+        </tr>
+      </table>
+
+      <!-- Product Information Table -->
+      <h3>Ordered Products</h3>
+      <table class="productTable">
+        <tr>
+          <th>Product</th>
+          <th>Name</th>
+        </tr>
+        <% orderDetails.productInfo.forEach((product) => { %>
+        <tr>
+          <td class="productImage">
+            <img
+              src="<%= product.image %>"
+              alt="<%= product.name %>"
+              style="width: 60px"
+            />
+          </td>
+          <td class="productName"><%= product.name %></td>
+        </tr>
+        <% }) %>
+      </table>
+
+      <!-- Footer Section -->
+      <div class="footer">
+        <p>If you have any questions about your order, feel free to reach us</p>
+        <p>Thank you for ordering with Beans and Bite!</p>
       </div>
     </div>
   </body>

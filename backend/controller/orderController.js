@@ -106,7 +106,9 @@ const createOrder = async (req, res) => {
       takeAwayFrom,
     };
 
-    const pdfInfo = {
+    const pdfData = {
+      orderId: order._id,
+      orderDate: order.updatedAt.toLocaleDateString(),
       user: {
         name: user.name,
         email: user.email,
@@ -118,15 +120,15 @@ const createOrder = async (req, res) => {
         amount: totalAmount,
       },
     };
-    console.log(pdfInfo);
+    //console.log(pdfInfo);
 
-    // await beansAndBiteEmailQueue.add("Order Confirmed", {
-    //   from: "beansandbite@gmail.com",
-    //   to: user.email,
-    //   requestFor: "confirmOrder",
-    //   subject: "Order Confirmation - Beans and Bite",
-    //   data: mailSendingInfo,
-    // });
+    await beansAndBiteEmailQueue.add("Order Confirmed", {
+      to: user.email,
+      requestFor: "confirmOrder",
+      subject: "Order Confirmation - Beans and Bite",
+      data: mailSendingInfo,
+      pdfData,
+    });
 
     await session.commitTransaction();
 
@@ -135,7 +137,7 @@ const createOrder = async (req, res) => {
         order,
         cartProducts,
         walletAmount: updatedUserResponse.wallet,
-        pdfInfo,
+        pdfData,
       },
       message: "order has been created",
     });
@@ -201,7 +203,9 @@ const testEmailFunctionality = async (req, res) => {
 
 const showOrderTemplate = (req, res) => {
   console.log("request comming here");
-  const pdfInfo = {
+  const orderDetails = {
+    orderId: "BAB0908N",
+    orderDate: "31/12/2024",
     user: {
       name: "John Doe",
       email: "devbakare00@gmail.com",
@@ -225,7 +229,7 @@ const showOrderTemplate = (req, res) => {
     },
   };
 
-  return res.render("orderSummary", { pdfInfo });
+  return res.render("orderSummary", { orderDetails });
 };
 
 const showResetTemplate = (req, res) => {

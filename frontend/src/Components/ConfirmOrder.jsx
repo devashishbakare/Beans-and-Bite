@@ -134,8 +134,7 @@ export const ConfirmOrder = () => {
         dispatch(setWalletAmount({ amount: response.data.walletAmount }));
         dispatch(resetCount({ requestFor: "cart" }));
         showSuccessNotification("Order has been confirmed!!");
-        //todo: you can move user to order summery page
-        //todo : you can have something to re-direct
+        dispatch(updateNavbarOptionSelection({ option: "orderHistory" }));
       } else {
         showErrorNotification("something went wrong, please try again later");
       }
@@ -183,6 +182,7 @@ export const ConfirmOrder = () => {
           if (response.success) {
             showSuccessNotification("Order has been confirmed!!");
             dispatch(resetCount({ requestFor: "cart" }));
+            dispatch(updateNavbarOptionSelection({ option: "orderHistory" }));
           } else {
             showErrorNotification(
               "something went wrong, please try again later"
@@ -238,7 +238,9 @@ export const ConfirmOrder = () => {
             <div className="h-[50px] w-full flex items-center gap-2 centerDiv">
               <IoWallet className="text-[1.3rem]" />
               <span className="addFont text-[0.95rem]">Wallet Balance :</span>
-              <span className="">{wallet == null ? 0 : wallet}</span>
+              <span className="">
+                {wallet == null ? 0 : parseFloat(wallet.toFixed(2))}
+              </span>
             </div>
           </div>
         </div>
