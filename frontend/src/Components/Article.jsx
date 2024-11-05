@@ -30,7 +30,7 @@ export const Article = () => {
   };
 
   return (
-    <div className="h-full w-full flex flex-col centerDiv">
+    <div className="h-full w-full flex flex-col">
       <div className="h-auto w-full centerDiv theamColor">
         <div className="h-[70px] w-full centerDiv  max-w-[1050px] theamColor">
           <History />

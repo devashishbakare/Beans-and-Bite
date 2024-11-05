@@ -180,7 +180,7 @@ export const UserCart = () => {
   };
 
   return (
-    <div className="h-full w-full centerDiv flex flex-col relative ">
+    <div className="h-full w-full flex flex-col items-center relative ">
       <img
         src="http://res.cloudinary.com/djgouef8q/image/upload/v1724383231/kofsfd2k9puxunklexup.png"
         alt="flower"
@@ -213,7 +213,7 @@ export const UserCart = () => {
           </div>
         </div>
       )}
-      <div className="h-[60px] w-full centerDiv theamColor">
+      <div className="h-[60px] w-full centerDiv theamColor shrink-0">
         <div className="h-full w-full max-w-[1050px] flex items-center addFont font-bold pl-[20px] text-[#f4f4f4]">
           Cart
         </div>

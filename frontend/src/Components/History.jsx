@@ -39,7 +39,7 @@ export const History = () => {
           <div className="h-full pl-[10px] pr-[10px] centerDiv truncate">
             <span
               onClick={() => handleHistoryChange(index, sectionName)}
-              className="text-[1.1rem] opacity-70"
+              className="text-[1.1rem] opacity-70 cursor-pointer"
             >
               {sectionName}
             </span>

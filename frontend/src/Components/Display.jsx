@@ -202,7 +202,10 @@ export const Display = () => {
                                 ₹ {product.price}
                               </span>
                               <span className=" h-auto w-full flex items-center ml-1">
-                                <button className=" h-[30px] w-[90px] bg-[#16754a] text-[white] rounded-[20px] text-[0.8rem] addFont ">
+                                <button
+                                  onClick={() => handleAddItem(product)}
+                                  className=" h-[30px] w-[90px] bg-[#16754a] text-[white] rounded-[20px] text-[0.8rem] addFont "
+                                >
                                   Add Item
                                 </button>
                               </span>

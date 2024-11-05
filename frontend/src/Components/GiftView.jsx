@@ -9,6 +9,7 @@ import { FaAngleDown, FaAngleUp } from "react-icons/fa6";
 import {
   showErrorNotification,
   showSuccessNotification,
+  showWarningNotification,
 } from "../utils/notification";
 import { ToastContainer } from "react-toastify";
 import { updateSignInUpModal } from "../redux/slices/userAuthSlice";
@@ -285,7 +286,7 @@ export const GiftView = () => {
             onClick={(event) => handleSlideAbove(event, 0)}
             className={`absolute z-[8888] bottom-[-330px] left-0 h-[650px] w-full cursor-pointer transition-transform duration-500  centerDiv rounded-t-[25px] ${
               slideAbove[0]
-                ? "translate-y-[-350px] theamColor border-none"
+                ? "translate-y-[-270px] theamColor border-none"
                 : "translate-y-0 bg-[#f1ebeb] border-[0.6px] border-gray-100"
             }`}
           >
@@ -352,7 +353,7 @@ export const GiftView = () => {
             onClick={(event) => handleSlideAbove(event, 1)}
             className={`absolute z-[8889] bottom-[-410px] left-0 h-[650px] w-full cursor-pointer transition-transform duration-500  rounded-md centerDiv ${
               slideAbove[1]
-                ? "translate-y-[-350px] theamColor"
+                ? "translate-y-[-270px] theamColor"
                 : "translate-y-0 bg-[#f1ebeb]"
             }`}
           >
@@ -367,7 +368,7 @@ export const GiftView = () => {
                 {slideAbove[1] == false ? <FaAngleDown /> : <FaAngleUp />}
               </div>
 
-              <div className="h-[340px] w-full overflow-y-scroll flex flex-col md:pl-[25px]">
+              <div className="h-[260px] w-full flex flex-col overflow-y-scroll md:pl-[25px]">
                 <div className="h-[100px] w-full flex flex-col p-2">
                   <span className="uppercase ml-2 text-[#f4f4f4] text-[0.85rem] ">
                     enter recipient name
@@ -453,7 +454,7 @@ export const GiftView = () => {
             onClick={(event) => handleSlideAbove(event, 2)}
             className={`absolute z-[8889] bottom-[-490px] left-0 h-[650px] w-full cursor-pointer transition-transform duration-500  rounded-md centerDiv ${
               slideAbove[2]
-                ? "translate-y-[-350px] theamColor"
+                ? "translate-y-[-270px] theamColor"
                 : "translate-y-0 bg-[#f1ebeb]"
             }`}
           >
@@ -468,7 +469,7 @@ export const GiftView = () => {
                 {slideAbove[2] == false ? <FaAngleDown /> : <FaAngleUp />}
               </div>
 
-              <div className="h-[340px] w-full overflow-y-scroll flex flex-col md:pl-[25px]">
+              <div className="h-[260px] w-full overflow-y-scroll flex flex-col md:pl-[25px]">
                 <div className="h-[100px] w-full flex flex-col p-2">
                   <span className="uppercase ml-2 text-[#f4f4f4] text-[0.85rem] ">
                     enter sender name

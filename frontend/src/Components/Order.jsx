@@ -54,15 +54,15 @@ export const Order = () => {
     <>
       <div className="h-full w-full centerDiv">
         <div className="h-full w-full flex flex-col">
-          <div className="h-full w-full bg-[#edebe9] flex flex-col centerDiv">
-            <div className="h-[70px] w-full centerDiv theamColor">
+          <div className="h-full w-full bg-[#edebe9] flex flex-col">
+            <div className="h-[70px] w-full centerDiv theamColor shrink-0">
               <History />
             </div>
             <div className="h-[70px] w-full flex overflow-x-scroll gap-3 no-scrollbar items-center flex-shrink-0 max-w-[1050px]">
               <div className="h-full w-[120px] centerDiv flex flex-col flex-shrink-0">
                 <span
                   onClick={() => handleCategoryChange("Bestseller")}
-                  className={`h-[80%] w-[90%] centerDiv text-[0.92rem] ${
+                  className={`h-[80%] w-[90%] centerDiv text-[0.92rem] cursor-pointer ${
                     currSelectedOption == "Bestseller" && `baseColor addFont`
                   }`}
                 >
@@ -79,7 +79,7 @@ export const Order = () => {
               <div className="h-full w-[120px] centerDiv flex flex-col flex-shrink-0">
                 <span
                   onClick={() => handleCategoryChange("Drinks")}
-                  className={`h-[80%] w-[90%] centerDiv text-[0.92rem] ${
+                  className={`h-[80%] w-[90%] centerDiv text-[0.92rem] cursor-pointer ${
                     currSelectedOption == "Drinks" && `baseColor addFont`
                   }`}
                 >
@@ -96,7 +96,7 @@ export const Order = () => {
               <div className="h-full w-[120px] centerDiv flex flex-col flex-shrink-0">
                 <span
                   onClick={() => handleCategoryChange("Food")}
-                  className={`h-[80%] w-[90%] centerDiv text-[0.92rem] ${
+                  className={`h-[80%] w-[90%] centerDiv text-[0.92rem] cursor-pointer ${
                     currSelectedOption == "Food" && `baseColor addFont`
                   }`}
                 >
@@ -113,7 +113,7 @@ export const Order = () => {
               <div className="h-full w-[120px] centerDiv flex flex-col flex-shrink-0">
                 <span
                   onClick={() => handleCategoryChange("Merchandise")}
-                  className={`h-[80%] w-[90%] centerDiv text-[0.92rem] ${
+                  className={`h-[80%] w-[90%] centerDiv text-[0.92rem] cursor-pointer ${
                     currSelectedOption == "Merchandise" && `baseColor addFont`
                   }`}
                 >
@@ -130,7 +130,7 @@ export const Order = () => {
               <div className="h-full w-[150px] centerDiv flex flex-col flex-shrink-0">
                 <span
                   onClick={() => handleCategoryChange("Coffee At Home")}
-                  className={`h-[80%] w-[90%] centerDiv text-[0.92rem] ${
+                  className={`h-[80%] w-[90%] centerDiv text-[0.92rem] cursor-pointer ${
                     currSelectedOption == "Coffee At Home" &&
                     `baseColor addFont`
                   }`}
@@ -148,7 +148,7 @@ export const Order = () => {
               <div className="h-full w-[130px] centerDiv flex flex-col flex-shrink-0">
                 <span
                   onClick={() => handleCategoryChange("Ready To Eat")}
-                  className={`h-[80%] w-[90%] centerDiv text-[0.92rem] ${
+                  className={`h-[80%] w-[90%] centerDiv text-[0.92rem] cursor-pointer ${
                     currSelectedOption == "Ready To Eat" && `baseColor addFont`
                   }`}
                 >

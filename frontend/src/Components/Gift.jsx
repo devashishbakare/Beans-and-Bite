@@ -81,7 +81,7 @@ export const Gift = () => {
           <span className="h-full w-[130px] flex flex-col items-center">
             <span
               onClick={() => setOptionSelectionIndex(1)}
-              className="flex-1 w-full addFont uppercase centerDiv text-[0.93rem]"
+              className="flex-1 w-full addFont uppercase centerDiv text-[0.93rem] cursor-pointer"
               data-testid="anytimeSection"
             >
               anytime
@@ -94,7 +94,7 @@ export const Gift = () => {
           <span className="h-full w-[130px] flex flex-col items-center">
             <span
               onClick={() => setOptionSelectionIndex(2)}
-              className="flex-1 w-full addFont uppercase centerDiv text-[0.93rem]"
+              className="flex-1 w-full addFont uppercase centerDiv text-[0.93rem] cursor-pointer"
               data-testid="congratsSection"
             >
               congrats
@@ -106,7 +106,7 @@ export const Gift = () => {
           <span className="h-full w-[130px] flex flex-col items-center">
             <span
               onClick={() => setOptionSelectionIndex(3)}
-              className="flex-1 w-full addFont uppercase centerDiv text-[0.93rem]"
+              className="flex-1 w-full addFont uppercase centerDiv text-[0.93rem] cursor-pointer"
               data-testid="thankYouSection"
             >
               thank you

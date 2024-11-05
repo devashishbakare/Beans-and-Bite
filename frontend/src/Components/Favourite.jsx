@@ -56,13 +56,13 @@ export const Favourite = () => {
   };
 
   return (
-    <div className="h-full w-full centerDiv flex flex-col bg-[#edebe9 relative">
+    <div className="h-full w-full flex flex-col items-center bg-[#edebe9 relative">
       <img
         src="http://res.cloudinary.com/djgouef8q/image/upload/v1724383231/kofsfd2k9puxunklexup.png"
         alt="flower"
         className="hide xl:flex absolute right-[20px] top-12 h-[80px] w-[80px] bg-cover"
       />
-      <div className="h-[60px] w-full centerDiv theamColor">
+      <div className="h-[60px] w-full centerDiv theamColor shrink-0">
         <div className="h-full w-full max-w-[1050px] flex items-center addFont font-bold pl-[25px] text-[#f4f4f4]">
           Favourites
         </div>

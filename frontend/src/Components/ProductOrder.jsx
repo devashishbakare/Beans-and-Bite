@@ -612,7 +612,7 @@ export const ProductOrder = () => {
         </div>
 
         <div className="absolute left-[2%] top-[15%] centerDiv md:top-[40%] xl:left-[12%]">
-          <div className="h-auto min-h-[150px] w-[300px] flex flex-col bg-gradient-to-b from-transparent to-black max-w-[1050px] md:w-[95%]">
+          <div className="h-auto min-h-[150px] w-[300px] flex flex-col bg-gradient-to-b from-transparent to-black p-4 rounded-md max-w-[1050px] md:w-[95%]">
             <div className="h-auto w-[300px] flex flex-col gap-2 items-center md:flex-row md:w-[450px]">
               {product.productType != null && product.productType == "Veg" ? (
                 <div className="h-auto w-full flex pt-1 pl-2 gap-2 md:h-full md:w-auto">
@@ -626,7 +626,7 @@ export const ProductOrder = () => {
                   </span>
                 </div>
               ) : (
-                <div className="h-full w-full flex items-center gap-1">
+                <div className="h-full w-full flex items-center gap-1 md:h-full md:w-auto">
                   <img
                     src="http://res.cloudinary.com/djgouef8q/image/upload/v1725956639/apauehqqciemydmaguit.png"
                     alt="NonImage"
