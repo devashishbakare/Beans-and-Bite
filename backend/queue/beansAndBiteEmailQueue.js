@@ -12,7 +12,7 @@ app.set("views", path.join(__dirname, "../views"));
 const beansAndBiteEmailWorker = new Worker(
   "beansAndBite-email-queue",
   async (job) => {
-    //console.log(job);
+    //console.log(job.data);
     const { to, requestFor, subject, data, pdfData } = job.data;
 
     if (requestFor === "confirmOrder") {
@@ -46,7 +46,7 @@ const beansAndBiteEmailWorker = new Worker(
             } else {
               //console.log(info.response);
               fs.unlinkSync(filePath);
-              console.log(`PDF deleted from ${filePath}`);
+              //console.log(`PDF deleted from ${filePath}`);
               let retries = 3;
               const delay = 1000;
               const removeJobWithRetry = async () => {

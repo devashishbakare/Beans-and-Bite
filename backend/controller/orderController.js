@@ -120,7 +120,6 @@ const createOrder = async (req, res) => {
         amount: totalAmount,
       },
     };
-    //console.log(pdfInfo);
 
     await beansAndBiteEmailQueue.add("Order Confirmed", {
       to: user.email,
